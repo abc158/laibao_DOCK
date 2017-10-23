@@ -1,0 +1,3715 @@
+L 1 "User\led\bsp_led.c"
+N/********************************************************************************************************//**
+N * @file    bsp_led.c
+N * @brief   GPIO Led Driver
+N * @author  Amicro
+N * @version V1.00
+N * @date:   2017-3-11
+N * @note		LEDx(y); ... x can be 1-3 ... y can be ON or OFF ...
+N *					LED_Toggle(x); ... x can be RED or GREEN or BLUE ...
+N * Copyright (C) 2017 Amicro Semiconductor Inc. All rights reserved.
+N ************************************************************************************************************/
+N#include "bsp_led.h"   
+L 1 "User\led\bsp_led.h" 1
+N/********************************************************************************************************//**
+N * @file    bsp_led.h	
+N * @brief   The header file of the bsp_led.
+N * @author  Amicro
+N * @version V1.00
+N * @date:   2017-3-11
+N * @note		LED1->PC1;	LED2->PC4;	LED3->PC5
+N * Copyright (C) 2017 Amicro Semiconductor Inc. All rights reserved.
+N ************************************************************************************************************/
+N#ifndef __LED_H
+N#define	__LED_H
+N
+N#include "AM8813.h"
+L 1 "..\inc\AM8813.h" 1
+N/********************************************************************************************************//**
+N * @file    AM8813.h	
+N * @brief   The header file of the AM8813.
+N * @author  
+N * @version V1.00
+N * @date:   2016-12-30
+N * @note
+N * Copyright (C) 2016 Amicro Semiconductor Inc. All rights reserved.
+N ************************************************************************************************************/
+N
+N#ifndef __AM8813_H__
+N#define __AM8813_H__
+N
+N#ifdef __cplusplus
+S extern "C" {
+N#endif
+N	 
+N/** @addtogroup Configuration_section_for_CMSIS
+N  * @{
+N  */
+N#define __MPU_PRESENT             0    /*!< MPU present or not                                              */
+N#define __NVIC_PRIO_BITS          2    /*!< Number of Bits used for Priority Levels                         */
+N#define __Vendor_SysTickConfig    0    /*!< Set to 1 if different SysTick Config is used                    */
+N
+N/** @addtogroup Configuration_for_Interrupt_Number
+N  * @{
+N  */
+Ntypedef enum IRQn
+N{
+N/******  Cortex-M0 Processor Exceptions Numbers ******************************                              */
+N  NonMaskableInt_IRQn     = -14,    /*!< 2 Non Maskable Interrupt                                           */
+N  HardFault_IRQn          = -13,    /*!< 3 Cortex-M0 Hard Fault Interrupt                                   */
+N  SVCall_IRQn             = -5,     /*!< 11 Cortex-M0 SV Call Interrupt                                     */
+N  DebugMonitor_IRQn       = -4,     /*!< 12 Cortex-M0 Debug Monitor Interrupt                               */
+N  PendSV_IRQn             = -2,     /*!< 14 Cortex-M0 Pend SV Interrupt                                     */
+N  SysTick_IRQn            = -1,     /*!< 15 Cortex-M0 System Tick Interrupt                                 */
+N/******  AM8813 Specific Interrupt Numbers ************************************                             */
+N  CKRDY_IRQn              = 0,      /*!< Clock ready interrupt                                              */
+N  LVD_IRQn                = 1,      /*!< Low voltage detection interrupt                                    */
+N  WDT_IRQn                = 2,      /*!< WDT global interrupt                                               */
+N  RTC_IRQn                = 3,      /*!< RTC Wake-up Interrupt                                              */
+N  FLASH_IRQn              = 4,      /*!< FLASH global Interrupt                                             */
+N  EVWUP_IRQn              = 5,      /*!< Event Wake-up Interrupt                                            */
+N  LPWUP_POR_IRQn          = 6,      /*!< WAKEUP pin and POR Interrupt                                       */
+N  EXTI0_1_2_3_IRQn        = 7,      /*!< EXTI0~3 Line detection Interrupt                                   */
+N  EXTI4_5_6_7_IRQn        = 8,      /*!< EXTI4~7 Line detection Interrupt                                   */
+N  EXTI8_9_10_11_IRQn      = 9,      /*!< EXTI8~11 Line detection Interrupt                                  */
+N  EXTI12_13_14_15_IRQn    = 10,     /*!< EXTI12~15 Line detection Interrupt                                 */
+N  ADC_IRQn                = 11,     /*!< ADC Interrupt                                                      */
+N  GPTM0_IRQn              = 12,     /*!< General-Purpose Timer0 Interrupt                                   */
+N  GPTM1_IRQn              = 13,     /*!< General-Purpose Timer1 Interrupt                                   */
+N  GPTM2_IRQn              = 14,     /*!< General-Purpose Timer2 Interrupt                                   */
+N  GPTM3_IRQn              = 15,     /*!< General-Purpose Timer3 Interrupt                                   */
+N  I2C0_IRQn               = 16,     /*!< I2C0 global Interrupt                                              */
+N  SPI0_IRQn               = 17,     /*!< SPI0 global Interrupt                                              */
+N  UART0_IRQn              = 18,     /*!< UART0 global Interrupt                                             */
+N  UART1_IRQn              = 19,     /*!< UART1 global Interrupt                                             */
+N  UART2_IRQn              = 20,     /*!< UART2 global Interrupt                                             */
+N	UART3_IRQn              = 21,     /*!< UART3 global Interrupt                                             */
+N	UART4_IRQn              = 22,     /*!< UART4 global Interrupt                                             */
+N	UART5_IRQn              = 23,     /*!< UART5 global Interrupt                                             */
+N  PDMACH0_IRQn            = 24,     /*!< PDMA channel 0 global interrupt                                    */
+N  PDMACH1_IRQn            = 25,     /*!< PDMA channel 1 global interrupt                                    */
+N  PDMACH2_IRQn            = 26,     /*!< PDMA channel 2 global interrupt                                    */
+N  PDMACH3_IRQn            = 27,     /*!< PDMA channel 3 global interrupt                                    */
+N  PDMACH4_CH5_IRQn        = 28,     /*!< PDMA channel 4~5 global interrupt                                  */
+N  PDMACH6_CH7_IRQn        = 29,     /*!< PDMA channel 6~7 global interrupt                                  */
+N  COMP_IRQn               = 30,     /*!< COMPARATORS global interrupt                                       */
+N  CAN_IRQn                = 31      /*!< CAN Controller global interrupt                                    */
+N} IRQn_Type;
+N
+N#include "core_cm0.h"               /* Cortex-M0 processor and core peripherals                             */
+L 1 "..\inc\core_cm0.h" 1
+N/**************************************************************************//**
+N * @file     core_cm0.h
+N * @brief    CMSIS Cortex-M0 Core Peripheral Access Layer Header File
+N * @version  V2.10
+N * @date     19. July 2011
+N *
+N * @note
+N * Copyright (C) 2009-2011 ARM Limited. All rights reserved.
+N *
+N * @par
+N * ARM Limited (ARM) is supplying this software for use with Cortex-M
+N * processor based microcontrollers.  This file can be freely distributed
+N * within development tools that are supporting such ARM based processors.
+N *
+N * @par
+N * THIS SOFTWARE IS PROVIDED "AS IS".  NO WARRANTIES, WHETHER EXPRESS, IMPLIED
+N * OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF
+N * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE APPLY TO THIS SOFTWARE.
+N * ARM SHALL NOT, IN ANY CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL, OR
+N * CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.
+N *
+N ******************************************************************************/
+N#if defined ( __ICCARM__ )
+X#if 0L
+S #pragma system_include  /* treat file as system include file for MISRA check */
+N#endif
+N
+N#ifdef __cplusplus
+S extern "C" {
+N#endif
+N
+N#ifndef __CORE_CM0_H_GENERIC
+N#define __CORE_CM0_H_GENERIC
+N
+N
+N/** \mainpage CMSIS Cortex-M0
+N
+N  This documentation describes the CMSIS Cortex-M Core Peripheral Access Layer.
+N  It consists of:
+N
+N     - Cortex-M Core Register Definitions
+N     - Cortex-M functions
+N     - Cortex-M instructions
+N
+N  The CMSIS Cortex-M0 Core Peripheral Access Layer contains C and assembly functions that ease
+N  access to the Cortex-M Core
+N */
+N
+N/** \defgroup CMSIS_MISRA_Exceptions  CMSIS MISRA-C:2004 Compliance Exceptions
+N  CMSIS violates following MISRA-C2004 Rules:
+N  
+N   - Violates MISRA 2004 Required Rule 8.5, object/function definition in header file.<br>
+N     Function definitions in header files are used to allow 'inlining'. 
+N
+N   - Violates MISRA 2004 Required Rule 18.4, declaration of union type or object of union type: '{...}'.<br>
+N     Unions are used for effective representation of core registers.
+N   
+N   - Violates MISRA 2004 Advisory Rule 19.7, Function-like macro defined.<br>
+N     Function-like macros are used to allow more efficient code. 
+N
+N */
+N
+N
+N/*******************************************************************************
+N *                 CMSIS definitions
+N ******************************************************************************/
+N/** \defgroup CMSIS_core_definitions CMSIS Core Definitions
+N  This file defines all structures and symbols for CMSIS core:
+N   - CMSIS version number
+N   - Cortex-M core
+N   - Cortex-M core Revision Number
+N  @{
+N */
+N
+N/*  CMSIS CM0 definitions */
+N#define __CM0_CMSIS_VERSION_MAIN  (0x02)                                                       /*!< [31:16] CMSIS HAL main version */
+N#define __CM0_CMSIS_VERSION_SUB   (0x10)                                                       /*!< [15:0]  CMSIS HAL sub version  */
+N#define __CM0_CMSIS_VERSION       ((__CM0_CMSIS_VERSION_MAIN << 16) | __CM0_CMSIS_VERSION_SUB) /*!< CMSIS HAL version number       */
+N
+N#define __CORTEX_M                (0x00)                                                       /*!< Cortex core                    */
+N
+N
+N#if   defined ( __CC_ARM )
+X#if   1L
+N  #define __ASM            __asm                                      /*!< asm keyword for ARM Compiler          */
+N  #define __INLINE         __inline                                   /*!< inline keyword for ARM Compiler       */
+N
+N#elif defined ( __ICCARM__ )
+S  #define __ASM           __asm                                       /*!< asm keyword for IAR Compiler          */
+S  #define __INLINE        inline                                      /*!< inline keyword for IAR Compiler. Only available in High optimization mode! */
+S
+S#elif defined ( __GNUC__ )
+S  #define __ASM            __asm                                      /*!< asm keyword for GNU Compiler          */
+S  #define __INLINE         inline                                     /*!< inline keyword for GNU Compiler       */
+S
+S#elif defined ( __TASKING__ )
+S  #define __ASM            __asm                                      /*!< asm keyword for TASKING Compiler      */
+S  #define __INLINE         inline                                     /*!< inline keyword for TASKING Compiler   */
+S
+N#endif
+N
+N/*!< __FPU_USED to be checked prior to making use of FPU specific registers and functions */
+N#define __FPU_USED       0
+N
+N#if defined ( __CC_ARM )
+X#if 1L
+N  #if defined __TARGET_FPU_VFP
+X  #if 0L
+S    #warning "Compiler generates FPU instructions for a device without an FPU (check __FPU_PRESENT)"
+N  #endif
+N#elif defined ( __ICCARM__ )
+S  #if defined __ARMVFP__
+S    #warning "Compiler generates FPU instructions for a device without an FPU (check __FPU_PRESENT)"
+S  #endif
+S
+S#elif defined ( __GNUC__ )
+S  #if defined (__VFP_FP__) && !defined(__SOFTFP__)
+S    #warning "Compiler generates FPU instructions for a device without an FPU (check __FPU_PRESENT)"
+S  #endif
+S
+S#elif defined ( __TASKING__ )
+S    /* add preprocessor checks */
+N#endif
+N
+N#include <stdint.h>                      /*!< standard types definitions                      */
+L 1 "D:\Program Files (x86)\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h" 1
+N/* Copyright (C) ARM Ltd., 1999,2014 */
+N/* All rights reserved */
+N
+N/*
+N * RCS $Revision: 185525 $
+N * Checkin $Date: 2014-05-29 12:44:48 +0100 (Thu, 29 May 2014) $
+N * Revising $Author: agrant $
+N */
+N
+N#ifndef __stdint_h
+N#define __stdint_h
+N#define __ARMCLIB_VERSION 5050106
+N
+N  #ifdef __INT64_TYPE__
+S    /* armclang predefines '__INT64_TYPE__' and '__INT64_C_SUFFIX__' */
+S    #define __INT64 __INT64_TYPE__
+N  #else
+N    /* armcc has builtin '__int64' which can be used in --strict mode */
+N    #define __INT64 __int64
+N    #define __INT64_C_SUFFIX__ ll
+N  #endif
+N  #define __PASTE2(x, y) x ## y
+N  #define __PASTE(x, y) __PASTE2(x, y)
+N  #define __INT64_C(x)  __ESCAPE__(__PASTE(x, __INT64_C_SUFFIX__))
+N  #define __UINT64_C(x)  __ESCAPE__(__PASTE(x ## u, __INT64_C_SUFFIX__))
+N  #if defined(__clang__) || (defined(__ARMCC_VERSION) && !defined(__STRICT_ANSI__))
+X  #if 0L || (1L && !0L)
+N    /* armclang and non-strict armcc allow 'long long' in system headers */
+N    #define __LONGLONG long long
+N  #else
+S    /* strict armcc has '__int64' */
+S    #define __LONGLONG __int64
+N  #endif
+N
+N  #ifndef __STDINT_DECLS
+N  #define __STDINT_DECLS
+N
+N    #undef __CLIBNS
+N
+N    #ifdef __cplusplus
+S      namespace std {
+S          #define __CLIBNS std::
+S          extern "C" {
+N    #else
+N      #define __CLIBNS
+N    #endif  /* __cplusplus */
+N
+N
+N/*
+N * 'signed' is redundant below, except for 'signed char' and if
+N * the typedef is used to declare a bitfield.
+N */
+N
+N    /* 7.18.1.1 */
+N
+N    /* exact-width signed integer types */
+Ntypedef   signed          char int8_t;
+Ntypedef   signed short     int int16_t;
+Ntypedef   signed           int int32_t;
+Ntypedef   signed       __INT64 int64_t;
+Xtypedef   signed       __int64 int64_t;
+N
+N    /* exact-width unsigned integer types */
+Ntypedef unsigned          char uint8_t;
+Ntypedef unsigned short     int uint16_t;
+Ntypedef unsigned           int uint32_t;
+Ntypedef unsigned       __INT64 uint64_t;
+Xtypedef unsigned       __int64 uint64_t;
+N
+N    /* 7.18.1.2 */
+N
+N    /* smallest type of at least n bits */
+N    /* minimum-width signed integer types */
+Ntypedef   signed          char int_least8_t;
+Ntypedef   signed short     int int_least16_t;
+Ntypedef   signed           int int_least32_t;
+Ntypedef   signed       __INT64 int_least64_t;
+Xtypedef   signed       __int64 int_least64_t;
+N
+N    /* minimum-width unsigned integer types */
+Ntypedef unsigned          char uint_least8_t;
+Ntypedef unsigned short     int uint_least16_t;
+Ntypedef unsigned           int uint_least32_t;
+Ntypedef unsigned       __INT64 uint_least64_t;
+Xtypedef unsigned       __int64 uint_least64_t;
+N
+N    /* 7.18.1.3 */
+N
+N    /* fastest minimum-width signed integer types */
+Ntypedef   signed           int int_fast8_t;
+Ntypedef   signed           int int_fast16_t;
+Ntypedef   signed           int int_fast32_t;
+Ntypedef   signed       __INT64 int_fast64_t;
+Xtypedef   signed       __int64 int_fast64_t;
+N
+N    /* fastest minimum-width unsigned integer types */
+Ntypedef unsigned           int uint_fast8_t;
+Ntypedef unsigned           int uint_fast16_t;
+Ntypedef unsigned           int uint_fast32_t;
+Ntypedef unsigned       __INT64 uint_fast64_t;
+Xtypedef unsigned       __int64 uint_fast64_t;
+N
+N    /* 7.18.1.4 integer types capable of holding object pointers */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+Stypedef   signed       __INT64 intptr_t;
+Stypedef unsigned       __INT64 uintptr_t;
+N#else
+Ntypedef   signed           int intptr_t;
+Ntypedef unsigned           int uintptr_t;
+N#endif
+N
+N    /* 7.18.1.5 greatest-width integer types */
+Ntypedef   signed     __LONGLONG intmax_t;
+Xtypedef   signed     long long intmax_t;
+Ntypedef unsigned     __LONGLONG uintmax_t;
+Xtypedef unsigned     long long uintmax_t;
+N
+N
+N#if !defined(__cplusplus) || defined(__STDC_LIMIT_MACROS)
+X#if !0L || 0L
+N
+N    /* 7.18.2.1 */
+N
+N    /* minimum values of exact-width signed integer types */
+N#define INT8_MIN                   -128
+N#define INT16_MIN                -32768
+N#define INT32_MIN          (~0x7fffffff)   /* -2147483648 is unsigned */
+N#define INT64_MIN  __INT64_C(~0x7fffffffffffffff) /* -9223372036854775808 is unsigned */
+N
+N    /* maximum values of exact-width signed integer types */
+N#define INT8_MAX                    127
+N#define INT16_MAX                 32767
+N#define INT32_MAX            2147483647
+N#define INT64_MAX  __INT64_C(9223372036854775807)
+N
+N    /* maximum values of exact-width unsigned integer types */
+N#define UINT8_MAX                   255
+N#define UINT16_MAX                65535
+N#define UINT32_MAX           4294967295u
+N#define UINT64_MAX __UINT64_C(18446744073709551615)
+N
+N    /* 7.18.2.2 */
+N
+N    /* minimum values of minimum-width signed integer types */
+N#define INT_LEAST8_MIN                   -128
+N#define INT_LEAST16_MIN                -32768
+N#define INT_LEAST32_MIN          (~0x7fffffff)
+N#define INT_LEAST64_MIN  __INT64_C(~0x7fffffffffffffff)
+N
+N    /* maximum values of minimum-width signed integer types */
+N#define INT_LEAST8_MAX                    127
+N#define INT_LEAST16_MAX                 32767
+N#define INT_LEAST32_MAX            2147483647
+N#define INT_LEAST64_MAX  __INT64_C(9223372036854775807)
+N
+N    /* maximum values of minimum-width unsigned integer types */
+N#define UINT_LEAST8_MAX                   255
+N#define UINT_LEAST16_MAX                65535
+N#define UINT_LEAST32_MAX           4294967295u
+N#define UINT_LEAST64_MAX __UINT64_C(18446744073709551615)
+N
+N    /* 7.18.2.3 */
+N
+N    /* minimum values of fastest minimum-width signed integer types */
+N#define INT_FAST8_MIN           (~0x7fffffff)
+N#define INT_FAST16_MIN          (~0x7fffffff)
+N#define INT_FAST32_MIN          (~0x7fffffff)
+N#define INT_FAST64_MIN  __INT64_C(~0x7fffffffffffffff)
+N
+N    /* maximum values of fastest minimum-width signed integer types */
+N#define INT_FAST8_MAX             2147483647
+N#define INT_FAST16_MAX            2147483647
+N#define INT_FAST32_MAX            2147483647
+N#define INT_FAST64_MAX  __INT64_C(9223372036854775807)
+N
+N    /* maximum values of fastest minimum-width unsigned integer types */
+N#define UINT_FAST8_MAX            4294967295u
+N#define UINT_FAST16_MAX           4294967295u
+N#define UINT_FAST32_MAX           4294967295u
+N#define UINT_FAST64_MAX __UINT64_C(18446744073709551615)
+N
+N    /* 7.18.2.4 */
+N
+N    /* minimum value of pointer-holding signed integer type */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+S#define INTPTR_MIN INT64_MIN
+N#else
+N#define INTPTR_MIN INT32_MIN
+N#endif
+N
+N    /* maximum value of pointer-holding signed integer type */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+S#define INTPTR_MAX INT64_MAX
+N#else
+N#define INTPTR_MAX INT32_MAX
+N#endif
+N
+N    /* maximum value of pointer-holding unsigned integer type */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+S#define UINTPTR_MAX INT64_MAX
+N#else
+N#define UINTPTR_MAX INT32_MAX
+N#endif
+N
+N    /* 7.18.2.5 */
+N
+N    /* minimum value of greatest-width signed integer type */
+N#define INTMAX_MIN  __ESCAPE__(~0x7fffffffffffffffll)
+N
+N    /* maximum value of greatest-width signed integer type */
+N#define INTMAX_MAX  __ESCAPE__(9223372036854775807ll)
+N
+N    /* maximum value of greatest-width unsigned integer type */
+N#define UINTMAX_MAX __ESCAPE__(18446744073709551615ull)
+N
+N    /* 7.18.3 */
+N
+N    /* limits of ptrdiff_t */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+S#define PTRDIFF_MIN INT64_MIN
+S#define PTRDIFF_MAX INT64_MAX
+N#else
+N#define PTRDIFF_MIN INT32_MIN
+N#define PTRDIFF_MAX INT32_MAX
+N#endif
+N
+N    /* limits of sig_atomic_t */
+N#define SIG_ATOMIC_MIN (~0x7fffffff)
+N#define SIG_ATOMIC_MAX   2147483647
+N
+N    /* limit of size_t */
+N#if __sizeof_ptr == 8
+X#if 4 == 8
+S#define SIZE_MAX UINT64_MAX
+N#else
+N#define SIZE_MAX UINT32_MAX
+N#endif
+N
+N    /* limits of wchar_t */
+N    /* NB we have to undef and redef because they're defined in both
+N     * stdint.h and wchar.h */
+N#undef WCHAR_MIN
+N#undef WCHAR_MAX
+N
+N#if defined(__WCHAR32) || (defined(__ARM_SIZEOF_WCHAR_T) && __ARM_SIZEOF_WCHAR_T == 4)
+X#if 0L || (0L && __ARM_SIZEOF_WCHAR_T == 4)
+S  #define WCHAR_MIN   0
+S  #define WCHAR_MAX   0xffffffffU
+N#else
+N  #define WCHAR_MIN   0
+N  #define WCHAR_MAX   65535
+N#endif
+N
+N    /* limits of wint_t */
+N#define WINT_MIN (~0x7fffffff)
+N#define WINT_MAX 2147483647
+N
+N#endif /* __STDC_LIMIT_MACROS */
+N
+N#if !defined(__cplusplus) || defined(__STDC_CONSTANT_MACROS)
+X#if !0L || 0L
+N
+N    /* 7.18.4.1 macros for minimum-width integer constants */
+N#define INT8_C(x)   (x)
+N#define INT16_C(x)  (x)
+N#define INT32_C(x)  (x)
+N#define INT64_C(x)  __INT64_C(x)
+N
+N#define UINT8_C(x)  (x ## u)
+N#define UINT16_C(x) (x ## u)
+N#define UINT32_C(x) (x ## u)
+N#define UINT64_C(x) __UINT64_C(x)
+N
+N    /* 7.18.4.2 macros for greatest-width integer constants */
+N#define INTMAX_C(x)  __ESCAPE__(x ## ll)
+N#define UINTMAX_C(x) __ESCAPE__(x ## ull)
+N
+N#endif /* __STDC_CONSTANT_MACROS */
+N
+N    #ifdef __cplusplus
+S         }  /* extern "C" */
+S      }  /* namespace std */
+N    #endif /* __cplusplus */
+N  #endif /* __STDINT_DECLS */
+N
+N  #ifdef __cplusplus
+S    #ifndef __STDINT_NO_EXPORTS
+S      using ::std::int8_t;
+S      using ::std::int16_t;
+S      using ::std::int32_t;
+S      using ::std::int64_t;
+S      using ::std::uint8_t;
+S      using ::std::uint16_t;
+S      using ::std::uint32_t;
+S      using ::std::uint64_t;
+S      using ::std::int_least8_t;
+S      using ::std::int_least16_t;
+S      using ::std::int_least32_t;
+S      using ::std::int_least64_t;
+S      using ::std::uint_least8_t;
+S      using ::std::uint_least16_t;
+S      using ::std::uint_least32_t;
+S      using ::std::uint_least64_t;
+S      using ::std::int_fast8_t;
+S      using ::std::int_fast16_t;
+S      using ::std::int_fast32_t;
+S      using ::std::int_fast64_t;
+S      using ::std::uint_fast8_t;
+S      using ::std::uint_fast16_t;
+S      using ::std::uint_fast32_t;
+S      using ::std::uint_fast64_t;
+S      using ::std::intptr_t;
+S      using ::std::uintptr_t;
+S      using ::std::intmax_t;
+S      using ::std::uintmax_t;
+S    #endif
+N  #endif /* __cplusplus */
+N
+N#undef __INT64
+N#undef __LONGLONG
+N
+N#endif /* __stdint_h */
+N
+N/* end of stdint.h */
+L 122 "..\inc\core_cm0.h" 2
+N#include "core_cmInstr.h"                /*!< Core Instruction Access                         */
+L 1 "..\inc\core_cmInstr.h" 1
+N/**************************************************************************//**
+N * @file     core_cmInstr.h
+N * @brief    CMSIS Cortex-M Core Instruction Access Header File
+N * @version  V2.10
+N * @date     19. July 2011
+N *
+N * @note
+N * Copyright (C) 2009-2011 ARM Limited. All rights reserved.
+N *
+N * @par
+N * ARM Limited (ARM) is supplying this software for use with Cortex-M 
+N * processor based microcontrollers.  This file can be freely distributed 
+N * within development tools that are supporting such ARM based processors. 
+N *
+N * @par
+N * THIS SOFTWARE IS PROVIDED "AS IS".  NO WARRANTIES, WHETHER EXPRESS, IMPLIED
+N * OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF
+N * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE APPLY TO THIS SOFTWARE.
+N * ARM SHALL NOT, IN ANY CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL, OR
+N * CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.
+N *
+N ******************************************************************************/
+N
+N#ifndef __CORE_CMINSTR_H
+N#define __CORE_CMINSTR_H
+N
+N
+N/* ##########################  Core Instruction Access  ######################### */
+N/** \defgroup CMSIS_Core_InstructionInterface CMSIS Core Instruction Interface
+N  Access to dedicated instructions
+N  @{
+N*/
+N
+N#if   defined ( __CC_ARM ) /*------------------RealView Compiler -----------------*/
+X#if   1L  
+N/* ARM armcc specific functions */
+N
+N#if (__ARMCC_VERSION < 400677)
+X#if (5050106 < 400677)
+S  #error "Please use ARM Compiler Toolchain V4.0.677 or later!"
+N#endif
+N
+N
+N/** \brief  No Operation
+N
+N    No Operation does nothing. This instruction can be used for code alignment purposes.
+N */
+N#define __NOP                             __nop
+N
+N
+N/** \brief  Wait For Interrupt
+N
+N    Wait For Interrupt is a hint instruction that suspends execution
+N    until one of a number of events occurs.
+N */
+N#define __WFI                             __wfi
+N
+N
+N/** \brief  Wait For Event
+N
+N    Wait For Event is a hint instruction that permits the processor to enter
+N    a low-power state until one of a number of events occurs.
+N */
+N#define __WFE                             __wfe
+N
+N
+N/** \brief  Send Event
+N
+N    Send Event is a hint instruction. It causes an event to be signaled to the CPU.
+N */
+N#define __SEV                             __sev
+N
+N
+N/** \brief  Instruction Synchronization Barrier
+N
+N    Instruction Synchronization Barrier flushes the pipeline in the processor, 
+N    so that all instructions following the ISB are fetched from cache or 
+N    memory, after the instruction has been completed.
+N */
+N#define __ISB()                           __isb(0xF)
+N
+N
+N/** \brief  Data Synchronization Barrier
+N
+N    This function acts as a special kind of Data Memory Barrier. 
+N    It completes when all explicit memory accesses before this instruction complete.
+N */
+N#define __DSB()                           __dsb(0xF)
+N
+N
+N/** \brief  Data Memory Barrier
+N
+N    This function ensures the apparent order of the explicit memory operations before 
+N    and after the instruction, without ensuring their completion.
+N */
+N#define __DMB()                           __dmb(0xF)
+N
+N
+N/** \brief  Reverse byte order (32 bit)
+N
+N    This function reverses the byte order in integer value.
+N
+N    \param [in]    value  Value to reverse
+N    \return               Reversed value
+N */
+N#define __REV                             __rev
+N
+N
+N/** \brief  Reverse byte order (16 bit)
+N
+N    This function reverses the byte order in two unsigned short values.
+N
+N    \param [in]    value  Value to reverse
+N    \return               Reversed value
+N */
+Nstatic __INLINE __ASM uint32_t __REV16(uint32_t value)
+Xstatic __inline __asm uint32_t __REV16(uint32_t value)
+N{
+N  rev16 r0, r0
+N  bx lr
+N}
+N
+N
+N/** \brief  Reverse byte order in signed short value
+N
+N    This function reverses the byte order in a signed short value with sign extension to integer.
+N
+N    \param [in]    value  Value to reverse
+N    \return               Reversed value
+N */
+Nstatic __INLINE __ASM int32_t __REVSH(int32_t value)
+Xstatic __inline __asm int32_t __REVSH(int32_t value)
+N{
+N  revsh r0, r0
+N  bx lr
+N}
+N
+N
+N#if       (__CORTEX_M >= 0x03)
+X#if       ((0x00) >= 0x03)
+S
+S/** \brief  Reverse bit order of value
+S
+S    This function reverses the bit order of the given value.
+S
+S    \param [in]    value  Value to reverse
+S    \return               Reversed value
+S */
+S#define __RBIT                            __rbit
+S
+S
+S/** \brief  LDR Exclusive (8 bit)
+S
+S    This function performs a exclusive LDR command for 8 bit value.
+S
+S    \param [in]    ptr  Pointer to data
+S    \return             value of type uint8_t at (*ptr)
+S */
+S#define __LDREXB(ptr)                     ((uint8_t ) __ldrex(ptr))
+S
+S
+S/** \brief  LDR Exclusive (16 bit)
+S
+S    This function performs a exclusive LDR command for 16 bit values.
+S
+S    \param [in]    ptr  Pointer to data
+S    \return        value of type uint16_t at (*ptr)
+S */
+S#define __LDREXH(ptr)                     ((uint16_t) __ldrex(ptr))
+S
+S
+S/** \brief  LDR Exclusive (32 bit)
+S
+S    This function performs a exclusive LDR command for 32 bit values.
+S
+S    \param [in]    ptr  Pointer to data
+S    \return        value of type uint32_t at (*ptr)
+S */
+S#define __LDREXW(ptr)                     ((uint32_t ) __ldrex(ptr))
+S
+S
+S/** \brief  STR Exclusive (8 bit)
+S
+S    This function performs a exclusive STR command for 8 bit values.
+S
+S    \param [in]  value  Value to store
+S    \param [in]    ptr  Pointer to location
+S    \return          0  Function succeeded
+S    \return          1  Function failed
+S */
+S#define __STREXB(value, ptr)              __strex(value, ptr)
+S
+S
+S/** \brief  STR Exclusive (16 bit)
+S
+S    This function performs a exclusive STR command for 16 bit values.
+S
+S    \param [in]  value  Value to store
+S    \param [in]    ptr  Pointer to location
+S    \return          0  Function succeeded
+S    \return          1  Function failed
+S */
+S#define __STREXH(value, ptr)              __strex(value, ptr)
+S
+S
+S/** \brief  STR Exclusive (32 bit)
+S
+S    This function performs a exclusive STR command for 32 bit values.
+S
+S    \param [in]  value  Value to store
+S    \param [in]    ptr  Pointer to location
+S    \return          0  Function succeeded
+S    \return          1  Function failed
+S */
+S#define __STREXW(value, ptr)              __strex(value, ptr)
+S
+S
+S/** \brief  Remove the exclusive lock
+S
+S    This function removes the exclusive lock which is created by LDREX.
+S
+S */
+S#define __CLREX                           __clrex
+S
+S
+S/** \brief  Signed Saturate
+S
+S    This function saturates a signed value.
+S
+S    \param [in]  value  Value to be saturated
+S    \param [in]    sat  Bit position to saturate to (1..32)
+S    \return             Saturated value
+S */
+S#define __SSAT                            __ssat
+S
+S
+S/** \brief  Unsigned Saturate
+S
+S    This function saturates an unsigned value.
+S
+S    \param [in]  value  Value to be saturated
+S    \param [in]    sat  Bit position to saturate to (0..31)
+S    \return             Saturated value
+S */
+S#define __USAT                            __usat
+S
+S
+S/** \brief  Count leading zeros
+S
+S    This function counts the number of leading zeros of a data value.
+S
+S    \param [in]  value  Value to count the leading zeros
+S    \return             number of leading zeros in value
+S */
+S#define __CLZ                             __clz 
+S
+N#endif /* (__CORTEX_M >= 0x03) */
+N
+N
+N
+N#elif defined ( __ICCARM__ ) /*------------------ ICC Compiler -------------------*/
+S/* IAR iccarm specific functions */
+S
+S#include <cmsis_iar.h>
+S
+S
+S#elif defined ( __GNUC__ ) /*------------------ GNU Compiler ---------------------*/
+S/* GNU gcc specific functions */
+S
+S/** \brief  No Operation
+S
+S    No Operation does nothing. This instruction can be used for code alignment purposes.
+S */
+S__attribute__( ( always_inline ) ) static __INLINE void __NOP(void)
+S{
+S  __ASM volatile ("nop");
+S}
+S
+S
+S/** \brief  Wait For Interrupt
+S
+S    Wait For Interrupt is a hint instruction that suspends execution
+S    until one of a number of events occurs.
+S */
+S__attribute__( ( always_inline ) ) static __INLINE void __WFI(void)
+S{
+S  __ASM volatile ("wfi");
+S}
+S
+S
+S/** \brief  Wait For Event
+S
+S    Wait For Event is a hint instruction that permits the processor to enter
+S    a low-power state until one of a number of events occurs.
+S */
+S__attribute__( ( always_inline ) ) static __INLINE void __WFE(void)
+S{
+S  __ASM volatile ("wfe");
+S}
+S
+S
+S/** \brief  Send Event
+S
+S    Send Event is a hint instruction. It causes an event to be signaled to the CPU.
+S */
+S__attribute__( ( always_inline ) ) static __INLINE void __SEV(void)
+S{
+S  __ASM volatile ("sev");
+S}
+S
+S
+S/** \brief  Instruction Synchronization Barrier
+S
+S    Instruction Synchronization Barrier flushes the pipeline in the processor, 
+S    so that all instructions following the ISB are fetched from cache or 
+S    memory, after the instruction has been completed.
+S */
+S__attribute__( ( always_inline ) ) static __INLINE void __ISB(void)
+S{
+S  __ASM volatile ("isb");
+S}
+S
+S
+S/** \brief  Data Synchronization Barrier
+S
+S    This function acts as a special kind of Data Memory Barrier. 
+S    It completes when all explicit memory accesses before this instruction complete.
+S */
+S__attribute__( ( always_inline ) ) static __INLINE void __DSB(void)
+S{
+S  __ASM volatile ("dsb");
+S}
+S
+S
+S/** \brief  Data Memory Barrier
+S
+S    This function ensures the apparent order of the explicit memory operations before 
+S    and after the instruction, without ensuring their completion.
+S */
+S__attribute__( ( always_inline ) ) static __INLINE void __DMB(void)
+S{
+S  __ASM volatile ("dmb");
+S}
+S
+S
+S/** \brief  Reverse byte order (32 bit)
+S
+S    This function reverses the byte order in integer value.
+S
+S    \param [in]    value  Value to reverse
+S    \return               Reversed value
+S */
+S__attribute__( ( always_inline ) ) static __INLINE uint32_t __REV(uint32_t value)
+S{
+S  uint32_t result;
+S  
+S  __ASM volatile ("rev %0, %1" : "=r" (result) : "r" (value) );
+S  return(result);
+S}
+S
+S
+S/** \brief  Reverse byte order (16 bit)
+S
+S    This function reverses the byte order in two unsigned short values.
+S
+S    \param [in]    value  Value to reverse
+S    \return               Reversed value
+S */
+S__attribute__( ( always_inline ) ) static __INLINE uint32_t __REV16(uint32_t value)
+S{
+S  uint32_t result;
+S  
+S  __ASM volatile ("rev16 %0, %1" : "=r" (result) : "r" (value) );
+S  return(result);
+S}
+S
+S
+S/** \brief  Reverse byte order in signed short value
+S
+S    This function reverses the byte order in a signed short value with sign extension to integer.
+S
+S    \param [in]    value  Value to reverse
+S    \return               Reversed value
+S */
+S__attribute__( ( always_inline ) ) static __INLINE int32_t __REVSH(int32_t value)
+S{
+S  uint32_t result;
+S  
+S  __ASM volatile ("revsh %0, %1" : "=r" (result) : "r" (value) );
+S  return(result);
+S}
+S
+S
+S#if       (__CORTEX_M >= 0x03)
+S
+S/** \brief  Reverse bit order of value
+S
+S    This function reverses the bit order of the given value.
+S
+S    \param [in]    value  Value to reverse
+S    \return               Reversed value
+S */
+S__attribute__( ( always_inline ) ) static __INLINE uint32_t __RBIT(uint32_t value)
+S{
+S  uint32_t result;
+S  
+S   __ASM volatile ("rbit %0, %1" : "=r" (result) : "r" (value) );
+S   return(result);
+S}
+S
+S
+S/** \brief  LDR Exclusive (8 bit)
+S
+S    This function performs a exclusive LDR command for 8 bit value.
+S
+S    \param [in]    ptr  Pointer to data
+S    \return             value of type uint8_t at (*ptr)
+S */
+S__attribute__( ( always_inline ) ) static __INLINE uint8_t __LDREXB(volatile uint8_t *addr)
+S{
+S    uint8_t result;
+S  
+S   __ASM volatile ("ldrexb %0, [%1]" : "=r" (result) : "r" (addr) );
+S   return(result);
+S}
+S
+S
+S/** \brief  LDR Exclusive (16 bit)
+S
+S    This function performs a exclusive LDR command for 16 bit values.
+S
+S    \param [in]    ptr  Pointer to data
+S    \return        value of type uint16_t at (*ptr)
+S */
+S__attribute__( ( always_inline ) ) static __INLINE uint16_t __LDREXH(volatile uint16_t *addr)
+S{
+S    uint16_t result;
+S  
+S   __ASM volatile ("ldrexh %0, [%1]" : "=r" (result) : "r" (addr) );
+S   return(result);
+S}
+S
+S
+S/** \brief  LDR Exclusive (32 bit)
+S
+S    This function performs a exclusive LDR command for 32 bit values.
+S
+S    \param [in]    ptr  Pointer to data
+S    \return        value of type uint32_t at (*ptr)
+S */
+S__attribute__( ( always_inline ) ) static __INLINE uint32_t __LDREXW(volatile uint32_t *addr)
+S{
+S    uint32_t result;
+S  
+S   __ASM volatile ("ldrex %0, [%1]" : "=r" (result) : "r" (addr) );
+S   return(result);
+S}
+S
+S
+S/** \brief  STR Exclusive (8 bit)
+S
+S    This function performs a exclusive STR command for 8 bit values.
+S
+S    \param [in]  value  Value to store
+S    \param [in]    ptr  Pointer to location
+S    \return          0  Function succeeded
+S    \return          1  Function failed
+S */
+S__attribute__( ( always_inline ) ) static __INLINE uint32_t __STREXB(uint8_t value, volatile uint8_t *addr)
+S{
+S   uint32_t result;
+S  
+S   __ASM volatile ("strexb %0, %2, [%1]" : "=r" (result) : "r" (addr), "r" (value) );
+S   return(result);
+S}
+S
+S
+S/** \brief  STR Exclusive (16 bit)
+S
+S    This function performs a exclusive STR command for 16 bit values.
+S
+S    \param [in]  value  Value to store
+S    \param [in]    ptr  Pointer to location
+S    \return          0  Function succeeded
+S    \return          1  Function failed
+S */
+S__attribute__( ( always_inline ) ) static __INLINE uint32_t __STREXH(uint16_t value, volatile uint16_t *addr)
+S{
+S   uint32_t result;
+S  
+S   __ASM volatile ("strexh %0, %2, [%1]" : "=r" (result) : "r" (addr), "r" (value) );
+S   return(result);
+S}
+S
+S
+S/** \brief  STR Exclusive (32 bit)
+S
+S    This function performs a exclusive STR command for 32 bit values.
+S
+S    \param [in]  value  Value to store
+S    \param [in]    ptr  Pointer to location
+S    \return          0  Function succeeded
+S    \return          1  Function failed
+S */
+S__attribute__( ( always_inline ) ) static __INLINE uint32_t __STREXW(uint32_t value, volatile uint32_t *addr)
+S{
+S   uint32_t result;
+S  
+S   __ASM volatile ("strex %0, %2, [%1]" : "=r" (result) : "r" (addr), "r" (value) );
+S   return(result);
+S}
+S
+S
+S/** \brief  Remove the exclusive lock
+S
+S    This function removes the exclusive lock which is created by LDREX.
+S
+S */
+S__attribute__( ( always_inline ) ) static __INLINE void __CLREX(void)
+S{
+S  __ASM volatile ("clrex");
+S}
+S
+S
+S/** \brief  Signed Saturate
+S
+S    This function saturates a signed value.
+S
+S    \param [in]  value  Value to be saturated
+S    \param [in]    sat  Bit position to saturate to (1..32)
+S    \return             Saturated value
+S */
+S#define __SSAT(ARG1,ARG2) \
+S({                          \
+S  uint32_t __RES, __ARG1 = (ARG1); \
+S  __ASM ("ssat %0, %1, %2" : "=r" (__RES) :  "I" (ARG2), "r" (__ARG1) ); \
+S  __RES; \
+S })
+X#define __SSAT(ARG1,ARG2) ({                            uint32_t __RES, __ARG1 = (ARG1);   __ASM ("ssat %0, %1, %2" : "=r" (__RES) :  "I" (ARG2), "r" (__ARG1) );   __RES;  })
+S
+S
+S/** \brief  Unsigned Saturate
+S
+S    This function saturates an unsigned value.
+S
+S    \param [in]  value  Value to be saturated
+S    \param [in]    sat  Bit position to saturate to (0..31)
+S    \return             Saturated value
+S */
+S#define __USAT(ARG1,ARG2) \
+S({                          \
+S  uint32_t __RES, __ARG1 = (ARG1); \
+S  __ASM ("usat %0, %1, %2" : "=r" (__RES) :  "I" (ARG2), "r" (__ARG1) ); \
+S  __RES; \
+S })
+X#define __USAT(ARG1,ARG2) ({                            uint32_t __RES, __ARG1 = (ARG1);   __ASM ("usat %0, %1, %2" : "=r" (__RES) :  "I" (ARG2), "r" (__ARG1) );   __RES;  })
+S
+S
+S/** \brief  Count leading zeros
+S
+S    This function counts the number of leading zeros of a data value.
+S
+S    \param [in]  value  Value to count the leading zeros
+S    \return             number of leading zeros in value
+S */
+S__attribute__( ( always_inline ) ) static __INLINE uint8_t __CLZ(uint32_t value)
+S{
+S  uint8_t result;
+S  
+S  __ASM volatile ("clz %0, %1" : "=r" (result) : "r" (value) );
+S  return(result);
+S}
+S
+S#endif /* (__CORTEX_M >= 0x03) */
+S
+S
+S
+S
+S#elif defined ( __TASKING__ ) /*------------------ TASKING Compiler --------------*/
+S/* TASKING carm specific functions */
+S
+S/*
+S * The CMSIS functions have been implemented as intrinsics in the compiler.
+S * Please use "carm -?i" to get an up to date list of all intrinsics,
+S * Including the CMSIS ones.
+S */
+S
+N#endif
+N
+N/*@}*/ /* end of group CMSIS_Core_InstructionInterface */
+N
+N#endif /* __CORE_CMINSTR_H */
+L 123 "..\inc\core_cm0.h" 2
+N#include "core_cmFunc.h"                 /*!< Core Function Access                            */
+L 1 "..\inc\core_cmFunc.h" 1
+N/**************************************************************************//**
+N * @file     core_cmFunc.h
+N * @brief    CMSIS Cortex-M Core Function Access Header File
+N * @version  V2.10
+N * @date     26. July 2011
+N *
+N * @note
+N * Copyright (C) 2009-2011 ARM Limited. All rights reserved.
+N *
+N * @par
+N * ARM Limited (ARM) is supplying this software for use with Cortex-M 
+N * processor based microcontrollers.  This file can be freely distributed 
+N * within development tools that are supporting such ARM based processors. 
+N *
+N * @par
+N * THIS SOFTWARE IS PROVIDED "AS IS".  NO WARRANTIES, WHETHER EXPRESS, IMPLIED
+N * OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF
+N * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE APPLY TO THIS SOFTWARE.
+N * ARM SHALL NOT, IN ANY CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL, OR
+N * CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.
+N *
+N ******************************************************************************/
+N
+N#ifndef __CORE_CMFUNC_H
+N#define __CORE_CMFUNC_H
+N
+N
+N/* ###########################  Core Function Access  ########################### */
+N/** \ingroup  CMSIS_Core_FunctionInterface   
+N    \defgroup CMSIS_Core_RegAccFunctions CMSIS Core Register Access Functions
+N  @{
+N */
+N
+N#if   defined ( __CC_ARM ) /*------------------RealView Compiler -----------------*/
+X#if   1L  
+N/* ARM armcc specific functions */
+N
+N#if (__ARMCC_VERSION < 400677)
+X#if (5050106 < 400677)
+S  #error "Please use ARM Compiler Toolchain V4.0.677 or later!"
+N#endif
+N
+N/* intrinsic void __enable_irq();     */
+N/* intrinsic void __disable_irq();    */
+N
+N/** \brief  Get Control Register
+N
+N    This function returns the content of the Control Register.
+N
+N    \return               Control Register value
+N */
+Nstatic __INLINE uint32_t __get_CONTROL(void)
+Xstatic __inline uint32_t __get_CONTROL(void)
+N{
+N  register uint32_t __regControl         __ASM("control");
+X  register uint32_t __regControl         __asm("control");
+N  return(__regControl);
+N}
+N
+N
+N/** \brief  Set Control Register
+N
+N    This function writes the given value to the Control Register.
+N
+N    \param [in]    control  Control Register value to set
+N */
+Nstatic __INLINE void __set_CONTROL(uint32_t control)
+Xstatic __inline void __set_CONTROL(uint32_t control)
+N{
+N  register uint32_t __regControl         __ASM("control");
+X  register uint32_t __regControl         __asm("control");
+N  __regControl = control;
+N}
+N
+N
+N/** \brief  Get ISPR Register
+N
+N    This function returns the content of the ISPR Register.
+N
+N    \return               ISPR Register value
+N */
+Nstatic __INLINE uint32_t __get_IPSR(void)
+Xstatic __inline uint32_t __get_IPSR(void)
+N{
+N  register uint32_t __regIPSR          __ASM("ipsr");
+X  register uint32_t __regIPSR          __asm("ipsr");
+N  return(__regIPSR);
+N}
+N
+N
+N/** \brief  Get APSR Register
+N
+N    This function returns the content of the APSR Register.
+N
+N    \return               APSR Register value
+N */
+Nstatic __INLINE uint32_t __get_APSR(void)
+Xstatic __inline uint32_t __get_APSR(void)
+N{
+N  register uint32_t __regAPSR          __ASM("apsr");
+X  register uint32_t __regAPSR          __asm("apsr");
+N  return(__regAPSR);
+N}
+N
+N
+N/** \brief  Get xPSR Register
+N
+N    This function returns the content of the xPSR Register.
+N
+N    \return               xPSR Register value
+N */
+Nstatic __INLINE uint32_t __get_xPSR(void)
+Xstatic __inline uint32_t __get_xPSR(void)
+N{
+N  register uint32_t __regXPSR          __ASM("xpsr");
+X  register uint32_t __regXPSR          __asm("xpsr");
+N  return(__regXPSR);
+N}
+N
+N
+N/** \brief  Get Process Stack Pointer
+N
+N    This function returns the current value of the Process Stack Pointer (PSP).
+N
+N    \return               PSP Register value
+N */
+Nstatic __INLINE uint32_t __get_PSP(void)
+Xstatic __inline uint32_t __get_PSP(void)
+N{
+N  register uint32_t __regProcessStackPointer  __ASM("psp");
+X  register uint32_t __regProcessStackPointer  __asm("psp");
+N  return(__regProcessStackPointer);
+N}
+N
+N
+N/** \brief  Set Process Stack Pointer
+N
+N    This function assigns the given value to the Process Stack Pointer (PSP).
+N
+N    \param [in]    topOfProcStack  Process Stack Pointer value to set
+N */
+Nstatic __INLINE void __set_PSP(uint32_t topOfProcStack)
+Xstatic __inline void __set_PSP(uint32_t topOfProcStack)
+N{
+N  register uint32_t __regProcessStackPointer  __ASM("psp");
+X  register uint32_t __regProcessStackPointer  __asm("psp");
+N  __regProcessStackPointer = topOfProcStack;
+N}
+N
+N
+N/** \brief  Get Main Stack Pointer
+N
+N    This function returns the current value of the Main Stack Pointer (MSP).
+N
+N    \return               MSP Register value
+N */
+Nstatic __INLINE uint32_t __get_MSP(void)
+Xstatic __inline uint32_t __get_MSP(void)
+N{
+N  register uint32_t __regMainStackPointer     __ASM("msp");
+X  register uint32_t __regMainStackPointer     __asm("msp");
+N  return(__regMainStackPointer);
+N}
+N
+N
+N/** \brief  Set Main Stack Pointer
+N
+N    This function assigns the given value to the Main Stack Pointer (MSP).
+N
+N    \param [in]    topOfMainStack  Main Stack Pointer value to set
+N */
+Nstatic __INLINE void __set_MSP(uint32_t topOfMainStack)
+Xstatic __inline void __set_MSP(uint32_t topOfMainStack)
+N{
+N  register uint32_t __regMainStackPointer     __ASM("msp");
+X  register uint32_t __regMainStackPointer     __asm("msp");
+N  __regMainStackPointer = topOfMainStack;
+N}
+N
+N
+N/** \brief  Get Priority Mask
+N
+N    This function returns the current state of the priority mask bit from the Priority Mask Register.
+N
+N    \return               Priority Mask value
+N */
+Nstatic __INLINE uint32_t __get_PRIMASK(void)
+Xstatic __inline uint32_t __get_PRIMASK(void)
+N{
+N  register uint32_t __regPriMask         __ASM("primask");
+X  register uint32_t __regPriMask         __asm("primask");
+N  return(__regPriMask);
+N}
+N
+N
+N/** \brief  Set Priority Mask
+N
+N    This function assigns the given value to the Priority Mask Register.
+N
+N    \param [in]    priMask  Priority Mask
+N */
+Nstatic __INLINE void __set_PRIMASK(uint32_t priMask)
+Xstatic __inline void __set_PRIMASK(uint32_t priMask)
+N{
+N  register uint32_t __regPriMask         __ASM("primask");
+X  register uint32_t __regPriMask         __asm("primask");
+N  __regPriMask = (priMask);
+N}
+N 
+N
+N#if       (__CORTEX_M >= 0x03)
+X#if       ((0x00) >= 0x03)
+S
+S/** \brief  Enable FIQ
+S
+S    This function enables FIQ interrupts by clearing the F-bit in the CPSR.
+S    Can only be executed in Privileged modes.
+S */
+S#define __enable_fault_irq                __enable_fiq
+S
+S
+S/** \brief  Disable FIQ
+S
+S    This function disables FIQ interrupts by setting the F-bit in the CPSR.
+S    Can only be executed in Privileged modes.
+S */
+S#define __disable_fault_irq               __disable_fiq
+S
+S
+S/** \brief  Get Base Priority
+S
+S    This function returns the current value of the Base Priority register.
+S
+S    \return               Base Priority register value
+S */
+Sstatic __INLINE uint32_t  __get_BASEPRI(void)
+S{
+S  register uint32_t __regBasePri         __ASM("basepri");
+S  return(__regBasePri);
+S}
+S
+S
+S/** \brief  Set Base Priority
+S
+S    This function assigns the given value to the Base Priority register.
+S
+S    \param [in]    basePri  Base Priority value to set
+S */
+Sstatic __INLINE void __set_BASEPRI(uint32_t basePri)
+S{
+S  register uint32_t __regBasePri         __ASM("basepri");
+S  __regBasePri = (basePri & 0xff);
+S}
+S 
+S
+S/** \brief  Get Fault Mask
+S
+S    This function returns the current value of the Fault Mask register.
+S
+S    \return               Fault Mask register value
+S */
+Sstatic __INLINE uint32_t __get_FAULTMASK(void)
+S{
+S  register uint32_t __regFaultMask       __ASM("faultmask");
+S  return(__regFaultMask);
+S}
+S
+S
+S/** \brief  Set Fault Mask
+S
+S    This function assigns the given value to the Fault Mask register.
+S
+S    \param [in]    faultMask  Fault Mask value to set
+S */
+Sstatic __INLINE void __set_FAULTMASK(uint32_t faultMask)
+S{
+S  register uint32_t __regFaultMask       __ASM("faultmask");
+S  __regFaultMask = (faultMask & (uint32_t)1);
+S}
+S
+N#endif /* (__CORTEX_M >= 0x03) */
+N
+N
+N#if       (__CORTEX_M == 0x04)
+X#if       ((0x00) == 0x04)
+S
+S/** \brief  Get FPSCR
+S
+S    This function returns the current value of the Floating Point Status/Control register.
+S
+S    \return               Floating Point Status/Control register value
+S */
+Sstatic __INLINE uint32_t __get_FPSCR(void)
+S{
+S#if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
+S  register uint32_t __regfpscr         __ASM("fpscr");
+S  return(__regfpscr);
+S#else
+S   return(0);
+S#endif
+S}
+S
+S
+S/** \brief  Set FPSCR
+S
+S    This function assigns the given value to the Floating Point Status/Control register.
+S
+S    \param [in]    fpscr  Floating Point Status/Control value to set
+S */
+Sstatic __INLINE void __set_FPSCR(uint32_t fpscr)
+S{
+S#if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
+S  register uint32_t __regfpscr         __ASM("fpscr");
+S  __regfpscr = (fpscr);
+S#endif
+S}
+S
+N#endif /* (__CORTEX_M == 0x04) */
+N
+N
+N#elif defined ( __ICCARM__ ) /*------------------ ICC Compiler -------------------*/
+S/* IAR iccarm specific functions */
+S
+S#include <cmsis_iar.h>
+S
+S#elif defined ( __GNUC__ ) /*------------------ GNU Compiler ---------------------*/
+S/* GNU gcc specific functions */
+S
+S/** \brief  Enable IRQ Interrupts
+S
+S  This function enables IRQ interrupts by clearing the I-bit in the CPSR.
+S  Can only be executed in Privileged modes.
+S */
+S__attribute__( ( always_inline ) ) static __INLINE void __enable_irq(void)
+S{
+S  __ASM volatile ("cpsie i");
+S}
+S
+S
+S/** \brief  Disable IRQ Interrupts
+S
+S  This function disables IRQ interrupts by setting the I-bit in the CPSR.
+S  Can only be executed in Privileged modes.
+S */
+S__attribute__( ( always_inline ) ) static __INLINE void __disable_irq(void)
+S{
+S  __ASM volatile ("cpsid i");
+S}
+S
+S
+S/** \brief  Get Control Register
+S
+S    This function returns the content of the Control Register.
+S
+S    \return               Control Register value
+S */
+S__attribute__( ( always_inline ) ) static __INLINE uint32_t __get_CONTROL(void)
+S{
+S  uint32_t result;
+S
+S  __ASM volatile ("MRS %0, control" : "=r" (result) );
+S  return(result);
+S}
+S
+S
+S/** \brief  Set Control Register
+S
+S    This function writes the given value to the Control Register.
+S
+S    \param [in]    control  Control Register value to set
+S */
+S__attribute__( ( always_inline ) ) static __INLINE void __set_CONTROL(uint32_t control)
+S{
+S  __ASM volatile ("MSR control, %0" : : "r" (control) );
+S}
+S
+S
+S/** \brief  Get ISPR Register
+S
+S    This function returns the content of the ISPR Register.
+S
+S    \return               ISPR Register value
+S */
+S__attribute__( ( always_inline ) ) static __INLINE uint32_t __get_IPSR(void)
+S{
+S  uint32_t result;
+S
+S  __ASM volatile ("MRS %0, ipsr" : "=r" (result) );
+S  return(result);
+S}
+S
+S
+S/** \brief  Get APSR Register
+S
+S    This function returns the content of the APSR Register.
+S
+S    \return               APSR Register value
+S */
+S__attribute__( ( always_inline ) ) static __INLINE uint32_t __get_APSR(void)
+S{
+S  uint32_t result;
+S
+S  __ASM volatile ("MRS %0, apsr" : "=r" (result) );
+S  return(result);
+S}
+S
+S
+S/** \brief  Get xPSR Register
+S
+S    This function returns the content of the xPSR Register.
+S
+S    \return               xPSR Register value
+S */
+S__attribute__( ( always_inline ) ) static __INLINE uint32_t __get_xPSR(void)
+S{
+S  uint32_t result;
+S
+S  __ASM volatile ("MRS %0, xpsr" : "=r" (result) );
+S  return(result);
+S}
+S
+S
+S/** \brief  Get Process Stack Pointer
+S
+S    This function returns the current value of the Process Stack Pointer (PSP).
+S
+S    \return               PSP Register value
+S */
+S__attribute__( ( always_inline ) ) static __INLINE uint32_t __get_PSP(void)
+S{
+S  register uint32_t result;
+S
+S  __ASM volatile ("MRS %0, psp\n"  : "=r" (result) );
+S  return(result);
+S}
+S 
+S
+S/** \brief  Set Process Stack Pointer
+S
+S    This function assigns the given value to the Process Stack Pointer (PSP).
+S
+S    \param [in]    topOfProcStack  Process Stack Pointer value to set
+S */
+S__attribute__( ( always_inline ) ) static __INLINE void __set_PSP(uint32_t topOfProcStack)
+S{
+S  __ASM volatile ("MSR psp, %0\n" : : "r" (topOfProcStack) );
+S}
+S
+S
+S/** \brief  Get Main Stack Pointer
+S
+S    This function returns the current value of the Main Stack Pointer (MSP).
+S
+S    \return               MSP Register value
+S */
+S__attribute__( ( always_inline ) ) static __INLINE uint32_t __get_MSP(void)
+S{
+S  register uint32_t result;
+S
+S  __ASM volatile ("MRS %0, msp\n" : "=r" (result) );
+S  return(result);
+S}
+S 
+S
+S/** \brief  Set Main Stack Pointer
+S
+S    This function assigns the given value to the Main Stack Pointer (MSP).
+S
+S    \param [in]    topOfMainStack  Main Stack Pointer value to set
+S */
+S__attribute__( ( always_inline ) ) static __INLINE void __set_MSP(uint32_t topOfMainStack)
+S{
+S  __ASM volatile ("MSR msp, %0\n" : : "r" (topOfMainStack) );
+S}
+S
+S
+S/** \brief  Get Priority Mask
+S
+S    This function returns the current state of the priority mask bit from the Priority Mask Register.
+S
+S    \return               Priority Mask value
+S */
+S__attribute__( ( always_inline ) ) static __INLINE uint32_t __get_PRIMASK(void)
+S{
+S  uint32_t result;
+S
+S  __ASM volatile ("MRS %0, primask" : "=r" (result) );
+S  return(result);
+S}
+S
+S
+S/** \brief  Set Priority Mask
+S
+S    This function assigns the given value to the Priority Mask Register.
+S
+S    \param [in]    priMask  Priority Mask
+S */
+S__attribute__( ( always_inline ) ) static __INLINE void __set_PRIMASK(uint32_t priMask)
+S{
+S  __ASM volatile ("MSR primask, %0" : : "r" (priMask) );
+S}
+S 
+S
+S#if       (__CORTEX_M >= 0x03)
+S
+S/** \brief  Enable FIQ
+S
+S    This function enables FIQ interrupts by clearing the F-bit in the CPSR.
+S    Can only be executed in Privileged modes.
+S */
+S__attribute__( ( always_inline ) ) static __INLINE void __enable_fault_irq(void)
+S{
+S  __ASM volatile ("cpsie f");
+S}
+S
+S
+S/** \brief  Disable FIQ
+S
+S    This function disables FIQ interrupts by setting the F-bit in the CPSR.
+S    Can only be executed in Privileged modes.
+S */
+S__attribute__( ( always_inline ) ) static __INLINE void __disable_fault_irq(void)
+S{
+S  __ASM volatile ("cpsid f");
+S}
+S
+S
+S/** \brief  Get Base Priority
+S
+S    This function returns the current value of the Base Priority register.
+S
+S    \return               Base Priority register value
+S */
+S__attribute__( ( always_inline ) ) static __INLINE uint32_t __get_BASEPRI(void)
+S{
+S  uint32_t result;
+S  
+S  __ASM volatile ("MRS %0, basepri_max" : "=r" (result) );
+S  return(result);
+S}
+S
+S
+S/** \brief  Set Base Priority
+S
+S    This function assigns the given value to the Base Priority register.
+S
+S    \param [in]    basePri  Base Priority value to set
+S */
+S__attribute__( ( always_inline ) ) static __INLINE void __set_BASEPRI(uint32_t value)
+S{
+S  __ASM volatile ("MSR basepri, %0" : : "r" (value) );
+S}
+S
+S
+S/** \brief  Get Fault Mask
+S
+S    This function returns the current value of the Fault Mask register.
+S
+S    \return               Fault Mask register value
+S */
+S__attribute__( ( always_inline ) ) static __INLINE uint32_t __get_FAULTMASK(void)
+S{
+S  uint32_t result;
+S  
+S  __ASM volatile ("MRS %0, faultmask" : "=r" (result) );
+S  return(result);
+S}
+S
+S
+S/** \brief  Set Fault Mask
+S
+S    This function assigns the given value to the Fault Mask register.
+S
+S    \param [in]    faultMask  Fault Mask value to set
+S */
+S__attribute__( ( always_inline ) ) static __INLINE void __set_FAULTMASK(uint32_t faultMask)
+S{
+S  __ASM volatile ("MSR faultmask, %0" : : "r" (faultMask) );
+S}
+S
+S#endif /* (__CORTEX_M >= 0x03) */
+S
+S
+S#if       (__CORTEX_M == 0x04)
+S
+S/** \brief  Get FPSCR
+S
+S    This function returns the current value of the Floating Point Status/Control register.
+S
+S    \return               Floating Point Status/Control register value
+S */
+S__attribute__( ( always_inline ) ) static __INLINE uint32_t __get_FPSCR(void)
+S{
+S#if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
+S  uint32_t result;
+S
+S  __ASM volatile ("VMRS %0, fpscr" : "=r" (result) );
+S  return(result);
+S#else
+S   return(0);
+S#endif
+S}
+S
+S
+S/** \brief  Set FPSCR
+S
+S    This function assigns the given value to the Floating Point Status/Control register.
+S
+S    \param [in]    fpscr  Floating Point Status/Control value to set
+S */
+S__attribute__( ( always_inline ) ) static __INLINE void __set_FPSCR(uint32_t fpscr)
+S{
+S#if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
+S  __ASM volatile ("VMSR fpscr, %0" : : "r" (fpscr) );
+S#endif
+S}
+S
+S#endif /* (__CORTEX_M == 0x04) */
+S
+S
+S#elif defined ( __TASKING__ ) /*------------------ TASKING Compiler --------------*/
+S/* TASKING carm specific functions */
+S
+S/*
+S * The CMSIS functions have been implemented as intrinsics in the compiler.
+S * Please use "carm -?i" to get an up to date list of all instrinsics,
+S * Including the CMSIS ones.
+S */
+S
+N#endif
+N
+N/*@} end of CMSIS_Core_RegAccFunctions */
+N
+N
+N#endif /* __CORE_CMFUNC_H */
+L 124 "..\inc\core_cm0.h" 2
+N
+N#endif /* __CORE_CM0_H_GENERIC */
+N
+N#ifndef __CMSIS_GENERIC
+N
+N#ifndef __CORE_CM0_H_DEPENDANT
+N#define __CORE_CM0_H_DEPENDANT
+N
+N/* check device defines and use defaults */
+N#if defined __CHECK_DEVICE_DEFINES
+X#if 0L
+S  #ifndef __CM0_REV
+S    #define __CM0_REV               0x0000
+S    #warning "__CM0_REV not defined in device header file; using default!"
+S  #endif
+S
+S  #ifndef __NVIC_PRIO_BITS
+S    #define __NVIC_PRIO_BITS          2
+S    #warning "__NVIC_PRIO_BITS not defined in device header file; using default!"
+S  #endif
+S
+S  #ifndef __Vendor_SysTickConfig
+S    #define __Vendor_SysTickConfig    0
+S    #warning "__Vendor_SysTickConfig not defined in device header file; using default!"
+S  #endif
+N#endif
+N
+N/* IO definitions (access restrictions to peripheral registers) */
+N#ifdef __cplusplus
+S  #define   __I     volatile             /*!< defines 'read only' permissions                 */
+N#else
+N  #define   __I     volatile const       /*!< defines 'read only' permissions                 */
+N#endif
+N#define     __O     volatile             /*!< defines 'write only' permissions                */
+N#define     __IO    volatile             /*!< defines 'read / write' permissions              */
+N
+N/*@} end of group CMSIS_core_definitions */
+N
+N
+N
+N/*******************************************************************************
+N *                 Register Abstraction
+N ******************************************************************************/
+N/** \defgroup CMSIS_core_register CMSIS Core Register
+N  Core Register contain:
+N  - Core Register
+N  - Core NVIC Register
+N  - Core SCB Register
+N  - Core SysTick Register
+N*/
+N
+N/** \ingroup  CMSIS_core_register
+N    \defgroup CMSIS_CORE CMSIS Core
+N  Type definitions for the Cortex-M Core Registers
+N  @{
+N */
+N
+N/** \brief  Union type to access the Application Program Status Register (APSR).
+N */
+Ntypedef union
+N{
+N  struct
+N  {
+N#if (__CORTEX_M != 0x04)
+X#if ((0x00) != 0x04)
+N    uint32_t _reserved0:27;              /*!< bit:  0..26  Reserved                           */
+N#else
+S    uint32_t _reserved0:16;              /*!< bit:  0..15  Reserved                           */
+S    uint32_t GE:4;                       /*!< bit: 16..19  Greater than or Equal flags        */
+S    uint32_t _reserved1:7;               /*!< bit: 20..26  Reserved                           */
+N#endif
+N    uint32_t Q:1;                        /*!< bit:     27  Saturation condition flag          */
+N    uint32_t V:1;                        /*!< bit:     28  Overflow condition code flag       */
+N    uint32_t C:1;                        /*!< bit:     29  Carry condition code flag          */
+N    uint32_t Z:1;                        /*!< bit:     30  Zero condition code flag           */
+N    uint32_t N:1;                        /*!< bit:     31  Negative condition code flag       */
+N  } b;                                   /*!< Structure used for bit  access                  */
+N  uint32_t w;                            /*!< Type      used for word access                  */
+N} APSR_Type;
+N
+N
+N/** \brief  Union type to access the Interrupt Program Status Register (IPSR).
+N */
+Ntypedef union
+N{
+N  struct
+N  {
+N    uint32_t ISR:9;                      /*!< bit:  0.. 8  Exception number                   */
+N    uint32_t _reserved0:23;              /*!< bit:  9..31  Reserved                           */
+N  } b;                                   /*!< Structure used for bit  access                  */
+N  uint32_t w;                            /*!< Type      used for word access                  */
+N} IPSR_Type;
+N
+N
+N/** \brief  Union type to access the Special-Purpose Program Status Registers (xPSR).
+N */
+Ntypedef union
+N{
+N  struct
+N  {
+N    uint32_t ISR:9;                      /*!< bit:  0.. 8  Exception number                   */
+N#if (__CORTEX_M != 0x04)
+X#if ((0x00) != 0x04)
+N    uint32_t _reserved0:15;              /*!< bit:  9..23  Reserved                           */
+N#else
+S    uint32_t _reserved0:7;               /*!< bit:  9..15  Reserved                           */
+S    uint32_t GE:4;                       /*!< bit: 16..19  Greater than or Equal flags        */
+S    uint32_t _reserved1:4;               /*!< bit: 20..23  Reserved                           */
+N#endif
+N    uint32_t T:1;                        /*!< bit:     24  Thumb bit        (read 0)          */
+N    uint32_t IT:2;                       /*!< bit: 25..26  saved IT state   (read 0)          */
+N    uint32_t Q:1;                        /*!< bit:     27  Saturation condition flag          */
+N    uint32_t V:1;                        /*!< bit:     28  Overflow condition code flag       */
+N    uint32_t C:1;                        /*!< bit:     29  Carry condition code flag          */
+N    uint32_t Z:1;                        /*!< bit:     30  Zero condition code flag           */
+N    uint32_t N:1;                        /*!< bit:     31  Negative condition code flag       */
+N  } b;                                   /*!< Structure used for bit  access                  */
+N  uint32_t w;                            /*!< Type      used for word access                  */
+N} xPSR_Type;
+N
+N
+N/** \brief  Union type to access the Control Registers (CONTROL).
+N */
+Ntypedef union
+N{
+N  struct
+N  {
+N    uint32_t nPRIV:1;                    /*!< bit:      0  Execution privilege in Thread mode */
+N    uint32_t SPSEL:1;                    /*!< bit:      1  Stack to be used                   */
+N    uint32_t FPCA:1;                     /*!< bit:      2  FP extension active flag           */
+N    uint32_t _reserved0:29;              /*!< bit:  3..31  Reserved                           */
+N  } b;                                   /*!< Structure used for bit  access                  */
+N  uint32_t w;                            /*!< Type      used for word access                  */
+N} CONTROL_Type;
+N
+N/*@} end of group CMSIS_CORE */
+N
+N
+N/** \ingroup  CMSIS_core_register
+N    \defgroup CMSIS_NVIC CMSIS NVIC
+N  Type definitions for the Cortex-M NVIC Registers
+N  @{
+N */
+N
+N/** \brief  Structure type to access the Nested Vectored Interrupt Controller (NVIC).
+N */
+Ntypedef struct
+N{
+N  __IO uint32_t ISER[1];                 /*!< Offset: 0x000 (R/W)  Interrupt Set Enable Register           */
+X  volatile uint32_t ISER[1];                  
+N       uint32_t RESERVED0[31];
+N  __IO uint32_t ICER[1];                 /*!< Offset: 0x080 (R/W)  Interrupt Clear Enable Register          */
+X  volatile uint32_t ICER[1];                  
+N       uint32_t RSERVED1[31];
+N  __IO uint32_t ISPR[1];                 /*!< Offset: 0x100 (R/W)  Interrupt Set Pending Register           */
+X  volatile uint32_t ISPR[1];                  
+N       uint32_t RESERVED2[31];
+N  __IO uint32_t ICPR[1];                 /*!< Offset: 0x180 (R/W)  Interrupt Clear Pending Register         */
+X  volatile uint32_t ICPR[1];                  
+N       uint32_t RESERVED3[31];
+N       uint32_t RESERVED4[64];
+N  __IO uint32_t IP[8];                   /*!< Offset: 0x300 (R/W)  Interrupt Priority Register              */
+X  volatile uint32_t IP[8];                    
+N}  NVIC_Type;
+N
+N/*@} end of group CMSIS_NVIC */
+N
+N
+N/** \ingroup  CMSIS_core_register
+N    \defgroup CMSIS_SCB CMSIS SCB
+N  Type definitions for the Cortex-M System Control Block Registers
+N  @{
+N */
+N
+N/** \brief  Structure type to access the System Control Block (SCB).
+N */
+Ntypedef struct
+N{
+N  __I  uint32_t CPUID;                   /*!< Offset: 0x000 (R/ )  CPUID Base Register                                   */
+X  volatile const  uint32_t CPUID;                    
+N  __IO uint32_t ICSR;                    /*!< Offset: 0x004 (R/W)  Interrupt Control and State Register                  */
+X  volatile uint32_t ICSR;                     
+N       uint32_t RESERVED0;
+N  __IO uint32_t AIRCR;                   /*!< Offset: 0x00C (R/W)  Application Interrupt and Reset Control Register      */
+X  volatile uint32_t AIRCR;                    
+N  __IO uint32_t SCR;                     /*!< Offset: 0x010 (R/W)  System Control Register                               */
+X  volatile uint32_t SCR;                      
+N  __IO uint32_t CCR;                     /*!< Offset: 0x014 (R/W)  Configuration Control Register                        */
+X  volatile uint32_t CCR;                      
+N       uint32_t RESERVED1;
+N  __IO uint32_t SHP[2];                  /*!< Offset: 0x01C (R/W)  System Handlers Priority Registers. [0] is RESERVED   */
+X  volatile uint32_t SHP[2];                   
+N  __IO uint32_t SHCSR;                   /*!< Offset: 0x024 (R/W)  System Handler Control and State Register             */
+X  volatile uint32_t SHCSR;                    
+N} SCB_Type;
+N
+N/* SCB CPUID Register Definitions */
+N#define SCB_CPUID_IMPLEMENTER_Pos          24                                             /*!< SCB CPUID: IMPLEMENTER Position */
+N#define SCB_CPUID_IMPLEMENTER_Msk          (0xFFUL << SCB_CPUID_IMPLEMENTER_Pos)          /*!< SCB CPUID: IMPLEMENTER Mask */
+N
+N#define SCB_CPUID_VARIANT_Pos              20                                             /*!< SCB CPUID: VARIANT Position */
+N#define SCB_CPUID_VARIANT_Msk              (0xFUL << SCB_CPUID_VARIANT_Pos)               /*!< SCB CPUID: VARIANT Mask */
+N
+N#define SCB_CPUID_ARCHITECTURE_Pos         16                                             /*!< SCB CPUID: ARCHITECTURE Position */
+N#define SCB_CPUID_ARCHITECTURE_Msk         (0xFUL << SCB_CPUID_ARCHITECTURE_Pos)          /*!< SCB CPUID: ARCHITECTURE Mask */
+N
+N#define SCB_CPUID_PARTNO_Pos                4                                             /*!< SCB CPUID: PARTNO Position */
+N#define SCB_CPUID_PARTNO_Msk               (0xFFFUL << SCB_CPUID_PARTNO_Pos)              /*!< SCB CPUID: PARTNO Mask */
+N
+N#define SCB_CPUID_REVISION_Pos              0                                             /*!< SCB CPUID: REVISION Position */
+N#define SCB_CPUID_REVISION_Msk             (0xFUL << SCB_CPUID_REVISION_Pos)              /*!< SCB CPUID: REVISION Mask */
+N
+N/* SCB Interrupt Control State Register Definitions */
+N#define SCB_ICSR_NMIPENDSET_Pos            31                                             /*!< SCB ICSR: NMIPENDSET Position */
+N#define SCB_ICSR_NMIPENDSET_Msk            (1UL << SCB_ICSR_NMIPENDSET_Pos)               /*!< SCB ICSR: NMIPENDSET Mask */
+N
+N#define SCB_ICSR_PENDSVSET_Pos             28                                             /*!< SCB ICSR: PENDSVSET Position */
+N#define SCB_ICSR_PENDSVSET_Msk             (1UL << SCB_ICSR_PENDSVSET_Pos)                /*!< SCB ICSR: PENDSVSET Mask */
+N
+N#define SCB_ICSR_PENDSVCLR_Pos             27                                             /*!< SCB ICSR: PENDSVCLR Position */
+N#define SCB_ICSR_PENDSVCLR_Msk             (1UL << SCB_ICSR_PENDSVCLR_Pos)                /*!< SCB ICSR: PENDSVCLR Mask */
+N
+N#define SCB_ICSR_PENDSTSET_Pos             26                                             /*!< SCB ICSR: PENDSTSET Position */
+N#define SCB_ICSR_PENDSTSET_Msk             (1UL << SCB_ICSR_PENDSTSET_Pos)                /*!< SCB ICSR: PENDSTSET Mask */
+N
+N#define SCB_ICSR_PENDSTCLR_Pos             25                                             /*!< SCB ICSR: PENDSTCLR Position */
+N#define SCB_ICSR_PENDSTCLR_Msk             (1UL << SCB_ICSR_PENDSTCLR_Pos)                /*!< SCB ICSR: PENDSTCLR Mask */
+N
+N#define SCB_ICSR_ISRPREEMPT_Pos            23                                             /*!< SCB ICSR: ISRPREEMPT Position */
+N#define SCB_ICSR_ISRPREEMPT_Msk            (1UL << SCB_ICSR_ISRPREEMPT_Pos)               /*!< SCB ICSR: ISRPREEMPT Mask */
+N
+N#define SCB_ICSR_ISRPENDING_Pos            22                                             /*!< SCB ICSR: ISRPENDING Position */
+N#define SCB_ICSR_ISRPENDING_Msk            (1UL << SCB_ICSR_ISRPENDING_Pos)               /*!< SCB ICSR: ISRPENDING Mask */
+N
+N#define SCB_ICSR_VECTPENDING_Pos           12                                             /*!< SCB ICSR: VECTPENDING Position */
+N#define SCB_ICSR_VECTPENDING_Msk           (0x1FFUL << SCB_ICSR_VECTPENDING_Pos)          /*!< SCB ICSR: VECTPENDING Mask */
+N
+N#define SCB_ICSR_VECTACTIVE_Pos             0                                             /*!< SCB ICSR: VECTACTIVE Position */
+N#define SCB_ICSR_VECTACTIVE_Msk            (0x1FFUL << SCB_ICSR_VECTACTIVE_Pos)           /*!< SCB ICSR: VECTACTIVE Mask */
+N
+N/* SCB Application Interrupt and Reset Control Register Definitions */
+N#define SCB_AIRCR_VECTKEY_Pos              16                                             /*!< SCB AIRCR: VECTKEY Position */
+N#define SCB_AIRCR_VECTKEY_Msk              (0xFFFFUL << SCB_AIRCR_VECTKEY_Pos)            /*!< SCB AIRCR: VECTKEY Mask */
+N
+N#define SCB_AIRCR_VECTKEYSTAT_Pos          16                                             /*!< SCB AIRCR: VECTKEYSTAT Position */
+N#define SCB_AIRCR_VECTKEYSTAT_Msk          (0xFFFFUL << SCB_AIRCR_VECTKEYSTAT_Pos)        /*!< SCB AIRCR: VECTKEYSTAT Mask */
+N
+N#define SCB_AIRCR_ENDIANESS_Pos            15                                             /*!< SCB AIRCR: ENDIANESS Position */
+N#define SCB_AIRCR_ENDIANESS_Msk            (1UL << SCB_AIRCR_ENDIANESS_Pos)               /*!< SCB AIRCR: ENDIANESS Mask */
+N
+N#define SCB_AIRCR_SYSRESETREQ_Pos           2                                             /*!< SCB AIRCR: SYSRESETREQ Position */
+N#define SCB_AIRCR_SYSRESETREQ_Msk          (1UL << SCB_AIRCR_SYSRESETREQ_Pos)             /*!< SCB AIRCR: SYSRESETREQ Mask */
+N
+N#define SCB_AIRCR_VECTCLRACTIVE_Pos         1                                             /*!< SCB AIRCR: VECTCLRACTIVE Position */
+N#define SCB_AIRCR_VECTCLRACTIVE_Msk        (1UL << SCB_AIRCR_VECTCLRACTIVE_Pos)           /*!< SCB AIRCR: VECTCLRACTIVE Mask */
+N
+N/* SCB System Control Register Definitions */
+N#define SCB_SCR_SEVONPEND_Pos               4                                             /*!< SCB SCR: SEVONPEND Position */
+N#define SCB_SCR_SEVONPEND_Msk              (1UL << SCB_SCR_SEVONPEND_Pos)                 /*!< SCB SCR: SEVONPEND Mask */
+N
+N#define SCB_SCR_SLEEPDEEP_Pos               2                                             /*!< SCB SCR: SLEEPDEEP Position */
+N#define SCB_SCR_SLEEPDEEP_Msk              (1UL << SCB_SCR_SLEEPDEEP_Pos)                 /*!< SCB SCR: SLEEPDEEP Mask */
+N
+N#define SCB_SCR_SLEEPONEXIT_Pos             1                                             /*!< SCB SCR: SLEEPONEXIT Position */
+N#define SCB_SCR_SLEEPONEXIT_Msk            (1UL << SCB_SCR_SLEEPONEXIT_Pos)               /*!< SCB SCR: SLEEPONEXIT Mask */
+N
+N/* SCB Configuration Control Register Definitions */
+N#define SCB_CCR_STKALIGN_Pos                9                                             /*!< SCB CCR: STKALIGN Position */
+N#define SCB_CCR_STKALIGN_Msk               (1UL << SCB_CCR_STKALIGN_Pos)                  /*!< SCB CCR: STKALIGN Mask */
+N
+N#define SCB_CCR_UNALIGN_TRP_Pos             3                                             /*!< SCB CCR: UNALIGN_TRP Position */
+N#define SCB_CCR_UNALIGN_TRP_Msk            (1UL << SCB_CCR_UNALIGN_TRP_Pos)               /*!< SCB CCR: UNALIGN_TRP Mask */
+N
+N/* SCB System Handler Control and State Register Definitions */
+N#define SCB_SHCSR_SVCALLPENDED_Pos         15                                             /*!< SCB SHCSR: SVCALLPENDED Position */
+N#define SCB_SHCSR_SVCALLPENDED_Msk         (1UL << SCB_SHCSR_SVCALLPENDED_Pos)            /*!< SCB SHCSR: SVCALLPENDED Mask */
+N
+N/*@} end of group CMSIS_SCB */
+N
+N
+N/** \ingroup  CMSIS_core_register
+N    \defgroup CMSIS_SysTick CMSIS SysTick
+N  Type definitions for the Cortex-M System Timer Registers
+N  @{
+N */
+N
+N/** \brief  Structure type to access the System Timer (SysTick).
+N */
+Ntypedef struct
+N{
+N  __IO uint32_t CTRL;                    /*!< Offset: 0x000 (R/W)  SysTick Control and Status Register */
+X  volatile uint32_t CTRL;                     
+N  __IO uint32_t LOAD;                    /*!< Offset: 0x004 (R/W)  SysTick Reload Value Register       */
+X  volatile uint32_t LOAD;                     
+N  __IO uint32_t VAL;                     /*!< Offset: 0x008 (R/W)  SysTick Current Value Register      */
+X  volatile uint32_t VAL;                      
+N  __I  uint32_t CALIB;                   /*!< Offset: 0x00C (R/ )  SysTick Calibration Register        */
+X  volatile const  uint32_t CALIB;                    
+N} SysTick_Type;
+N
+N/* SysTick Control / Status Register Definitions */
+N#define SysTick_CTRL_COUNTFLAG_Pos         16                                             /*!< SysTick CTRL: COUNTFLAG Position */
+N#define SysTick_CTRL_COUNTFLAG_Msk         (1UL << SysTick_CTRL_COUNTFLAG_Pos)            /*!< SysTick CTRL: COUNTFLAG Mask */
+N
+N#define SysTick_CTRL_CLKSOURCE_Pos          2                                             /*!< SysTick CTRL: CLKSOURCE Position */
+N#define SysTick_CTRL_CLKSOURCE_Msk         (1UL << SysTick_CTRL_CLKSOURCE_Pos)            /*!< SysTick CTRL: CLKSOURCE Mask */
+N
+N#define SysTick_CTRL_TICKINT_Pos            1                                             /*!< SysTick CTRL: TICKINT Position */
+N#define SysTick_CTRL_TICKINT_Msk           (1UL << SysTick_CTRL_TICKINT_Pos)              /*!< SysTick CTRL: TICKINT Mask */
+N
+N#define SysTick_CTRL_ENABLE_Pos             0                                             /*!< SysTick CTRL: ENABLE Position */
+N#define SysTick_CTRL_ENABLE_Msk            (1UL << SysTick_CTRL_ENABLE_Pos)               /*!< SysTick CTRL: ENABLE Mask */
+N
+N/* SysTick Reload Register Definitions */
+N#define SysTick_LOAD_RELOAD_Pos             0                                             /*!< SysTick LOAD: RELOAD Position */
+N#define SysTick_LOAD_RELOAD_Msk            (0xFFFFFFUL << SysTick_LOAD_RELOAD_Pos)        /*!< SysTick LOAD: RELOAD Mask */
+N
+N/* SysTick Current Register Definitions */
+N#define SysTick_VAL_CURRENT_Pos             0                                             /*!< SysTick VAL: CURRENT Position */
+N#define SysTick_VAL_CURRENT_Msk            (0xFFFFFFUL << SysTick_VAL_CURRENT_Pos)        /*!< SysTick VAL: CURRENT Mask */
+N
+N/* SysTick Calibration Register Definitions */
+N#define SysTick_CALIB_NOREF_Pos            31                                             /*!< SysTick CALIB: NOREF Position */
+N#define SysTick_CALIB_NOREF_Msk            (1UL << SysTick_CALIB_NOREF_Pos)               /*!< SysTick CALIB: NOREF Mask */
+N
+N#define SysTick_CALIB_SKEW_Pos             30                                             /*!< SysTick CALIB: SKEW Position */
+N#define SysTick_CALIB_SKEW_Msk             (1UL << SysTick_CALIB_SKEW_Pos)                /*!< SysTick CALIB: SKEW Mask */
+N
+N#define SysTick_CALIB_TENMS_Pos             0                                             /*!< SysTick CALIB: TENMS Position */
+N#define SysTick_CALIB_TENMS_Msk            (0xFFFFFFUL << SysTick_VAL_CURRENT_Pos)        /*!< SysTick CALIB: TENMS Mask */
+N
+N/*@} end of group CMSIS_SysTick */
+N
+N
+N/** \ingroup  CMSIS_core_register
+N    \defgroup CMSIS_CoreDebug CMSIS Core Debug
+N  Cortex-M0 Core Debug Registers (DCB registers, SHCSR, and DFSR) are only accessible over DAP
+N  and not via processor. Therefore they are not covered by the Cortex-M0 header file.
+N  @{
+N */
+N/*@} end of group CMSIS_CoreDebug */
+N
+N
+N/** \ingroup  CMSIS_core_register
+N  @{
+N */
+N
+N/* Memory mapping of Cortex-M0 Hardware */
+N#define SCS_BASE            (0xE000E000UL)                            /*!< System Control Space Base Address */
+N#define CoreDebug_BASE      (0xE000EDF0UL)                            /*!< Core Debug Base Address           */
+N#define SysTick_BASE        (SCS_BASE +  0x0010UL)                    /*!< SysTick Base Address              */
+N#define NVIC_BASE           (SCS_BASE +  0x0100UL)                    /*!< NVIC Base Address                 */
+N#define SCB_BASE            (SCS_BASE +  0x0D00UL)                    /*!< System Control Block Base Address */
+N
+N#define SCB                 ((SCB_Type       *)     SCB_BASE      )   /*!< SCB configuration struct           */
+N#define SysTick             ((SysTick_Type   *)     SysTick_BASE  )   /*!< SysTick configuration struct       */
+N#define NVIC                ((NVIC_Type      *)     NVIC_BASE     )   /*!< NVIC configuration struct          */
+N
+N
+N/*@} */
+N
+N
+N
+N/*******************************************************************************
+N *                Hardware Abstraction Layer
+N ******************************************************************************/
+N/** \defgroup CMSIS_Core_FunctionInterface CMSIS Core Function Interface
+N  Core Function Interface contains:
+N  - Core NVIC Functions
+N  - Core SysTick Functions
+N  - Core Register Access Functions
+N*/
+N
+N
+N
+N/* ##########################   NVIC functions  #################################### */
+N/** \ingroup  CMSIS_Core_FunctionInterface
+N    \defgroup CMSIS_Core_NVICFunctions CMSIS Core NVIC Functions
+N  @{
+N */
+N
+N/* Interrupt Priorities are WORD accessible only under ARMv6M                   */
+N/* The following MACROS handle generation of the register offset and byte masks */
+N#define _BIT_SHIFT(IRQn)         (  (((uint32_t)(IRQn)       )    &  0x03) * 8 )
+N#define _SHP_IDX(IRQn)           ( ((((uint32_t)(IRQn) & 0x0F)-8) >>    2)     )
+N#define _IP_IDX(IRQn)            (   ((uint32_t)(IRQn)            >>    2)     )
+N
+N
+N/** \brief  Enable External Interrupt
+N
+N    This function enables a device specific interrupt in the NVIC interrupt controller.
+N    The interrupt number cannot be a negative value.
+N
+N    \param [in]      IRQn  Number of the external interrupt to enable
+N */
+Nstatic __INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
+Xstatic __inline void NVIC_EnableIRQ(IRQn_Type IRQn)
+N{
+N  NVIC->ISER[0] = (1 << ((uint32_t)(IRQn) & 0x1F));
+X  ((NVIC_Type *) ((0xE000E000UL) + 0x0100UL) )->ISER[0] = (1 << ((uint32_t)(IRQn) & 0x1F));
+N}
+N
+N
+N/** \brief  Disable External Interrupt
+N
+N    This function disables a device specific interrupt in the NVIC interrupt controller.
+N    The interrupt number cannot be a negative value.
+N
+N    \param [in]      IRQn  Number of the external interrupt to disable
+N */
+Nstatic __INLINE void NVIC_DisableIRQ(IRQn_Type IRQn)
+Xstatic __inline void NVIC_DisableIRQ(IRQn_Type IRQn)
+N{
+N  NVIC->ICER[0] = (1 << ((uint32_t)(IRQn) & 0x1F));
+X  ((NVIC_Type *) ((0xE000E000UL) + 0x0100UL) )->ICER[0] = (1 << ((uint32_t)(IRQn) & 0x1F));
+N}
+N
+N
+N/** \brief  Get Pending Interrupt
+N
+N    This function reads the pending register in the NVIC and returns the pending bit
+N    for the specified interrupt.
+N
+N    \param [in]      IRQn  Number of the interrupt for get pending
+N    \return             0  Interrupt status is not pending
+N    \return             1  Interrupt status is pending
+N */
+Nstatic __INLINE uint32_t NVIC_GetPendingIRQ(IRQn_Type IRQn)
+Xstatic __inline uint32_t NVIC_GetPendingIRQ(IRQn_Type IRQn)
+N{
+N  return((uint32_t) ((NVIC->ISPR[0] & (1 << ((uint32_t)(IRQn) & 0x1F)))?1:0));
+X  return((uint32_t) ((((NVIC_Type *) ((0xE000E000UL) + 0x0100UL) )->ISPR[0] & (1 << ((uint32_t)(IRQn) & 0x1F)))?1:0));
+N}
+N
+N
+N/** \brief  Set Pending Interrupt
+N
+N    This function sets the pending bit for the specified interrupt.
+N    The interrupt number cannot be a negative value.
+N
+N    \param [in]      IRQn  Number of the interrupt for set pending
+N */
+Nstatic __INLINE void NVIC_SetPendingIRQ(IRQn_Type IRQn)
+Xstatic __inline void NVIC_SetPendingIRQ(IRQn_Type IRQn)
+N{
+N  NVIC->ISPR[0] = (1 << ((uint32_t)(IRQn) & 0x1F));
+X  ((NVIC_Type *) ((0xE000E000UL) + 0x0100UL) )->ISPR[0] = (1 << ((uint32_t)(IRQn) & 0x1F));
+N}
+N
+N
+N/** \brief  Clear Pending Interrupt
+N
+N    This function clears the pending bit for the specified interrupt.
+N    The interrupt number cannot be a negative value.
+N
+N    \param [in]      IRQn  Number of the interrupt for clear pending
+N */
+Nstatic __INLINE void NVIC_ClearPendingIRQ(IRQn_Type IRQn)
+Xstatic __inline void NVIC_ClearPendingIRQ(IRQn_Type IRQn)
+N{
+N  NVIC->ICPR[0] = (1 << ((uint32_t)(IRQn) & 0x1F)); /* Clear pending interrupt */
+X  ((NVIC_Type *) ((0xE000E000UL) + 0x0100UL) )->ICPR[0] = (1 << ((uint32_t)(IRQn) & 0x1F));  
+N}
+N
+N
+N/** \brief  Set Interrupt Priority
+N
+N    This function sets the priority for the specified interrupt. The interrupt
+N    number can be positive to specify an external (device specific)
+N    interrupt, or negative to specify an internal (core) interrupt.
+N
+N    Note: The priority cannot be set for every core interrupt.
+N
+N    \param [in]      IRQn  Number of the interrupt for set priority
+N    \param [in]  priority  Priority to set
+N */
+Nstatic __INLINE void NVIC_SetPriority(IRQn_Type IRQn, uint32_t priority)
+Xstatic __inline void NVIC_SetPriority(IRQn_Type IRQn, uint32_t priority)
+N{
+N  if(IRQn < 0) {
+N    SCB->SHP[_SHP_IDX(IRQn)] = (SCB->SHP[_SHP_IDX(IRQn)] & ~(0xFF << _BIT_SHIFT(IRQn))) |
+X    ((SCB_Type *) ((0xE000E000UL) + 0x0D00UL) )->SHP[( ((((uint32_t)(IRQn) & 0x0F)-8) >> 2) )] = (((SCB_Type *) ((0xE000E000UL) + 0x0D00UL) )->SHP[( ((((uint32_t)(IRQn) & 0x0F)-8) >> 2) )] & ~(0xFF << ( (((uint32_t)(IRQn) ) & 0x03) * 8 ))) |
+N        (((priority << (8 - __NVIC_PRIO_BITS)) & 0xFF) << _BIT_SHIFT(IRQn)); }
+X        (((priority << (8 - 2)) & 0xFF) << ( (((uint32_t)(IRQn) ) & 0x03) * 8 )); }
+N  else {
+N    NVIC->IP[_IP_IDX(IRQn)] = (NVIC->IP[_IP_IDX(IRQn)] & ~(0xFF << _BIT_SHIFT(IRQn))) |
+X    ((NVIC_Type *) ((0xE000E000UL) + 0x0100UL) )->IP[( ((uint32_t)(IRQn) >> 2) )] = (((NVIC_Type *) ((0xE000E000UL) + 0x0100UL) )->IP[( ((uint32_t)(IRQn) >> 2) )] & ~(0xFF << ( (((uint32_t)(IRQn) ) & 0x03) * 8 ))) |
+N        (((priority << (8 - __NVIC_PRIO_BITS)) & 0xFF) << _BIT_SHIFT(IRQn)); }
+X        (((priority << (8 - 2)) & 0xFF) << ( (((uint32_t)(IRQn) ) & 0x03) * 8 )); }
+N}
+N
+N
+N/** \brief  Get Interrupt Priority
+N
+N    This function reads the priority for the specified interrupt. The interrupt
+N    number can be positive to specify an external (device specific)
+N    interrupt, or negative to specify an internal (core) interrupt.
+N
+N    The returned priority value is automatically aligned to the implemented
+N    priority bits of the microcontroller.
+N
+N    \param [in]   IRQn  Number of the interrupt for get priority
+N    \return             Interrupt Priority
+N */
+Nstatic __INLINE uint32_t NVIC_GetPriority(IRQn_Type IRQn)
+Xstatic __inline uint32_t NVIC_GetPriority(IRQn_Type IRQn)
+N{
+N
+N  if(IRQn < 0) {
+N    return((uint32_t)((SCB->SHP[_SHP_IDX(IRQn)] >> _BIT_SHIFT(IRQn) ) >> (8 - __NVIC_PRIO_BITS)));  } /* get priority for Cortex-M0 system interrupts */
+X    return((uint32_t)((((SCB_Type *) ((0xE000E000UL) + 0x0D00UL) )->SHP[( ((((uint32_t)(IRQn) & 0x0F)-8) >> 2) )] >> ( (((uint32_t)(IRQn) ) & 0x03) * 8 ) ) >> (8 - 2)));  }  
+N  else {
+N    return((uint32_t)((NVIC->IP[ _IP_IDX(IRQn)] >> _BIT_SHIFT(IRQn) ) >> (8 - __NVIC_PRIO_BITS)));  } /* get priority for device specific interrupts  */
+X    return((uint32_t)((((NVIC_Type *) ((0xE000E000UL) + 0x0100UL) )->IP[ ( ((uint32_t)(IRQn) >> 2) )] >> ( (((uint32_t)(IRQn) ) & 0x03) * 8 ) ) >> (8 - 2)));  }  
+N}
+N
+N
+N/** \brief  System Reset
+N
+N    This function initiate a system reset request to reset the MCU.
+N */
+Nstatic __INLINE void NVIC_SystemReset(void)
+Xstatic __inline void NVIC_SystemReset(void)
+N{
+N  __DSB();                                                     /* Ensure all outstanding memory accesses included
+X  __dsb(0xF);                                                     
+N                                                                  buffered write are completed before reset */
+N  SCB->AIRCR  = ((0x5FA << SCB_AIRCR_VECTKEY_Pos)      |
+X  ((SCB_Type *) ((0xE000E000UL) + 0x0D00UL) )->AIRCR  = ((0x5FA << 16)      |
+N                 SCB_AIRCR_SYSRESETREQ_Msk);
+X                 (1UL << 2));
+N  __DSB();                                                     /* Ensure completion of memory access */
+X  __dsb(0xF);                                                      
+N  while(1);                                                    /* wait until reset */
+N}
+N
+N/*@} end of CMSIS_Core_NVICFunctions */
+N
+N
+N
+N/* ##################################    SysTick function  ############################################ */
+N/** \ingroup  CMSIS_Core_FunctionInterface
+N    \defgroup CMSIS_Core_SysTickFunctions CMSIS Core SysTick Functions
+N  @{
+N */
+N
+N#if (__Vendor_SysTickConfig == 0)
+X#if (0 == 0)
+N
+N/** \brief  System Tick Configuration
+N
+N    This function initialises the system tick timer and its interrupt and start the system tick timer.
+N    Counter is in free running mode to generate periodical interrupts.
+N
+N    \param [in]  ticks  Number of ticks between two interrupts
+N    \return          0  Function succeeded
+N    \return          1  Function failed
+N */
+Nstatic __INLINE uint32_t SysTick_Config(uint32_t ticks)
+Xstatic __inline uint32_t SysTick_Config(uint32_t ticks)
+N{
+N  if (ticks > SysTick_LOAD_RELOAD_Msk)  return (1);            /* Reload value impossible */
+X  if (ticks > (0xFFFFFFUL << 0))  return (1);             
+N
+N  SysTick->LOAD  = (ticks & SysTick_LOAD_RELOAD_Msk) - 1;      /* set reload register */
+X  ((SysTick_Type *) ((0xE000E000UL) + 0x0010UL) )->LOAD  = (ticks & (0xFFFFFFUL << 0)) - 1;       
+N  NVIC_SetPriority (SysTick_IRQn, (1<<__NVIC_PRIO_BITS) - 1);  /* set Priority for Cortex-M0 System Interrupts */
+X  NVIC_SetPriority (SysTick_IRQn, (1<<2) - 1);   
+N  SysTick->VAL   = 0;                                          /* Load the SysTick Counter Value */
+X  ((SysTick_Type *) ((0xE000E000UL) + 0x0010UL) )->VAL   = 0;                                           
+N  SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk |
+X  ((SysTick_Type *) ((0xE000E000UL) + 0x0010UL) )->CTRL  = (1UL << 2) |
+N                   SysTick_CTRL_TICKINT_Msk   |
+X                   (1UL << 1)   |
+N                   SysTick_CTRL_ENABLE_Msk;                    /* Enable SysTick IRQ and SysTick Timer */
+X                   (1UL << 0);                     
+N  return (0);                                                  /* Function successful */
+N}
+N
+N#endif
+N
+N/*@} end of CMSIS_Core_SysTickFunctions */
+N
+N
+N
+N
+N#endif /* __CORE_CM0_H_DEPENDANT */
+N
+N#endif /* __CMSIS_GENERIC */
+N
+N#ifdef __cplusplus
+S}
+N#endif
+L 73 "..\inc\AM8813.h" 2
+N
+Ntypedef signed long  s32;
+Ntypedef signed short s16;
+Ntypedef signed char  s8;
+N
+Ntypedef const int32_t sc32;           /*!< Read Only                                                        */
+Ntypedef const int16_t sc16;           /*!< Read Only                                                        */
+Ntypedef const int8_t  sc8;            /*!< Read Only                                                        */
+N
+Ntypedef __IO int32_t vs32;
+Xtypedef volatile int32_t vs32;
+Ntypedef __IO int16_t vs16;
+Xtypedef volatile int16_t vs16;
+Ntypedef __IO int8_t  vs8;
+Xtypedef volatile int8_t  vs8;
+N
+Ntypedef __I int32_t vsc32;            /*!< Read Only                                                        */
+Xtypedef volatile const int32_t vsc32;             
+Ntypedef __I int16_t vsc16;            /*!< Read Only                                                        */
+Xtypedef volatile const int16_t vsc16;             
+Ntypedef __I int8_t  vsc8;             /*!< Read Only                                                        */
+Xtypedef volatile const int8_t  vsc8;              
+N
+Ntypedef unsigned long  u32;
+Ntypedef unsigned short u16;
+Ntypedef unsigned char  u8;
+N
+Ntypedef unsigned long  const uc32;    /*!< Read Only                                                        */
+Ntypedef unsigned short const uc16;    /*!< Read Only                                                        */
+Ntypedef unsigned char  const uc8;     /*!< Read Only                                                        */
+N
+Ntypedef __IO uint32_t  vu32;
+Xtypedef volatile uint32_t  vu32;
+Ntypedef __IO uint16_t  vu16;
+Xtypedef volatile uint16_t  vu16;
+Ntypedef __IO uint8_t   vu8;
+Xtypedef volatile uint8_t   vu8;
+N
+Ntypedef __I uint32_t vuc32;           /*!< Read Only                                                        */
+Xtypedef volatile const uint32_t vuc32;            
+Ntypedef __I uint16_t vuc16;           /*!< Read Only                                                        */
+Xtypedef volatile const uint16_t vuc16;            
+Ntypedef __I uint8_t  vuc8;            /*!< Read Only                                                        */
+Xtypedef volatile const uint8_t  vuc8;             
+N
+N
+Ntypedef enum {DISABLE = 0, ENABLE = !DISABLE} EventStatus, ControlStatus,FunctionalState;
+N
+Ntypedef enum {FALSE = 0, TRUE = !FALSE} bool;
+N
+Ntypedef enum {RESET = 0, SET = !RESET} FlagStatus, ITStatus;
+N
+Ntypedef enum {ERROR = 0, SUCCESS = !ERROR} ErrStatus, ErrorStatus;
+N
+N//typedef enum {FLAG_NOTSET = 0, FLAG_SET = !FLAG_NOTSET} FLAG_STATUS;
+N
+N/**
+N  * @}
+N  */
+N
+N#if defined (__CC_ARM)
+X#if 1L
+N  #define __ALIGN4 __align(4)
+N#elif defined (__ICCARM__)
+S  #define __ALIGN4 _Pragma("data_alignment = 4")
+S#elif defined (__GNUC__)
+S  #define __ALIGN4  __attribute__((aligned(4)))
+N#endif
+N
+N#if defined (__GNUC__)
+X#if 0L
+S  #define __PACKED_H
+S  #define __PACKED_F __attribute__ ((packed))
+N#elif defined (__ICCARM__) || (__CC_ARM)
+X#elif 0L || (1)
+N  #define __PACKED_H __packed
+N  #define __PACKED_F
+N#endif
+N
+N#if defined (__CC_ARM)
+X#if 1L
+N#pragma anon_unions
+N#endif
+N
+N
+N#define U8_MAX     ((u8)255)
+N#define S8_MAX     ((s8)127)
+N#define S8_MIN     ((s8)-128)
+N#define U16_MAX    ((u16)65535u)
+N#define S16_MAX    ((s16)32767)
+N#define S16_MIN    ((s16)-32768)
+N#define U32_MAX    ((u32)4294967295uL)
+N#define S32_MAX    ((s32)2147483647)
+N#define S32_MIN    ((s32)-2147483648)
+N
+N/**
+N * @brief Exported constants and macro
+N */
+N#define IS_CONTROL_STATUS(STATUS) ((STATUS == DISABLE) || (STATUS == ENABLE))
+N
+N#define wb(addr, value)     (*((u8  volatile *) (addr)) = value)
+N#define rb(addr)            (*((u8  volatile *) (addr)))
+N#define whw(addr, value)    (*((u16 volatile *) (addr)) = value)
+N#define rhw(addr)           (*((u16 volatile *) (addr)))
+N#define ww(addr, value)     (*((u32 volatile *) (addr)) = value)
+N#define rw(addr)            (*((u32 volatile *) (addr)))
+N
+N
+N#define ResetBit_BB(Addr, BitNumber) ((*(vu32 *)Addr) = ((*(vu32 *)Addr)&(~(1<<BitNumber))))
+N#define SetBit_BB(Addr, BitNumber)   ((*(vu32 *)Addr) = ((*(vu32 *)Addr)|(1<<BitNumber)))
+N
+N
+N/**
+N * @brief Analog to Digital Converter
+N */
+Ntypedef struct
+N{
+N                                 /* ADC: 0x40010000                                                         */
+N  __IO uint32_t CTL;					   /*!< 0x000  				ADC Control Register 					                          */
+X  volatile uint32_t CTL;					    
+N  __IO uint32_t CONV;            /*!< 0x004         ADC Regular Conversion Mode Register                    */
+X  volatile uint32_t CONV;             
+N  __IO uint32_t HCONV;           /*!< 0x008         ADC High-priority Conversion Mode Register              */
+X  volatile uint32_t HCONV;            
+N  __IO uint32_t LST[5];          /*!< 0x00C - 0x01C ADC Regular Conversion List Register 0-4                */
+X  volatile uint32_t LST[5];           
+N  __IO uint32_t HLST;            /*!< 0x020         ADC High-priority Conversion List Register              */
+X  volatile uint32_t HLST;             
+N  __IO uint32_t DR[18];          /*!< 0x024 - 0x068 ADC Regular Conversion Data Register 0-17               */
+X  volatile uint32_t DR[18];           
+N  __IO uint32_t HDR[4];          /*!< 0x06C - 0x078 ADC High-priority Conversion Data Register 0-3          */
+X  volatile uint32_t HDR[4];           
+N  __IO uint32_t TCR;             /*!< 0x07C         ADC Regular Trigger Control Register                    */
+X  volatile uint32_t TCR;              
+N  __IO uint32_t TSR;             /*!< 0x080         ADC Regular Trigger Source Register                     */
+X  volatile uint32_t TSR;              
+N  __IO uint32_t HTCR;            /*!< 0x084         ADC High-priority Trigger Control Register              */
+X  volatile uint32_t HTCR;             
+N  __IO uint32_t HTSR;            /*!< 0x088         ADC High-priority Trigger Source Register               */
+X  volatile uint32_t HTSR;             
+N  __IO uint32_t WCR;             /*!< 0x08C       	ADC Watchdog Control Register                           */
+X  volatile uint32_t WCR;              
+N  __IO uint32_t LTR;             /*!< 0x090         ADC Lower Threshold Register                            */
+X  volatile uint32_t LTR;              
+N  __IO uint32_t UTR;             /*!< 0x094         ADC Upper Threshold Register                            */
+X  volatile uint32_t UTR;              
+N  __IO uint32_t IER;             /*!< 0x098         ADC Interrupt Enable Register                           */
+X  volatile uint32_t IER;              
+N  __IO uint32_t IRAW;            /*!< 0x09C         ADC Interrupt Raw Status Register                       */
+X  volatile uint32_t IRAW;             
+N  __IO uint32_t ISR;             /*!< 0x0A0         ADC Interrupt Status Register                           */
+X  volatile uint32_t ISR;              
+N  __IO uint32_t ICLR;            /*!< 0x0A4         ADC Interrupt Clear Register                            */
+X  volatile uint32_t ICLR;             
+N  __IO uint32_t PDMAR;           /*!< 0x0A8         ADC PDMA Request Register                               */
+X  volatile uint32_t PDMAR;            
+N} AM_ADC_TypeDef;
+N/**
+N * @brief Current Source Grobal
+N */
+Ntypedef struct
+N{
+N                                 /* CS: 0x400100b4                                                         */
+N  __IO uint32_t CTL;					   /*!< 0x000  				Current Source Control Register 					             */
+X  volatile uint32_t CTL;					    
+N} AM_CS_TypeDef;
+N/**
+N * @brief General Purpose I/O
+N */
+Ntypedef struct
+N{
+N                                /* GPIOA: 0x400B0000                                                        */
+N                                /* GPIOB: 0x400B2000                                                        */
+N                                /* GPIOC: 0x400B4000                                                        */
+N                                /* GPIOD: 0x400B6000                                                        */
+N                                /* GPIOE: 0x400B8000                                                        */
+N  __IO uint32_t DIRCR;          /*!< 0x000         Data Direction Control Register                          */
+X  volatile uint32_t DIRCR;           
+N  __IO uint32_t INER;           /*!< 0x004         Input function enable register                           */
+X  volatile uint32_t INER;            
+N  __IO uint32_t PUR;            /*!< 0x008         Pull-Up Selection Register                               */
+X  volatile uint32_t PUR;             
+N  __IO uint32_t PDR;            /*!< 0x00C         Pull-Down Selection Register                             */
+X  volatile uint32_t PDR;             
+N  __IO uint32_t ODR;            /*!< 0x010         Open Drain Selection Register                            */
+X  volatile uint32_t ODR;             
+N  __IO uint32_t DRVR;           /*!< 0x014         Drive Current Selection Register                         */
+X  volatile uint32_t DRVR;            
+N  __IO uint32_t LOCKR;          /*!< 0x018         Lock Register                                            */
+X  volatile uint32_t LOCKR;           
+N  __IO uint32_t DINR;           /*!< 0x01c         Data Input Register                                      */
+X  volatile uint32_t DINR;            
+N  __IO uint32_t DOUTR;          /*!< 0x020         Data Output Register                                     */
+X  volatile uint32_t DOUTR;           
+N  __IO uint32_t SRR;            /*!< 0x024         Output Set and Reset Control Register                    */
+X  volatile uint32_t SRR;             
+N  __IO uint32_t RR;             /*!< 0x028         Output Reset Control Register                            */
+X  volatile uint32_t RR;              
+N} AM_GPIO_TypeDef;
+N/**
+N * @brief AFIO
+N */
+Ntypedef struct
+N{
+N                                /* AFIO: 0x40022000                                                         */
+N  __IO uint32_t ESSR[2];        /*!< 0x000         EXTI Source Selection Register 0 ~ 1                     */
+X  volatile uint32_t ESSR[2];         
+N       uint32_t RESERVE0[6];    /*!< 0x008 - 0x01C Reserved                                                 */
+N  __IO uint32_t GPACFGR[2];     /*!< 0x020         GPIO Port A Configuration Register 0 ~ 1                 */
+X  volatile uint32_t GPACFGR[2];      
+N  __IO uint32_t GPBCFGR[2];     /*!< 0x028         GPIO Port B Configuration Register 0 ~ 1                 */
+X  volatile uint32_t GPBCFGR[2];      
+N  __IO uint32_t GPCCFGR[2];     /*!< 0x030         GPIO Port C Configuration Register 0 ~ 1                 */
+X  volatile uint32_t GPCCFGR[2];      
+N  __IO uint32_t GPDCFGR[2];     /*!< 0x038         GPIO Port D Configuration Register 0 ~ 1                 */
+X  volatile uint32_t GPDCFGR[2];      
+N  __IO uint32_t GPECFGR[2];   	/*!< 0x040         GPIO Port E Configuration Register 0               */
+X  volatile uint32_t GPECFGR[2];   	 
+N} AM_AFIO_TypeDef;
+N/**
+N * @brief External Interrupt/Event Controller
+N */
+Ntypedef struct
+N{
+N                                 /* EXTI: 0x40024000                                                        */
+N  __IO uint32_t CFGR0;           /*!< 0x000         EXTI Interrupt 0 Configuration Register                 */
+X  volatile uint32_t CFGR0;            
+N  __IO uint32_t CFGR1;           /*!< 0x004         EXTI Interrupt 1 Configuration Register                 */
+X  volatile uint32_t CFGR1;            
+N  __IO uint32_t CFGR2;           /*!< 0x008         EXTI Interrupt 2 Configuration Register                 */
+X  volatile uint32_t CFGR2;            
+N  __IO uint32_t CFGR3;           /*!< 0x00C         EXTI Interrupt 3 Configuration Register                 */
+X  volatile uint32_t CFGR3;            
+N  __IO uint32_t CFGR4;           /*!< 0x010         EXTI Interrupt 4 Configuration Register                 */
+X  volatile uint32_t CFGR4;            
+N  __IO uint32_t CFGR5;           /*!< 0x014         EXTI Interrupt 5 Configuration Register                 */
+X  volatile uint32_t CFGR5;            
+N  __IO uint32_t CFGR6;           /*!< 0x018         EXTI Interrupt 6 Configuration Register                 */
+X  volatile uint32_t CFGR6;            
+N  __IO uint32_t CFGR7;           /*!< 0x01C         EXTI Interrupt 7 Configuration Register                 */
+X  volatile uint32_t CFGR7;            
+N  __IO uint32_t CFGR8;           /*!< 0x020         EXTI Interrupt 8 Configuration Register                 */
+X  volatile uint32_t CFGR8;            
+N  __IO uint32_t CFGR9;           /*!< 0x024         EXTI Interrupt 9 Configuration Register                 */
+X  volatile uint32_t CFGR9;            
+N  __IO uint32_t CFGR10;          /*!< 0x028         EXTI Interrupt 10 Configuration Register                */
+X  volatile uint32_t CFGR10;           
+N  __IO uint32_t CFGR11;          /*!< 0x02C         EXTI Interrupt 11 Configuration Register                */
+X  volatile uint32_t CFGR11;           
+N  __IO uint32_t CFGR12;          /*!< 0x030         EXTI Interrupt 12 Configuration Register                */
+X  volatile uint32_t CFGR12;           
+N  __IO uint32_t CFGR13;          /*!< 0x034         EXTI Interrupt 13 Configuration Register                */
+X  volatile uint32_t CFGR13;           
+N  __IO uint32_t CFGR14;          /*!< 0x038         EXTI Interrupt 14 Configuration Register                */
+X  volatile uint32_t CFGR14;           
+N  __IO uint32_t CFGR15;          /*!< 0x03C         EXTI Interrupt 15 Configuration Register                */
+X  volatile uint32_t CFGR15;           
+N  __IO uint32_t CR;              /*!< 0x040         EXTI Interrupt Control Register                         */
+X  volatile uint32_t CR;               
+N  __IO uint32_t EDGEFLGR;        /*!< 0x044         EXTI Interrupt Edge Flag Register                       */
+X  volatile uint32_t EDGEFLGR;         
+N  __IO uint32_t EDGESR;          /*!< 0x048         EXTI Interrupt Edge Status Register                     */
+X  volatile uint32_t EDGESR;           
+N  __IO uint32_t SSCR;            /*!< 0x04C         EXTI Interrupt Software Set Command Register            */
+X  volatile uint32_t SSCR;             
+N  __IO uint32_t WAKUPCR;         /*!< 0x050         EXTI Interrupt Wakeup Control Register                  */
+X  volatile uint32_t WAKUPCR;          
+N  __IO uint32_t WAKUPPOLR;       /*!< 0x054         EXTI Interrupt Wakeup Polarity Register                 */
+X  volatile uint32_t WAKUPPOLR;        
+N  __IO uint32_t WAKUPFLG;        /*!< 0x058         EXTI Interrupt Wakeup Flag Register                     */
+X  volatile uint32_t WAKUPFLG;         
+N} AM_EXTI_TypeDef;
+N/**
+N * @brief General-Purpose Timer
+N */
+Ntypedef struct
+N{
+N                                 /* GPTM0: 0x4006E000                                                       */
+N                                 /* GPTM1: 0x4006F000                                                       */
+N  __IO uint32_t CNTCFR;          /*!< 0x000          Counter Configuration Register                         */
+X  volatile uint32_t CNTCFR;           
+N  __IO uint32_t MDCFR;           /*!< 0x004          Mode Configuration Register                            */
+X  volatile uint32_t MDCFR;            
+N  __IO uint32_t TRCFR;           /*!< 0x008          Trigger Configuration Register                         */
+X  volatile uint32_t TRCFR;            
+N       uint32_t RESERVED0[1];    /*!< 0x00C          Reserved                                               */
+N  __IO uint32_t CTR;             /*!< 0x010          Control Register                                       */
+X  volatile uint32_t CTR;              
+N       uint32_t RESERVED1[3];    /*!< 0x014 - 0x01C  Reserved                                               */
+N  __IO uint32_t CH0ICFR;         /*!< 0x020          Channel-0 Input Configuration Register                 */
+X  volatile uint32_t CH0ICFR;          
+N  __IO uint32_t CH1ICFR;         /*!< 0x024          Channel-1 Input Configuration Register                 */
+X  volatile uint32_t CH1ICFR;          
+N  __IO uint32_t CH2ICFR;         /*!< 0x028          Channel-2 Input Configuration Register                 */
+X  volatile uint32_t CH2ICFR;          
+N  __IO uint32_t CH3ICFR;         /*!< 0x02C          Channel-3 Input Configuration Register                 */
+X  volatile uint32_t CH3ICFR;          
+N       uint32_t RESERVED2[4];    /*!< 0x030 - 0x03C  Reserved                                               */
+N  __IO uint32_t CH0OCFR;         /*!< 0x040          Channel-0 Output Configuration Register                */
+X  volatile uint32_t CH0OCFR;          
+N  __IO uint32_t CH1OCFR;         /*!< 0x044          Channel-1 Output Configuration Register                */
+X  volatile uint32_t CH1OCFR;          
+N  __IO uint32_t CH2OCFR;         /*!< 0x048          Channel-2 Output Configuration Register                */
+X  volatile uint32_t CH2OCFR;          
+N  __IO uint32_t CH3OCFR;         /*!< 0x04C          Channel-3 Output Configuration Register                */
+X  volatile uint32_t CH3OCFR;          
+N  __IO uint32_t CHCTR;           /*!< 0x050          Channel Control Register                               */
+X  volatile uint32_t CHCTR;            
+N  __IO uint32_t CHPOLR;          /*!< 0x054          Channel Polarity Configuration Register                */
+X  volatile uint32_t CHPOLR;           
+N       uint32_t RESERVED3[7];    /*!< 0x058 - 0x070  Reserved                                               */
+N  __IO uint32_t DICTR;           /*!< 0x074          DMA / Interrupt Control Register                       */
+X  volatile uint32_t DICTR;            
+N  __IO uint32_t EVGR;            /*!< 0x078          Event Generator Register                               */
+X  volatile uint32_t EVGR;             
+N  __IO uint32_t INTSR;           /*!< 0x07C          Interrupt Status Register                              */
+X  volatile uint32_t INTSR;            
+N  __IO uint32_t CNTR;            /*!< 0x080          Counter Register                                       */
+X  volatile uint32_t CNTR;             
+N  __IO uint32_t PSCR;            /*!< 0x084          Prescaler Register                                     */
+X  volatile uint32_t PSCR;             
+N  __IO uint32_t CRR;             /*!< 0x088          Counter Reload Register                                */
+X  volatile uint32_t CRR;              
+N       uint32_t RESERVED4[1];    /*!< 0x08C          Reserved                                               */
+N  __IO uint32_t CH0CCR;          /*!< 0x090          Channel 0 Capture/Compare Register                     */
+X  volatile uint32_t CH0CCR;           
+N  __IO uint32_t CH1CCR;          /*!< 0x094          Channel 1 Capture/Compare Register                     */
+X  volatile uint32_t CH1CCR;           
+N  __IO uint32_t CH2CCR;          /*!< 0x098          Channel 2 Capture/Compare Register                     */
+X  volatile uint32_t CH2CCR;           
+N  __IO uint32_t CH3CCR;          /*!< 0x09C          Channel 3 Capture/Compare Register                     */
+X  volatile uint32_t CH3CCR;           
+N  __IO uint32_t CH0ACR;          /*!< 0x0A0          Channel 0 Asymmetric Compare Register                  */
+X  volatile uint32_t CH0ACR;           
+N  __IO uint32_t CH1ACR;          /*!< 0x0A4          Channel 1 Asymmetric Compare Register                  */
+X  volatile uint32_t CH1ACR;           
+N  __IO uint32_t CH2ACR;          /*!< 0x0A8          Channel 2 Asymmetric Compare Register                  */
+X  volatile uint32_t CH2ACR;           
+N  __IO uint32_t CH3ACR;          /*!< 0x0AC          Channel 3 Asymmetric Compare Register                  */
+X  volatile uint32_t CH3ACR;           
+N} AM_GPTM_TypeDef;
+N/**
+N * @brief Clock Control Unit
+N */
+Ntypedef struct
+N{
+N                                 /* CKCU: 0x40088000                                                        */
+N  __IO uint32_t GCFGR;           /*!< 0x000         Global Clock Configuration Register                     */
+X  volatile uint32_t GCFGR;            
+N  __IO uint32_t GCCR;            /*!< 0x004         Global Clock Control Register                           */
+X  volatile uint32_t GCCR;             
+N  __IO uint32_t GCSR;            /*!< 0x008         Global Clock Status Register                            */
+X  volatile uint32_t GCSR;             
+N  __IO uint32_t GCIR;            /*!< 0x00C         Global Clock Interrupt Register                         */
+X  volatile uint32_t GCIR;             
+N       uint32_t RESERVED0[2];    /*!< 0x010 ~ 0x14  Reserved                                                */
+N  __IO uint32_t PLLCFGR;         /*!< 0x018         PLL Configuration Register                              */
+X  volatile uint32_t PLLCFGR;          
+N  __IO uint32_t PLLCR;           /*!< 0x01C         PLL Control Register                                    */
+X  volatile uint32_t PLLCR;            
+N  __IO uint32_t AHBCFGR;         /*!< 0x020         AHB Configuration Register                              */
+X  volatile uint32_t AHBCFGR;          
+N  __IO uint32_t AHBCCR;          /*!< 0x024         AHB Clock Control Register                              */
+X  volatile uint32_t AHBCCR;           
+N  __IO uint32_t APBCFGR;         /*!< 0x028         APB Configuration Register                              */
+X  volatile uint32_t APBCFGR;          
+N  __IO uint32_t APBCCR0;         /*!< 0x02C         APB Clock Control Register 0                            */
+X  volatile uint32_t APBCCR0;          
+N  __IO uint32_t APBCCR1;         /*!< 0x030         APB Clock Control Register 1                            */
+X  volatile uint32_t APBCCR1;          
+N  uint32_t RESERVED4[4];         /*!< 0x034~0x040         																									*/   
+N	
+N	__IO uint32_t CKCU_LCD;        /*!< 0x044         LCD CLK Register               													*/
+X	volatile uint32_t CKCU_LCD;         
+N	uint32_t RESERVED1[174];       /*!< 0x048 ~ 0x2FC Reserved                                                */
+N  __IO uint32_t LPCR;            /*!< 0x300         Low Power Control Register                              */
+X  volatile uint32_t LPCR;             
+N  __IO uint32_t MCUDBGCR;        /*!< 0x304         MCU Debug Control Register                              */
+X  volatile uint32_t MCUDBGCR;         
+N} AM_CKCU_TypeDef;
+N/**
+N * @brief Reset Control Unit
+N */
+Ntypedef struct
+N{
+N                                 /* RSTCU: 0x40088100                                                       */
+N  __IO uint32_t GRSR;            /*!< 0x000         Global Reset Status Register                            */
+X  volatile uint32_t GRSR;             
+N  __IO uint32_t AHBPRST;         /*!< 0x004         AHB Peripheral Reset Register                           */
+X  volatile uint32_t AHBPRST;          
+N  __IO uint32_t APBPRST0;        /*!< 0x008         APB Peripheral Reset Register 0                         */
+X  volatile uint32_t APBPRST0;         
+N  __IO uint32_t APBPRST1;        /*!< 0x00C         APB Peripheral Reset Register 1                         */
+X  volatile uint32_t APBPRST1;         
+N} AM_RSTCU_TypeDef;
+N/**
+N * @brief Peripheral Direct Memory Access Channel
+N */
+Ntypedef struct
+N{
+N  __IO uint32_t CR;              /*!< 0x000    PDMA Channel Control Register                                */
+X  volatile uint32_t CR;               
+N  __IO uint32_t SADR;            /*!< 0x004    PDMA Channel Source Address Register                         */
+X  volatile uint32_t SADR;             
+N  __IO uint32_t DADR;            /*!< 0x008    PDMA Channel Destination Address Register                    */
+X  volatile uint32_t DADR;             
+N  __IO uint32_t CADR;            /*!< 0x00C    PDMA Channel Current Address Register                        */
+X  volatile uint32_t CADR;             
+N  __IO uint32_t TSR;             /*!< 0x010    PDMA Channel Transfer Size Register                          */
+X  volatile uint32_t TSR;              
+N  __IO uint32_t CTSR;            /*!< 0x014    PDMA Channel Current Transfer Size Register                  */
+X  volatile uint32_t CTSR;             
+N} AM_PDMACH_TypeDef;
+N/**
+N * @brief Peripheral Direct Memory Access Global
+N */
+Ntypedef struct
+N{
+N                                  /* PDMA: 0x40090000                                                       */
+N  AM_PDMACH_TypeDef PDMACH0;      /*!< 0x000          PDMA channel  0 registers                             */
+N  AM_PDMACH_TypeDef PDMACH1;      /*!< 0x018          PDMA channel  1 registers                             */
+N  AM_PDMACH_TypeDef PDMACH2;      /*!< 0x030          PDMA channel  2 registers                             */
+N  AM_PDMACH_TypeDef PDMACH3;      /*!< 0x048          PDMA channel  3 registers                             */
+N  AM_PDMACH_TypeDef PDMACH4;      /*!< 0x060          PDMA channel  4 registers                             */
+N  AM_PDMACH_TypeDef PDMACH5;      /*!< 0x078          PDMA channel  5 registers                             */
+N  AM_PDMACH_TypeDef PDMACH6;      /*!< 0x090          PDMA channel  6 registers                             */
+N  AM_PDMACH_TypeDef PDMACH7;      /*!< 0x0A8          PDMA channel  7 registers                             */
+N  uint32_t     RESERVED0[24];			/*!< 0x0C0 - 0x011C Reserved                                              */
+N  __IO uint32_t     ISR0;         /*!< 0x120          PDMA Interrupt Status Register 0                      */
+X  volatile uint32_t     ISR0;          
+N  __IO uint32_t     ISR1;         /*!< 0x124          PDMA Interrupt Status Register 1                      */
+X  volatile uint32_t     ISR1;          
+N  __IO uint32_t     ISCR0;        /*!< 0x128          PDMA Interrupt Status Clear Register 0                */
+X  volatile uint32_t     ISCR0;         
+N  __IO uint32_t     ISCR1;        /*!< 0x12C          PDMA Interrupt Status Clear Register 1                */
+X  volatile uint32_t     ISCR1;         
+N  __IO uint32_t     IER0;         /*!< 0x130          PDMA Interrupt Enable Register 0                      */
+X  volatile uint32_t     IER0;          
+N  __IO uint32_t     IER1;         /*!< 0x134          PDMA Interrupt Enable Register 1                      */
+X  volatile uint32_t     IER1;          
+N	__IO uint32_t   	STTR;					/*!< 0x138					PDMA software trigger test register										*/
+X	volatile uint32_t   	STTR;					 
+N} AM_PDMA_TypeDef;
+N
+N/**
+N * @brief SPI
+N */
+Ntypedef struct
+N{
+N                                 /* SPI0: 0x40004000                                                        */
+N                                 /* SPI1: 0x40005000                                                        */
+N  __IO uint32_t CR0;             /*!< 0x000         Control Register 0                                      */
+X  volatile uint32_t CR0;              
+N  __IO uint32_t CR1;             /*!< 0x004         Control Register 1                                      */
+X  volatile uint32_t CR1;              
+N  __IO uint32_t IER;             /*!< 0x008         Interrupt Enable Register                               */
+X  volatile uint32_t IER;              
+N  __IO uint32_t CPR;             /*!< 0x00C         Clock Prescaler Register                                */
+X  volatile uint32_t CPR;              
+N  __IO uint32_t DR;              /*!< 0x010         Data Register                                           */
+X  volatile uint32_t DR;               
+N  __IO uint32_t SR;              /*!< 0x014         Status Register                                         */
+X  volatile uint32_t SR;               
+N  __IO uint32_t FCR;             /*!< 0x018         FIFO Control Register                                   */
+X  volatile uint32_t FCR;              
+N  __IO uint32_t FSR;             /*!< 0x01C         FIFO Status Register                                    */
+X  volatile uint32_t FSR;              
+N  __IO uint32_t FTOCR;           /*!< 0x020         FIFO Time Out Counter Register                          */
+X  volatile uint32_t FTOCR;            
+N} AM_SPI_TypeDef;
+N
+N/**
+N * @brief UART
+N */
+Ntypedef struct
+N{
+N                                 /* UART0: 0x40000000                                                       */
+N                                 /* UART1: 0x40040000                                                       */
+N                                 /* UART2: 0x40001000                                                       */
+N                                 /* UART3: 0x40041000                                                       */
+N																 /* UART4: 0x40002000                                                       */
+N																 /* UART5: 0x40003000                                                       */
+N  union {
+N  __IO uint32_t RBR;             /*!< 0x000         Receive Buffer Register                                 */
+X  volatile uint32_t RBR;              
+N  __IO uint32_t TBR;             /*!< 0x000         Transmit Holding Register                               */
+X  volatile uint32_t TBR;              
+N  };
+N  __IO uint32_t IER;             /*!< 0x004         Interrupt Enable Register                               */
+X  volatile uint32_t IER;              
+N  __IO uint32_t IIR;             /*!< 0x008         Interrupt Identification Register/FIFO Control Register */
+X  volatile uint32_t IIR;              
+N  __IO uint32_t FCR;             /*!< 0x00C         FIFO Control Register                                   */
+X  volatile uint32_t FCR;              
+N  __IO uint32_t LCR;             /*!< 0x010         Line Control Register                                   */
+X  volatile uint32_t LCR;              
+N  __IO uint32_t MCR;             /*!< 0x014         Modem Control Register                                  */
+X  volatile uint32_t MCR;              
+N  __IO uint32_t LSR;             /*!< 0x018         Line Status Register                                    */
+X  volatile uint32_t LSR;              
+N  __IO uint32_t MSR;             /*!< 0x01C         Modem Status Register                                   */
+X  volatile uint32_t MSR;              
+N  __IO uint32_t TPR;             /*!< 0x020         Timing Parameter Register                               */
+X  volatile uint32_t TPR;              
+N  __IO uint32_t MDR;             /*!< 0x024         Mode Register                                           */
+X  volatile uint32_t MDR;              
+N  __IO uint32_t ICR;             /*!< 0x028         IrDA Register                                           */
+X  volatile uint32_t ICR;              
+N  __IO uint32_t RCR;             /*!< 0x02C         RS485 Control Register                                  */
+X  volatile uint32_t RCR;              
+N  __IO uint32_t SCR;             /*!< 0x030         Synchronous Control Register                            */
+X  volatile uint32_t SCR;              
+N  __IO uint32_t FSR;             /*!< 0x034         FIFO Status Register                                    */
+X  volatile uint32_t FSR;              
+N  __IO uint32_t DLR;             /*!< 0x038         Divisor Latch Register                                  */
+X  volatile uint32_t DLR;              
+N  __IO uint32_t RESERVE;         /*!< 0x03C        Divisor Latch Register                                   */
+X  volatile uint32_t RESERVE;          
+N	__IO uint32_t DTR;             /*!< 0x040         Debug/Test Register                                     */
+X	volatile uint32_t DTR;              
+N} AM_USART_TypeDef;
+N/**
+N * @brief CAN
+N */
+Ntypedef struct
+N{
+N                                 /* CAN: 0x40098000                                                         */
+N																 /* CAN1: 0x40099000                                                        */
+N  __IO uint32_t MOD;             /*!< 0x000            Mode Setting Register                            		*/
+X  volatile uint32_t MOD;              
+N  __IO uint32_t CMR;             /*!< 0x004            Command Register                              				*/
+X  volatile uint32_t CMR;              
+N  __IO uint32_t SR;              /*!< 0x008            Status Register                                			*/
+X  volatile uint32_t SR;               
+N  __IO uint32_t IR;              /*!< 0x00C            Interrupt Register                                 	*/
+X  volatile uint32_t IR;               
+N  __IO uint32_t IER;             /*!< 0x010            Interrupt enableRegister                							*/
+X  volatile uint32_t IER;              
+N	     uint32_t RESERVED0;
+N	__IO uint32_t BTR0;						 /*!< 0x018            Bus Timing 0 Register                								*/
+X	volatile uint32_t BTR0;						  
+N	__IO uint32_t BTR1;						 /*!< 0x01C            Bus Timing 1 Register               									*/
+X	volatile uint32_t BTR1;						  
+N	__IO uint32_t OCR;						 /*!< 0x020            Output Control Register               								*/
+X	volatile uint32_t OCR;						  
+N	     uint32_t RESERVED1[2];
+N	__IO uint32_t ALC;						 /*!< 0x02C            Arbitration Lost Capture             								*/
+X	volatile uint32_t ALC;						  
+N	__IO uint32_t ECC;						 /*!< 0x030            Error Code Capture             											*/
+X	volatile uint32_t ECC;						  
+N	__IO uint32_t EWLR;						 /*!< 0x034            Error Warning Limit             											*/
+X	volatile uint32_t EWLR;						  
+N	__IO uint32_t RXERR;					 /*!< 0x038            Receive Error Counter             										*/
+X	volatile uint32_t RXERR;					  
+N	__IO uint32_t TXERR;					 /*!< 0x03C            Transmit Error Counter             									*/
+X	volatile uint32_t TXERR;					  
+N	__IO uint32_t TRFDI_ACAMR[13]; /*!< 0x040-0x70  		 Transmit and Receive Frame Data Information and 
+X	volatile uint32_t TRFDI_ACAMR[13]; 
+N																													Acceptance Code Mask Register        							*/
+N	__IO uint32_t RMC;						 /*!< 0x074            Receive Message Counter             									*/
+X	volatile uint32_t RMC;						  
+N	__IO uint32_t RBSA;						 /*!< 0x078            Receive Buffer Start Address             						*/
+X	volatile uint32_t RBSA;						  
+N	__IO uint32_t CDR;						 /*!< 0x07C            Clock Divider             														*/
+X	volatile uint32_t CDR;						  
+N	__IO uint32_t RFIFO[64];			 /*!< 0x080-0x17C      Receive FIFO            															*/
+X	volatile uint32_t RFIFO[64];			  
+N	__IO uint32_t TXBUF[13];			 /*!< 0x180-0x1B0      Transmit Buffer            													*/
+X	volatile uint32_t TXBUF[13];			  
+N} AM_CAN_TypeDef;
+N/**
+N * @brief LCD Global
+N */
+Ntypedef struct
+N{
+N                                  /* LCD LED: 0x4002C000                                                        */
+N  __IO uint32_t LCD_ENABLE;                                             
+X  volatile uint32_t LCD_ENABLE;                                             
+N  __IO uint32_t LCD_CTRL;                                             
+X  volatile uint32_t LCD_CTRL;                                             
+N	__IO uint32_t LCD_DATA0;                                  
+X	volatile uint32_t LCD_DATA0;                                  
+N  __IO uint32_t LCD_DATA1; 
+X  volatile uint32_t LCD_DATA1; 
+N	__IO uint32_t LCD_DATA2;                                  
+X	volatile uint32_t LCD_DATA2;                                  
+N  __IO uint32_t LCD_DATA3; 
+X  volatile uint32_t LCD_DATA3; 
+N	__IO uint32_t LCD_DATA4;                                  
+X	volatile uint32_t LCD_DATA4;                                  
+N  __IO uint32_t LCD_DATA5; 
+X  volatile uint32_t LCD_DATA5; 
+N	__IO uint32_t LCD_DATA6;                                  
+X	volatile uint32_t LCD_DATA6;                                  
+N  __IO uint32_t LCD_DATA7; 
+X  volatile uint32_t LCD_DATA7; 
+N	__IO uint32_t PWM_CNT;                                  
+X	volatile uint32_t PWM_CNT;                                  
+N  __IO uint32_t LCD_ANALOGE; 	
+X  volatile uint32_t LCD_ANALOGE; 	
+N	
+N} AM_LCD_TypeDef;
+N/**
+N * @brief Flash Global
+N */
+Ntypedef struct
+N{
+N                                /* FLASH: 0x40080000                                                        */
+N  __IO uint32_t OSR;            /*!< 0x000         EXTI Source Selection Register 0 ~ 1                     */
+X  volatile uint32_t OSR;             
+N  __IO uint32_t OCMR;           /*!< 0x008 - 0x01C Reserved                                                 */
+X  volatile uint32_t OCMR;            
+N  __IO uint32_t TADR;           /*!< 0x020         GPIO Port A Configuration Register 0 ~ 1                 */
+X  volatile uint32_t TADR;            
+N  __IO uint32_t WRDR;           /*!< 0x028         GPIO Port B Configuration Register 0 ~ 1                 */
+X  volatile uint32_t WRDR;            
+N  __IO uint32_t OPCR;           /*!< 0x030         GPIO Port C Configuration Register 0 ~ 1                 */
+X  volatile uint32_t OPCR;            
+N  __IO uint32_t RDDR;           /*!< 0x038         GPIO Port D Configuration Register 0 ~ 1                 */
+X  volatile uint32_t RDDR;            
+N       uint32_t RESERVED1[58];
+N	__IO uint32_t WCR;   	        /*!< 0x040         GPIO Port E Configuration Register 0                     */
+X	volatile uint32_t WCR;   	         
+N	     uint32_t RESERVED2[64];
+N	__IO uint32_t MDID;
+X	volatile uint32_t MDID;
+N} AM_FLASH_TypeDef;
+N/**
+N * @brief I2C Global
+N */
+Ntypedef struct
+N{
+N                                 /* I2C0: 0x40048000                                                        */
+N  __IO uint32_t CR;              /*!< 0x000         Control Register                                        */
+X  volatile uint32_t CR;               
+N  __IO uint32_t IER;             /*!< 0x004         Interrupt Enable Register                               */
+X  volatile uint32_t IER;              
+N  __IO uint32_t ADDR;            /*!< 0x008         Address Register                                        */
+X  volatile uint32_t ADDR;             
+N  __IO uint32_t SR;              /*!< 0x00C         Status Register                                         */
+X  volatile uint32_t SR;               
+N  __IO uint32_t SHPGR;           /*!< 0x010         SCL High Period Generation Register                     */
+X  volatile uint32_t SHPGR;            
+N  __IO uint32_t SLPGR;           /*!< 0x014         SCL Low Period Generation Register                      */
+X  volatile uint32_t SLPGR;            
+N  __IO uint32_t DR;              /*!< 0x018         Data Register                                           */
+X  volatile uint32_t DR;               
+N  __IO uint32_t TAR;             /*!< 0x01C         Target Register                                         */
+X  volatile uint32_t TAR;              
+N  __IO uint32_t ADDMR;           /*!< 0x020         Address Mask Register                                   */
+X  volatile uint32_t ADDMR;            
+N  __IO uint32_t ADDBR;           /*!< 0x024         Address Buffer Register                                 */
+X  volatile uint32_t ADDBR;            
+N  __IO uint32_t TOUT;            /*!< 0x028         Timeout Register                                        */
+X  volatile uint32_t TOUT;             
+N} AM_I2C_TypeDef;
+N/**
+N * @brief Power Control Global
+N */
+Ntypedef struct
+N{
+N                                 /* PWRCU: 0x4006A100                                                       */
+N  __IO uint32_t BAKSR;           /*!< 0x000         Backup Domain Status Register                           */
+X  volatile uint32_t BAKSR;            
+N  __IO uint32_t BAKCR;           /*!< 0x004         Backup Domain Control Register                          */
+X  volatile uint32_t BAKCR;            
+N  __IO uint32_t BAKTEST;         /*!< 0x008         Backup Domain Test Register                             */
+X  volatile uint32_t BAKTEST;          
+N  __IO uint32_t OTBCR;           /*!< 0x00C         HSI Ready Counter Control Register                      */
+X  volatile uint32_t OTBCR;            
+N  __IO uint32_t LVDCSR;          /*!< 0x010         Low Voltage/Brown Out Detect Control and Status Register*/
+X  volatile uint32_t LVDCSR;           
+N	__IO uint32_t VDDSETR;
+X	volatile uint32_t VDDSETR;
+N	__IO uint32_t RTCVDDSETR;
+X	volatile uint32_t RTCVDDSETR;
+N       uint32_t RESERVE0[57];    /*!< 0x014 ~ 0x0FC Reserved                                                */
+N  __IO uint32_t BAKREG[10];      /*!< 0x100 ~ 0x124 Backup Register 0 ~ 9                                   */
+X  volatile uint32_t BAKREG[10];       
+N} AM_PWRCU_TypeDef;
+N/**
+N * @brief RTC Global
+N */
+Ntypedef struct
+N{
+N                                 /* RTC: 0x4006A000                                                         */
+N  __IO uint32_t CNT;             /*!< 0x000         RTC Counter Register                                    */
+X  volatile uint32_t CNT;              
+N  __IO uint32_t CMP;             /*!< 0x004         RTC Compare Register                                    */
+X  volatile uint32_t CMP;              
+N  __IO uint32_t CR;              /*!< 0x008         RTC Control Register                                    */
+X  volatile uint32_t CR;               
+N  __IO uint32_t SR;              /*!< 0x00C         RTC Status Register                                     */
+X  volatile uint32_t SR;               
+N  __IO uint32_t IWEN;            /*!< 0x010         RTC Interrupt/Wake-up Enable Register                   */
+X  volatile uint32_t IWEN;             
+N	__IO uint32_t RTCCALSET;			 /*!< 0x014         RTC Calendar Setting Register				                    */
+X	volatile uint32_t RTCCALSET;			  
+N	__IO uint32_t RTCCALCNT;			 /*!< 0x018         RTC Calendar Counter Register				                    */
+X	volatile uint32_t RTCCALCNT;			  
+N	__IO uint32_t RTCALM;			     /*!< 0x01C         RTC Alarm Setting Register					                    */
+X	volatile uint32_t RTCALM;			      
+N	__IO uint32_t RTCOSCIM;				 /*!< 0x020         RTC RC OSC Current Setting Register		                  */
+X	volatile uint32_t RTCOSCIM;				  
+N	__IO uint32_t RTCOSCRM;				 /*!< 0x024         RTC RC OSC Resistor Setting Register                    */
+X	volatile uint32_t RTCOSCRM;				  
+N} AM_RTC_TypeDef;
+N/**
+N * @brief WATCHDOG Global
+N */
+Ntypedef struct
+N{
+N                                 /* WDT: 0x40068000                                                         */
+N  __IO uint32_t CR;              /*!< 0x000         Control Register                                        */
+X  volatile uint32_t CR;               
+N  __IO uint32_t MR0;             /*!< 0x004         Mode 0 Register                                         */
+X  volatile uint32_t MR0;              
+N  __IO uint32_t MR1;             /*!< 0x008         Mode 1 Register                                         */
+X  volatile uint32_t MR1;              
+N  __IO uint32_t SR;              /*!< 0x00C         Status Register                                         */
+X  volatile uint32_t SR;               
+N  __IO uint32_t PR;              /*!< 0x010         Write Protect Register                                  */
+X  volatile uint32_t PR;               
+N  __IO uint32_t CNTR;            /*!< 0x014         Counter Register                                        */
+X  volatile uint32_t CNTR;             
+N  __IO uint32_t CSR;             /*!< 0x018         Clock Selection Register                                */
+X  volatile uint32_t CSR;              
+N} AM_WDT_TypeDef;
+N/**
+N * @brief CRC Global
+N */
+Ntypedef struct
+N{
+N                                 /* CRC: 0x4008A000                                                         */
+N  __IO uint32_t CR;              /*!< 0x000         Control Register                                        */
+X  volatile uint32_t CR;               
+N  __IO uint32_t SDR;             /*!< 0x004         Seed Register                                           */
+X  volatile uint32_t SDR;              
+N  __IO uint32_t CSR;             /*!< 0x008         Checksum Register                                       */
+X  volatile uint32_t CSR;              
+N  __IO uint32_t DR;              /*!< 0x00C         Data Register                                           */
+X  volatile uint32_t DR;               
+N} AM_CRC_TypeDef;
+N/**
+N * @brief COMP Global
+N */
+Ntypedef struct
+N{
+N                                 /* COMP: 0x40043000                                                         */
+N  __IO uint32_t CCSR;            /*!< 0x000         Control and Status Register                              */
+X  volatile uint32_t CCSR;             
+N  __IO uint32_t WICR;            /*!< 0x004         COMP Wake-up and Interrupt Control Register              */
+X  volatile uint32_t WICR;             
+N} AM_COMP_TypeDef;
+N/**
+N * @brief TRNG Global
+N */
+Ntypedef struct
+N{
+N                                /* TRNG: 0x40006000                                                         */
+N  __IO uint32_t CTRL;           /*!< 0x000         Control Register 											                  */
+X  volatile uint32_t CTRL;            
+N  __IO uint32_t DATA;           /*!< 0x004 				 Data Register                                            */
+X  volatile uint32_t DATA;            
+N} AM_TRNG_TypeDef;
+N
+N/** @addtogroup Peripheral_Memory_Map
+N  * @{
+N  */
+N#define AM_SRAM_BASE             ((u32)0x20000000)
+N
+N#define AM_PERIPH_BASE           ((u32)0x40000000)
+N
+N#define AM_APB0PERIPH_BASE       (AM_PERIPH_BASE)                 /* 0x40000000                             */
+N#define AM_APB1PERIPH_BASE       (AM_PERIPH_BASE + 0x40000)       /* 0x40040000                             */
+N#define AM_AHBPERIPH_BASE        (AM_PERIPH_BASE + 0x80000)       /* 0x40080000                             */
+N
+N/* APB0      																																																*/
+N#define AM_UART0_BASE            (AM_APB0PERIPH_BASE + 0x0000)    /* 0x40000000                             */
+N#define AM_UART2_BASE            (AM_APB0PERIPH_BASE + 0x1000)    /* 0x40001000                             */
+N#define AM_UART4_BASE            (AM_APB0PERIPH_BASE + 0x2000)    /* 0x40001000                             */
+N#define AM_UART5_BASE            (AM_APB0PERIPH_BASE + 0x3000)    /* 0x40001000                             */
+N#define AM_SPI0_BASE             (AM_APB0PERIPH_BASE + 0x4000)    /* 0x40004000                             */
+N#define AM_SPI1_BASE             (AM_APB0PERIPH_BASE + 0x5000)    /* 0x40005000                             */
+N#define AM_TRNG_BASE             (AM_APB0PERIPH_BASE + 0x6000)    /* 0x40006000                             */
+N#define AM_ADC_BASE              (AM_APB0PERIPH_BASE + 0x10000)   /* 0x40010000                             */
+N#define AM_CS_BASE               (AM_APB0PERIPH_BASE + 0x100b4)   /* 0x400100b4                             */
+N#define AM_AFIO_BASE             (AM_APB0PERIPH_BASE + 0x22000)   /* 0x40022000                             */
+N#define AM_EXTI_BASE             (AM_APB0PERIPH_BASE + 0x24000)   /* 0x40024000                             */
+N#define AM_LCD_BASE       	     (AM_APB0PERIPH_BASE + 0x2C000)   /* 0x4002C000                             */
+N
+N/* APB1                                                                                                     */
+N#define AM_UART1_BASE            (AM_APB1PERIPH_BASE + 0x0000)    /* 0x40040000                             */
+N#define AM_UART3_BASE            (AM_APB1PERIPH_BASE + 0x1000)    /* 0x40041000                             */
+N#define AM_COMP_BASE             (AM_APB1PERIPH_BASE + 0x3000)    /* 0x40043000                             */
+N#define AM_I2C0_BASE             (AM_APB1PERIPH_BASE + 0x8000)    /* 0x40048000                             */
+N#define AM_WDT_BASE              (AM_APB1PERIPH_BASE + 0x28000)   /* 0x40068000                             */
+N#define AM_RTC_BASE              (AM_APB1PERIPH_BASE + 0x2A000)   /* 0x4006A000                             */
+N#define AM_PWRCU_BASE            (AM_APB1PERIPH_BASE + 0x2A100)   /* 0x4006A100                              */
+N#define AM_GPTM0_BASE            (AM_APB1PERIPH_BASE + 0x2E000)   /* 0x4006E000                             */
+N#define AM_GPTM1_BASE            (AM_APB1PERIPH_BASE + 0x2F000)   /* 0x4006F000                             */
+N#define AM_GPTM2_BASE            (AM_APB1PERIPH_BASE + 0x30000)   /* 0x40070000                             */
+N#define AM_GPTM3_BASE            (AM_APB1PERIPH_BASE + 0x31000)   /* 0x40071000                             */
+N
+N/* AHB                 																																										  */                                                                                   
+N#define AM_PDMA_BASE             (AM_AHBPERIPH_BASE + 0x10000)    /* 0x40090000                             */
+N#define AM_PDMACH0_BASE					 (AM_PDMA_BASE + 0x0000)				 	/* 0x40090000															*/
+N#define AM_PDMACH1_BASE					 (AM_PDMA_BASE + 0x0018)					/* 0x40090018															*/
+N#define AM_PDMACH2_BASE					 (AM_PDMA_BASE + 0x0030)					/* 0x40090030															*/
+N#define AM_PDMACH3_BASE					 (AM_PDMA_BASE + 0x0048)					/* 0x40090048															*/
+N#define AM_PDMACH4_BASE					 (AM_PDMA_BASE + 0x0060)					/* 0x40090060															*/
+N#define AM_PDMACH5_BASE					 (AM_PDMA_BASE + 0x0078)					/* 0x40090078															*/
+N#define AM_PDMACH6_BASE					 (AM_PDMA_BASE + 0x0090)					/* 0x40090090															*/
+N#define AM_PDMACH7_BASE					 (AM_PDMA_BASE + 0x00A8)					/* 0x400900A8															*/
+N
+N#define AM_CAN_BASE            	 (AM_AHBPERIPH_BASE + 0x18000)    /* 0x40098000 												  	*/
+N#define AM_CAN1_BASE             (AM_AHBPERIPH_BASE + 0x19000)    /* 0x40099000 												  	*/
+N#define AM_FLASH_BASE            (AM_AHBPERIPH_BASE + 0x0000)     /* 0x40080000                             */
+N#define AM_CKCU_BASE             (AM_AHBPERIPH_BASE + 0x8000)     /* 0x40088000                             */
+N#define AM_RSTCU_BASE            (AM_AHBPERIPH_BASE + 0x8100)     /* 0x40088100                             */
+N#define AM_CRC_BASE              (AM_AHBPERIPH_BASE + 0xA000)     /* 0x4008A000                             */
+N#define AM_GPIOA_BASE            (AM_AHBPERIPH_BASE + 0x30000)    /* 0x400B0000                             */
+N#define AM_GPIOB_BASE            (AM_AHBPERIPH_BASE + 0x32000)    /* 0x400B2000                             */
+N#define AM_GPIOC_BASE            (AM_AHBPERIPH_BASE + 0x34000)    /* 0x400B4000                             */
+N#define AM_GPIOD_BASE            (AM_AHBPERIPH_BASE + 0x36000)    /* 0x400B6000                             */
+N#define AM_GPIOE_BASE            (AM_AHBPERIPH_BASE + 0x38000)    /* 0x400B8000                             */
+N
+N/**
+N  * @}
+N  */
+N
+N/* Peripheral declaration                                                                                   */
+N#define AM_UART0               ((AM_USART_TypeDef *) AM_UART0_BASE)
+N#define AM_UART1               ((AM_USART_TypeDef *) AM_UART1_BASE)
+N#define AM_UART2               ((AM_USART_TypeDef *) AM_UART2_BASE)
+N#define AM_UART3               ((AM_USART_TypeDef *) AM_UART3_BASE)
+N#define AM_UART4               ((AM_USART_TypeDef *) AM_UART4_BASE)
+N#define AM_UART5               ((AM_USART_TypeDef *) AM_UART5_BASE)
+N#define AM_SPI0                ((AM_SPI_TypeDef *) AM_SPI0_BASE)
+N#define AM_SPI1                ((AM_SPI_TypeDef *) AM_SPI1_BASE)
+N#define AM_I2C0                ((AM_I2C_TypeDef *) AM_I2C0_BASE)
+N#define AM_ADC                 ((AM_ADC_TypeDef *) AM_ADC_BASE)
+N#define AM_CS                  ((AM_CS_TypeDef *) AM_CS_BASE)
+N#define AM_AFIO                ((AM_AFIO_TypeDef *) AM_AFIO_BASE)
+N#define AM_EXTI                ((AM_EXTI_TypeDef *) AM_EXTI_BASE)
+N#define AM_WDT                 ((AM_WDT_TypeDef *) AM_WDT_BASE)
+N#define AM_RTC                 ((AM_RTC_TypeDef *) AM_RTC_BASE)
+N#define AM_PWRCU               ((AM_PWRCU_TypeDef *) AM_PWRCU_BASE)
+N#define AM_GPTM0               ((AM_GPTM_TypeDef *) AM_GPTM0_BASE)
+N#define AM_GPTM1               ((AM_GPTM_TypeDef *) AM_GPTM1_BASE)
+N#define AM_GPTM2               ((AM_GPTM_TypeDef *) AM_GPTM2_BASE)
+N#define AM_GPTM3               ((AM_GPTM_TypeDef *) AM_GPTM3_BASE)
+N#define AM_COMP								 ((AM_COMP_TypeDef *) AM_COMP_BASE)
+N#define AM_LCD                 ((AM_LCD_TypeDef *) AM_LCD_BASE)
+N#define AM_FLASH               ((AM_FLASH_TypeDef *) AM_FLASH_BASE)
+N#define AM_CKCU                ((AM_CKCU_TypeDef *) AM_CKCU_BASE)
+N#define AM_RSTCU               ((AM_RSTCU_TypeDef *) AM_RSTCU_BASE)
+N#define AM_CRC                 ((AM_CRC_TypeDef *) AM_CRC_BASE)
+N#define AM_CAN                ((AM_CAN_TypeDef *) AM_CAN_BASE)
+N#define AM_CAN1                ((AM_CAN_TypeDef *) AM_CAN1_BASE)
+N#define AM_PDMA                ((AM_PDMA_TypeDef *) AM_PDMA_BASE)
+N#define AM_GPIOA               ((AM_GPIO_TypeDef *) AM_GPIOA_BASE)
+N#define AM_GPIOB               ((AM_GPIO_TypeDef *) AM_GPIOB_BASE)
+N#define AM_GPIOC               ((AM_GPIO_TypeDef *) AM_GPIOC_BASE)
+N#define AM_GPIOD               ((AM_GPIO_TypeDef *) AM_GPIOD_BASE)
+N#define AM_GPIOE               ((AM_GPIO_TypeDef *) AM_GPIOE_BASE)
+N#define AM_TRNG								 ((AM_TRNG_TypeDef *) AM_TRNG_BASE)
+N#define AM_PDMACH0						 ((AM_PDMACH_TypeDef *)AM_PDMACH0_BASE)
+N#define AM_PDMACH1						 ((AM_PDMACH_TypeDef *)AM_PDMACH1_BASE)
+N#define AM_PDMACH2						 ((AM_PDMACH_TypeDef *)AM_PDMACH2_BASE)
+N#define AM_PDMACH3						 ((AM_PDMACH_TypeDef *)AM_PDMACH3_BASE)
+N#define AM_PDMACH4						 ((AM_PDMACH_TypeDef *)AM_PDMACH4_BASE)
+N#define AM_PDMACH5						 ((AM_PDMACH_TypeDef *)AM_PDMACH5_BASE)
+N#define AM_PDMACH6						 ((AM_PDMACH_TypeDef *)AM_PDMACH6_BASE)
+N#define AM_PDMACH7						 ((AM_PDMACH_TypeDef *)AM_PDMACH7_BASE)
+N
+N#define SystemCoreClock        24000000UL    //24M
+N
+N/**
+N  * @}
+N  */
+N
+N/**
+N  * @}
+N  */
+N
+N/**
+N  * @}
+N  */
+N	
+N#ifdef __cplusplus
+S}
+N#endif
+N
+N#endif
+L 14 "User\led\bsp_led.h" 2
+N#include "gpio.h"
+L 1 "..\driver\inc\gpio.h" 1
+N/********************************************************************************************************//**
+N * @file    gpio.h	
+N * @brief   The header file of the Gpio Unit library.
+N * @author  
+N * @version V1.00
+N * @date:   2016-12-30
+N * @note
+N * Copyright (C) 2016 Amicro Semiconductor Inc. All rights reserved.
+N ************************************************************************************************************/
+N
+N/* Define to prevent recursive inclusion -------------------------------------------------------------------*/
+N#ifndef __GPIO_H
+N#define __GPIO_H
+N
+N#ifdef __cplusplus
+S extern "C" {
+N#endif
+N
+N#include "AM8813.h"
+N
+N/**
+N * @brief  Enumeration of GPIO pull resistor.
+N */
+Ntypedef enum
+N{
+N  GPIO_PR_UP = 0,   /*!< weak pull-up resistor */
+N  GPIO_PR_DOWN,     /*!< weak pull-down resistor */
+N  GPIO_PR_DISABLE   /*!< Tri-state */
+N}GPIO_PR_Enum ;
+N/**
+N * @brief  Enumeration of GPIO output drive current.
+N */
+Ntypedef enum
+N{
+N  GPIO_DV_3MA = 0,   /*!< 3mA source/sink current */
+N  GPIO_DV_6MA        /*!< 6mA source/sink current */
+N}GPIO_DV_Enum ;
+N/**
+N * @brief  Enumeration of GPIO direction.
+N */
+Ntypedef enum
+N{
+N  GPIO_DIR_IN = 0,    /*!< input mode */
+N  GPIO_DIR_OUT        /*!< output mode */
+N}GPIO_DIR_Enum ;
+N/**
+N * @brief  Enumeration of GPIO port source for EXTI channel.
+N */
+Ntypedef enum
+N{
+N  AFIO_ESS_PA = 0,  /*!< EXTI channel x source come from GPIO Port A */
+N  AFIO_ESS_PB,      /*!< EXTI channel x source come from GPIO Port B */
+N  AFIO_ESS_PC,      /*!< EXTI channel x source come from GPIO Port C */
+N  AFIO_ESS_PD,      /*!< EXTI channel x source come from GPIO Port D */
+N  AFIO_ESS_PE       /*!< EXTI channel x source come from GPIO Port E */
+N}AFIO_ESS_Enum ;
+N/**
+N * @brief  Enumeration of AFIO for EXTI channel.
+N */
+Ntypedef enum
+N{
+N  AFIO_EXTI_CH_0 = 0x00,     /*!< EXTI channel 0 */
+N  AFIO_EXTI_CH_1 = 0x04,     /*!< EXTI channel 1 */
+N  AFIO_EXTI_CH_2 = 0x08,     /*!< EXTI channel 2 */
+N  AFIO_EXTI_CH_3 = 0x0C,     /*!< EXTI channel 3 */
+N  AFIO_EXTI_CH_4 = 0x10,     /*!< EXTI channel 4 */
+N  AFIO_EXTI_CH_5 = 0x14,     /*!< EXTI channel 5 */
+N  AFIO_EXTI_CH_6 = 0x18,     /*!< EXTI channel 6 */
+N  AFIO_EXTI_CH_7 = 0x1C,     /*!< EXTI channel 7 */
+N  AFIO_EXTI_CH_8 = 0x20,     /*!< EXTI channel 8 */
+N  AFIO_EXTI_CH_9 = 0x24,     /*!< EXTI channel 9 */
+N  AFIO_EXTI_CH_10 = 0x28,    /*!< EXTI channel 10 */
+N  AFIO_EXTI_CH_11 = 0x2C,    /*!< EXTI channel 11 */
+N  AFIO_EXTI_CH_12 = 0x30,    /*!< EXTI channel 12 */
+N  AFIO_EXTI_CH_13 = 0x34,    /*!< EXTI channel 13 */
+N  AFIO_EXTI_CH_14 = 0x38,    /*!< EXTI channel 14 */
+N  AFIO_EXTI_CH_15 = 0x3C     /*!< EXTI channel 15 */
+N}AFIO_EXTI_CH_Enum ;
+N/**
+N * @brief Enumeration of AFIO_MODE.
+N */
+Ntypedef enum
+N{
+N AFIO_MODE_DEFAULT = 0,   /*!< Default AFIO mode */
+N AFIO_MODE_1,             /*!< AFIO mode 1 */
+N AFIO_MODE_2,             /*!< AFIO mode 2 */
+N AFIO_MODE_3,             /*!< AFIO mode 3 */
+N AFIO_MODE_4,             /*!< AFIO mode 4 */
+N AFIO_MODE_5,             /*!< AFIO mode 5 */
+N AFIO_MODE_6,             /*!< AFIO mode 6 */
+N AFIO_MODE_7,             /*!< AFIO mode 7 */
+N AFIO_MODE_8,             /*!< AFIO mode 8 */
+N AFIO_MODE_9,             /*!< AFIO mode 9 */
+N AFIO_MODE_10,            /*!< AFIO mode 10 */
+N AFIO_MODE_11,            /*!< AFIO mode 11 */
+N AFIO_MODE_12,            /*!< AFIO mode 12 */
+N AFIO_MODE_13,            /*!< AFIO mode 13 */
+N AFIO_MODE_14,            /*!< AFIO mode 14 */
+N AFIO_MODE_15             /*!< AFIO mode 15 */
+N}AFIO_MODE_Enum ;
+N/**
+N  * @}
+N  */
+N
+N/** @defgroup GPIO_Exported_Constants GPIO exported constants
+N  * @{
+N  */
+N
+N/* Definitions of GPIO_PIN */
+N#define GPIO_PIN_0    0x0001   /*!< GPIO pin 0 selected */
+N#define GPIO_PIN_1    0x0002   /*!< GPIO pin 1 selected */
+N#define GPIO_PIN_2    0x0004   /*!< GPIO pin 2 selected */
+N#define GPIO_PIN_3    0x0008   /*!< GPIO pin 3 selected */
+N#define GPIO_PIN_4    0x0010   /*!< GPIO pin 4 selected */
+N#define GPIO_PIN_5    0x0020   /*!< GPIO pin 5 selected */
+N#define GPIO_PIN_6    0x0040   /*!< GPIO pin 6 selected */
+N#define GPIO_PIN_7    0x0080   /*!< GPIO pin 7 selected */
+N#define GPIO_PIN_8    0x0100   /*!< GPIO pin 8 selected */
+N#define GPIO_PIN_9    0x0200   /*!< GPIO pin 9 selected */
+N#define GPIO_PIN_10   0x0400   /*!< GPIO pin 10 selected */
+N#define GPIO_PIN_11   0x0800   /*!< GPIO pin 11 selected */
+N#define GPIO_PIN_12   0x1000   /*!< GPIO pin 12 selected */
+N#define GPIO_PIN_13   0x2000   /*!< GPIO pin 13 selected */
+N#define GPIO_PIN_14   0x4000   /*!< GPIO pin 14 selected */
+N#define GPIO_PIN_15   0x8000   /*!< GPIO pin 15 selected */
+N#define GPIO_PIN_ALL  0xFFFF   /*!< GPIO all pins selected */
+N
+N/* Definitions of AFIO_PIN */
+N#define AFIO_PIN_0   (u32)0x00000001 /*!< AFIO pin 0 selected */
+N#define AFIO_PIN_1   (u32)0x00000002 /*!< AFIO pin 1 selected */
+N#define AFIO_PIN_2   (u32)0x00000004 /*!< AFIO pin 2 selected */
+N#define AFIO_PIN_3   (u32)0x00000008 /*!< AFIO pin 3 selected */
+N#define AFIO_PIN_4   (u32)0x00000010 /*!< AFIO pin 4 selected */
+N#define AFIO_PIN_5   (u32)0x00000020 /*!< AFIO pin 5 selected */
+N#define AFIO_PIN_6   (u32)0x00000040 /*!< AFIO pin 6 selected */
+N#define AFIO_PIN_7   (u32)0x00000080 /*!< AFIO pin 7 selected */
+N#define AFIO_PIN_8   (u32)0x00000100 /*!< AFIO pin 8 selected */
+N#define AFIO_PIN_9   (u32)0x00000200 /*!< AFIO pin 9 selected */
+N#define AFIO_PIN_10  (u32)0x00000400 /*!< AFIO pin 10 selected */
+N#define AFIO_PIN_11  (u32)0x00000800 /*!< AFIO pin 11 selected */
+N#define AFIO_PIN_12  (u32)0x00001000 /*!< AFIO pin 12 selected */
+N#define AFIO_PIN_13  (u32)0x00002000 /*!< AFIO pin 13 selected */
+N#define AFIO_PIN_14  (u32)0x00004000 /*!< AFIO pin 14 selected */
+N#define AFIO_PIN_15  (u32)0x00008000 /*!< AFIO pin 15 selected */
+N#define AFIO_PIN_ALL (u32)0x0000FFFF /*!< All AFIO pins selected */
+N
+N/* check parameter of the GPIOx */
+N#define IS_GPIO(x)          ((x == AM_GPIOA) || (x == AM_GPIOB) || (x == AM_GPIOC) || (x == AM_GPIOD) || \
+N                             (x == AM_GPIOE))
+X#define IS_GPIO(x)          ((x == AM_GPIOA) || (x == AM_GPIOB) || (x == AM_GPIOC) || (x == AM_GPIOD) ||                              (x == AM_GPIOE))
+N
+N/* check parameter of the GPIOx pull resistor */
+N#define IS_GPIO_PR(x)       (((x) == GPIO_PR_UP) || ((x) == GPIO_PR_DOWN) || ((x) == GPIO_PR_DISABLE))
+N
+N/* check parameter of the GPIOx driving current */
+N#define IS_GPIO_DV(x)       (((x) == GPIO_DV_4MA) || ((x) == GPIO_DV_8MA) )
+N
+N/* check parameter of the GPIOx input/output direction */
+N#define IS_GPIO_DIR(x)      (((x) == GPIO_DIR_IN) || ((x) == GPIO_DIR_OUT) )
+N
+N/* check parameter of the EXTI source port */
+N#define IS_AFIO_ESS(x)      ((x == AFIO_ESS_PA) || (x == AFIO_ESS_PB) || (x == AFIO_ESS_PC) || (x == AFIO_ESS_PD)\
+N                             || (x == AFIO_ESS_PE))
+X#define IS_AFIO_ESS(x)      ((x == AFIO_ESS_PA) || (x == AFIO_ESS_PB) || (x == AFIO_ESS_PC) || (x == AFIO_ESS_PD)                             || (x == AFIO_ESS_PE))
+N
+N/* check parameter of the EXTI channel */
+N#define IS_AFIO_EXTI_CH(x)  ((x == AFIO_EXTI_CH_0) || (x == AFIO_EXTI_CH_1) || \
+N                             (x == AFIO_EXTI_CH_2) || (x == AFIO_EXTI_CH_3) || \
+N                             (x == AFIO_EXTI_CH_4) || (x == AFIO_EXTI_CH_5) || \
+N                             (x == AFIO_EXTI_CH_6) || (x == AFIO_EXTI_CH_7) || \
+N                             (x == AFIO_EXTI_CH_8) || (x == AFIO_EXTI_CH_9) || \
+N                             (x == AFIO_EXTI_CH_10) || (x == AFIO_EXTI_CH_11) || \
+N                             (x == AFIO_EXTI_CH_12) || (x == AFIO_EXTI_CH_13) || \
+N                             (x == AFIO_EXTI_CH_14) || (x == AFIO_EXTI_CH_15))
+X#define IS_AFIO_EXTI_CH(x)  ((x == AFIO_EXTI_CH_0) || (x == AFIO_EXTI_CH_1) ||                              (x == AFIO_EXTI_CH_2) || (x == AFIO_EXTI_CH_3) ||                              (x == AFIO_EXTI_CH_4) || (x == AFIO_EXTI_CH_5) ||                              (x == AFIO_EXTI_CH_6) || (x == AFIO_EXTI_CH_7) ||                              (x == AFIO_EXTI_CH_8) || (x == AFIO_EXTI_CH_9) ||                              (x == AFIO_EXTI_CH_10) || (x == AFIO_EXTI_CH_11) ||                              (x == AFIO_EXTI_CH_12) || (x == AFIO_EXTI_CH_13) ||                              (x == AFIO_EXTI_CH_14) || (x == AFIO_EXTI_CH_15))
+N
+N/* check parameter of the AFIO mode */
+N#define IS_AFIO_MODE(x)     ((x == AFIO_MODE_DEFAULT) || (x == AFIO_MODE_1) || \
+N                             (x == AFIO_MODE_2) || (x == AFIO_MODE_3) || \
+N                             (x == AFIO_MODE_4) || (x == AFIO_MODE_5) || \
+N                             (x == AFIO_MODE_6) || (x == AFIO_MODE_7) || \
+N                             (x == AFIO_MODE_8) || (x == AFIO_MODE_9) || \
+N                             (x == AFIO_MODE_10) || (x == AFIO_MODE_11) || \
+N                             (x == AFIO_MODE_12) || (x == AFIO_MODE_13) || \
+N                             (x == AFIO_MODE_14) || (x == AFIO_MODE_15))
+X#define IS_AFIO_MODE(x)     ((x == AFIO_MODE_DEFAULT) || (x == AFIO_MODE_1) ||                              (x == AFIO_MODE_2) || (x == AFIO_MODE_3) ||                              (x == AFIO_MODE_4) || (x == AFIO_MODE_5) ||                              (x == AFIO_MODE_6) || (x == AFIO_MODE_7) ||                              (x == AFIO_MODE_8) || (x == AFIO_MODE_9) ||                              (x == AFIO_MODE_10) || (x == AFIO_MODE_11) ||                              (x == AFIO_MODE_12) || (x == AFIO_MODE_13) ||                              (x == AFIO_MODE_14) || (x == AFIO_MODE_15))
+N
+N/**
+N  * @}
+N  */
+N
+N/** @defgroup GPIO_Exported_Functions GPIO exported functions
+N  * @{
+N  */
+N
+N/* Prototype of related GPIO function */
+Nvoid GPIO_DeInit(AM_GPIO_TypeDef* GPIOx) ;
+Nvoid GPIO_DirectionConfig(AM_GPIO_TypeDef* GPIOx, u16 GPIO_PIN, GPIO_DIR_Enum Direction) ;
+Nvoid GPIO_PullResistorConfig(AM_GPIO_TypeDef* GPIOx, u16 GPIO_PIN, GPIO_PR_Enum PR) ;
+Nvoid GPIO_InputConfig(AM_GPIO_TypeDef* GPIOx, u16 GPIO_PIN, ControlStatus Cmd) ;
+Nvoid GPIO_DriveConfig(AM_GPIO_TypeDef* GPIOx, u16 GPIO_PIN, GPIO_DV_Enum Drive) ;
+Nvoid GPIO_OpenDrainConfig(AM_GPIO_TypeDef* GPIOx, u16 GPIO_PIN, ControlStatus Cmd) ;
+NFlagStatus GPIO_ReadInBit(AM_GPIO_TypeDef* GPIOx, u16 GPIO_PIN);
+NFlagStatus GPIO_ReadOutBit(AM_GPIO_TypeDef* GPIOx, u16 GPIO_PIN);
+Nu16 GPIO_ReadInData(AM_GPIO_TypeDef* GPIOx);
+Nu16 GPIO_ReadOutData(AM_GPIO_TypeDef* GPIOx);
+Nvoid GPIO_SetOutBits(AM_GPIO_TypeDef* GPIOx, u16 GPIO_PIN);
+Nvoid GPIO_ClearOutBits(AM_GPIO_TypeDef* GPIOx, u16 GPIO_PIN);
+Nvoid GPIO_WriteOutBits(AM_GPIO_TypeDef* GPIOx, u16 GPIO_PIN, FlagStatus Status);
+Nvoid GPIO_WriteOutData(AM_GPIO_TypeDef* GPIOx, u16 Data);
+Nvoid GPIO_PinLock(AM_GPIO_TypeDef* GPIOx, u16 GPIO_PIN);
+Nbool GPIO_IsPortLocked(AM_GPIO_TypeDef* GPIOx);
+Nbool GPIO_IsPinLocked(AM_GPIO_TypeDef* GPIOx, u16 GPIO_PIN);
+N
+N/* Prototype of related AFIO function */
+Nvoid AFIO_DeInit(void) ;
+Nvoid AFIO_GPAConfig(u32 AFIO_PIN, AFIO_MODE_Enum AFIO_MODE);
+Nvoid AFIO_GPBConfig(u32 AFIO_PIN, AFIO_MODE_Enum AFIO_MODE);
+Nvoid AFIO_GPCConfig(u32 AFIO_PIN, AFIO_MODE_Enum AFIO_MODE);
+Nvoid AFIO_GPDConfig(u32 AFIO_PIN, AFIO_MODE_Enum AFIO_MODE);
+Nvoid AFIO_GPEConfig(u32 AFIO_PIN, AFIO_MODE_Enum AFIO_MODE);
+Nvoid AFIO_GPFConfig(u32 AFIO_PIN, AFIO_MODE_Enum AFIO_MODE);
+Nvoid AFIO_GPGConfig(u32 AFIO_PIN, AFIO_MODE_Enum AFIO_MODE);
+Nvoid AFIO_EXTISourceConfig(AFIO_EXTI_CH_Enum Channel, AFIO_ESS_Enum Source);
+N
+NFlagStatus exti_clear_edge_flag(AFIO_EXTI_CH_Enum exti_line_x);
+N/**
+N  * @}
+N  */
+N
+N/**
+N  * @}
+N  */
+N
+N/**
+N  * @}
+N  */
+N
+N#ifdef __cplusplus
+S}
+N#endif
+N
+N#endif 
+L 15 "User\led\bsp_led.h" 2
+N#define assert_param(expr) ((void)0)
+N#define IS_LED_TypeDef(Type) (((Type) == RED) || ((Type) == GREEN) || ((Type) == BLUE))
+N
+N//引脚定义
+N/*******************************************************/
+N//R 红色灯
+N#define LED1_PIN                  GPIO_PIN_8
+N#define LED1_GPIO_PORT            AM_GPIOB
+N
+N//G 绿色灯
+N#define LED2_PIN                  GPIO_PIN_11
+N#define LED2_GPIO_PORT            AM_GPIOC
+N
+N//B 蓝色灯
+N#define LED3_PIN                  GPIO_PIN_5
+N#define LED3_GPIO_PORT            AM_GPIOC
+N/************************************************************/
+N
+Ntypedef enum
+N{
+N	RED=0,
+N	GREEN=1,
+N	BLUE=2
+N}LED_TypeDef;
+N
+N/** 控制LED灯亮灭的宏，
+N	* LED低电平亮，设置ON=0，OFF=1
+N	* 若LED高电平亮，把宏设置成ON=1 ，OFF=0 即可
+N	*/
+N#define ON  0
+N#define OFF 1
+N
+N/* 带参宏，可以像内联函数一样使用 */
+N#define LED1(a)	if (a)	\
+N					LED1_GPIO_PORT->SRR = LED1_PIN;\
+N					else		\
+N					LED1_GPIO_PORT->RR = LED1_PIN
+X#define LED1(a)	if (a)						LED1_GPIO_PORT->SRR = LED1_PIN;					else							LED1_GPIO_PORT->RR = LED1_PIN
+N
+N#define LED2(a)	if (a)	\
+N					GPIO_SetOutBits(LED2_GPIO_PORT,LED2_PIN);\
+N					else		\
+N					GPIO_ClearOutBits(LED2_GPIO_PORT,LED2_PIN)
+X#define LED2(a)	if (a)						GPIO_SetOutBits(LED2_GPIO_PORT,LED2_PIN);					else							GPIO_ClearOutBits(LED2_GPIO_PORT,LED2_PIN)
+N
+N#define LED3(a)	if (a)	\
+N					GPIO_SetOutBits(LED3_GPIO_PORT,LED3_PIN);\
+N					else		\
+N					GPIO_ClearOutBits(LED3_GPIO_PORT,LED3_PIN)
+X#define LED3(a)	if (a)						GPIO_SetOutBits(LED3_GPIO_PORT,LED3_PIN);					else							GPIO_ClearOutBits(LED3_GPIO_PORT,LED3_PIN)
+N
+Nvoid LED_GPIO_Config(void);
+Nvoid LED_Toggle(LED_TypeDef Light);
+Nvoid IR_GPIO_Config(void);					
+N#endif /* __LED_H */
+L 12 "User\led\bsp_led.c" 2
+N
+N /**
+N  * @brief  初始化控制LED的IO
+N  * @param  无
+N  * @retval 无
+N  */
+Nvoid LED_GPIO_Config(void)
+N{		
+N	/* LED1 */
+N	GPIO_DirectionConfig(LED1_GPIO_PORT,LED1_PIN,GPIO_DIR_OUT);  //设置引脚模式为输出模式
+X	GPIO_DirectionConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x32000)),0x0100,GPIO_DIR_OUT);  
+N	GPIO_PullResistorConfig(LED1_GPIO_PORT,LED1_PIN,GPIO_PR_UP); //设置引脚为上拉模式
+X	GPIO_PullResistorConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x32000)),0x0100,GPIO_PR_UP); 
+N	//GPIO_InputConfig(LED1_GPIO_PORT,LED1_PIN,ENABLE);
+N	GPIO_DriveConfig(LED1_GPIO_PORT,LED1_PIN,GPIO_DV_6MA);  //设置引脚的输出类型为6mA输出
+X	GPIO_DriveConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x32000)),0x0100,GPIO_DV_6MA);  
+N	GPIO_OpenDrainConfig(LED1_GPIO_PORT,LED1_PIN,DISABLE);  //关闭开漏输出
+X	GPIO_OpenDrainConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x32000)),0x0100,DISABLE);  
+N	
+N	/* LED2 */
+N	GPIO_DirectionConfig(LED2_GPIO_PORT,LED2_PIN,GPIO_DIR_OUT);  //设置引脚模式为输出模式
+X	GPIO_DirectionConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0800,GPIO_DIR_OUT);  
+N	GPIO_PullResistorConfig(LED2_GPIO_PORT,LED2_PIN,GPIO_PR_UP); //设置引脚为上拉模式
+X	GPIO_PullResistorConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0800,GPIO_PR_UP); 
+N	//GPIO_InputConfig(LED2_GPIO_PORT,LED2_PIN,ENABLE);
+N	GPIO_DriveConfig(LED2_GPIO_PORT,LED2_PIN,GPIO_DV_6MA);  //设置引脚的输出类型为6mA输出
+X	GPIO_DriveConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0800,GPIO_DV_6MA);  
+N	GPIO_OpenDrainConfig(LED2_GPIO_PORT,LED2_PIN,DISABLE);  //关闭开漏输出
+X	GPIO_OpenDrainConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0800,DISABLE);  
+N	
+N	/* LED3 */
+N	GPIO_DirectionConfig(LED3_GPIO_PORT,LED3_PIN,GPIO_DIR_OUT);  //设置引脚模式为输出模式
+X	GPIO_DirectionConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0020,GPIO_DIR_OUT);  
+N	GPIO_PullResistorConfig(LED3_GPIO_PORT,LED3_PIN,GPIO_PR_UP); //设置引脚为上拉模式
+X	GPIO_PullResistorConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0020,GPIO_PR_UP); 
+N	//GPIO_InputConfig(LED3_GPIO_PORT,LED3_PIN,ENABLE);
+N	GPIO_DriveConfig(LED3_GPIO_PORT,LED3_PIN,GPIO_DV_6MA);  //设置引脚的输出类型为6mA输出
+X	GPIO_DriveConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0020,GPIO_DV_6MA);  
+N	GPIO_OpenDrainConfig(LED3_GPIO_PORT,LED3_PIN,DISABLE);  //关闭开漏输出
+X	GPIO_OpenDrainConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0020,DISABLE);  
+N	
+N	LED1(OFF);LED2(OFF);LED3(OFF);
+X	if (1) ((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x32000))->SRR = 0x0100; else ((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x32000))->RR = 0x0100;if (1) GPIO_SetOutBits(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0800); else GPIO_ClearOutBits(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0800);if (1) GPIO_SetOutBits(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0020); else GPIO_ClearOutBits(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0020);
+N}
+N
+Nvoid IR_GPIO_Config(void)
+N{		
+N	GPIO_DirectionConfig(AM_GPIOC,GPIO_PIN_4,GPIO_DIR_IN);  
+X	GPIO_DirectionConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0010,GPIO_DIR_IN);  
+N	GPIO_PullResistorConfig(AM_GPIOC,GPIO_PIN_4,GPIO_PR_UP); 
+X	GPIO_PullResistorConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0010,GPIO_PR_UP); 
+N  GPIO_InputConfig(AM_GPIOC,GPIO_PIN_4,ENABLE);
+X  GPIO_InputConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0010,ENABLE);
+N	
+N  GPIO_DirectionConfig(AM_GPIOB,GPIO_PIN_4,GPIO_DIR_IN);  
+X  GPIO_DirectionConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x32000)),0x0010,GPIO_DIR_IN);  
+N	GPIO_PullResistorConfig(AM_GPIOB,GPIO_PIN_4,GPIO_PR_UP); 
+X	GPIO_PullResistorConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x32000)),0x0010,GPIO_PR_UP); 
+N  GPIO_InputConfig(AM_GPIOB,GPIO_PIN_4,ENABLE);
+X  GPIO_InputConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x32000)),0x0010,ENABLE);
+N	
+N	GPIO_DirectionConfig(AM_GPIOB,GPIO_PIN_5,GPIO_DIR_IN);  
+X	GPIO_DirectionConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x32000)),0x0020,GPIO_DIR_IN);  
+N	GPIO_PullResistorConfig(AM_GPIOB,GPIO_PIN_5,GPIO_PR_UP); 
+X	GPIO_PullResistorConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x32000)),0x0020,GPIO_PR_UP); 
+N  GPIO_InputConfig(AM_GPIOB,GPIO_PIN_5,ENABLE);
+X  GPIO_InputConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x32000)),0x0020,ENABLE);
+N	
+N	GPIO_DirectionConfig(AM_GPIOB,GPIO_PIN_6,GPIO_DIR_IN);  
+X	GPIO_DirectionConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x32000)),0x0040,GPIO_DIR_IN);  
+N	GPIO_PullResistorConfig(AM_GPIOB,GPIO_PIN_6,GPIO_PR_UP); 
+X	GPIO_PullResistorConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x32000)),0x0040,GPIO_PR_UP); 
+N  GPIO_InputConfig(AM_GPIOB,GPIO_PIN_6,ENABLE);
+X  GPIO_InputConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x32000)),0x0040,ENABLE);
+N	
+N	GPIO_DirectionConfig(AM_GPIOC,GPIO_PIN_11,GPIO_DIR_IN);  
+X	GPIO_DirectionConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0800,GPIO_DIR_IN);  
+N	GPIO_PullResistorConfig(AM_GPIOC,GPIO_PIN_11,GPIO_PR_UP); 
+X	GPIO_PullResistorConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0800,GPIO_PR_UP); 
+N  GPIO_InputConfig(AM_GPIOC,GPIO_PIN_11,ENABLE);
+X  GPIO_InputConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0800,ENABLE);
+N
+N  GPIO_DirectionConfig(AM_GPIOD,GPIO_PIN_8,GPIO_DIR_OUT);  
+X  GPIO_DirectionConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x36000)),0x0100,GPIO_DIR_OUT);  
+N	GPIO_PullResistorConfig(AM_GPIOD,GPIO_PIN_8,GPIO_PR_UP); 
+X	GPIO_PullResistorConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x36000)),0x0100,GPIO_PR_UP); 
+N  GPIO_InputConfig(AM_GPIOD,GPIO_PIN_8,ENABLE);
+X  GPIO_InputConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x36000)),0x0100,ENABLE);
+N	
+N	GPIO_DirectionConfig(AM_GPIOD,GPIO_PIN_4,GPIO_DIR_OUT);  
+X	GPIO_DirectionConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x36000)),0x0010,GPIO_DIR_OUT);  
+N	GPIO_PullResistorConfig(AM_GPIOD,GPIO_PIN_4,GPIO_PR_UP); 
+X	GPIO_PullResistorConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x36000)),0x0010,GPIO_PR_UP); 
+N  GPIO_InputConfig(AM_GPIOD,GPIO_PIN_4,ENABLE);
+X  GPIO_InputConfig(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x36000)),0x0010,ENABLE);
+N}
+N
+Nvoid LED_Toggle(LED_TypeDef Light)
+N{
+N	assert_param(IS_LED_TypeDef(Light));
+X	((void)0);
+N	if(Light==RED)
+N	{
+N		if(GPIO_ReadOutBit(LED1_GPIO_PORT,LED1_PIN)==SET)
+X		if(GPIO_ReadOutBit(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x32000)),0x0100)==SET)
+N			LED1(ON);
+X			if (0) ((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x32000))->SRR = 0x0100; else ((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x32000))->RR = 0x0100;
+N		else 
+N			LED1(OFF);
+X			if (1) ((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x32000))->SRR = 0x0100; else ((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x32000))->RR = 0x0100;
+N	}
+N	else if(Light==GREEN)
+N	{
+N		if(GPIO_ReadOutBit(LED2_GPIO_PORT,LED2_PIN)==SET)
+X		if(GPIO_ReadOutBit(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0800)==SET)
+N			LED2(ON);
+X			if (0) GPIO_SetOutBits(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0800); else GPIO_ClearOutBits(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0800);
+N		else 
+N			LED2(OFF);
+X			if (1) GPIO_SetOutBits(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0800); else GPIO_ClearOutBits(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0800);
+N	}
+N	else if(Light==BLUE)
+N	{
+N		if(GPIO_ReadOutBit(LED3_GPIO_PORT,LED3_PIN)==SET)
+X		if(GPIO_ReadOutBit(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0020)==SET)
+N			LED3(ON);
+X			if (0) GPIO_SetOutBits(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0020); else GPIO_ClearOutBits(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0020);
+N		else 
+N			LED3(OFF);
+X			if (1) GPIO_SetOutBits(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0020); else GPIO_ClearOutBits(((AM_GPIO_TypeDef *) ((((u32)0x40000000) + 0x80000) + 0x34000)),0x0020);
+N	}
+N}
+N
+N/*********************************************END OF FILE**********************/

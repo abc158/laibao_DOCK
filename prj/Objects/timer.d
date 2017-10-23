@@ -1,0 +1,14 @@
+.\objects\timer.o: src\timer.c
+.\objects\timer.o: ..\inc\user.h
+.\objects\timer.o: ..\inc\AM8813.h
+.\objects\timer.o: ..\inc\core_cm0.h
+.\objects\timer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\timer.o: ..\inc\core_cmInstr.h
+.\objects\timer.o: ..\inc\core_cmFunc.h
+.\objects\timer.o: src\main.h
+.\objects\timer.o: ..\driver\inc\gptm.h
+.\objects\timer.o: ..\driver\inc\ckcu.h
+.\objects\timer.o: ..\driver\inc\gpio.h
+.\objects\timer.o: ..\driver\inc\pdma.h
+.\objects\timer.o: ..\inc\user.h
+.\objects\timer.o: ..\driver\inc\rstcu.h

@@ -1,0 +1,81 @@
+L 1 "src\clib_min.c"
+N/********************************************************************************************************//**
+N * @file    clib_min.c
+N * @brief   print for debug
+N * @author  lzh
+N * @version V0.00
+N * @date:   2016-09-02
+N * @note
+N * Copyright (C) 2016 Amicro Semiconductor Inc. All rights reserved.
+N ************************************************************************************************************/
+N 
+Nint * tube = (int *)0x4008830c;
+Nint putchar (int ch)
+N{
+N  *tube = ch;
+N  return ch;
+N}
+N
+Nvoid putd (int nu)
+N{
+N
+N}
+N
+N
+Nvoid puth (unsigned int nu)
+N{
+N  unsigned int temp;
+N  int i;
+N  for(i=0;i<8;i++){
+N	temp = 0;
+N    temp = nu >> (4*(7-i));
+N    temp = temp%16;
+N    if(temp < 0xa)
+N      temp = temp + 48;
+N    else
+N      temp = temp + 55;
+N    putchar(temp);
+N  }
+N}
+N
+Nvoid print(char a[],int nu)
+N{
+N  char *i;
+N  i = &a[0];
+N
+N
+N  while(*i != '\0'  ){
+N    if(*i == '%'){
+N      i++;
+N      if(*i == 'd'){
+N    	  putd(nu);
+N      }else if(*i == 'h'){
+N    	  puth(nu);
+N      }
+N    }else {
+N      putchar(*i);
+N    }
+N    i++;
+N  }
+N  putchar('\n');
+N}
+N
+Nvoid finish(){
+N	*tube = 0x4;
+N}
+N
+Nvoid pass(){
+N	*tube = 0x5;
+N}
+N
+Nvoid fail(){
+N	*tube = 0x6;
+N}
+N
+Nvoid cpu_delay(unsigned int tns){
+N	int i = 0;
+N	while(i < tns){
+N		__asm("NOP");
+N		i++;
+N	}
+N}

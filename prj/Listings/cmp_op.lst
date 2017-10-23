@@ -1,0 +1,37 @@
+L 1 "..\driver\src\cmp_op.c"
+N/*********************************************************************************************************//**
+N * @file    AM38x_cmp_op.c
+N * @version V1.0
+N * @date    10/01/2013
+N * @brief   This file provides all the CMP_OP firmware functions.
+N *************************************************************************************************************
+N *
+N * <h2><center>Copyright (C) 2013 Amicro Semiconductor Inc. All rights reserved</center></h2>
+N *
+N ************************************************************************************************************/
+N
+N/* Includes ------------------------------------------------------------------------------------------------*/
+N#include "cmp_op.h"
+L 1 "..\driver\inc\cmp_op.h" 1
+N/*********************************************************************************************************//**
+N * @file    AM38x_cmp_op.h
+N * @version V1.0
+N * @date    10/01/2013
+N * @brief   The header file of the CMP_OP library.
+N *************************************************************************************************************
+N *
+N * <h2><center>Copyright (C) 2013 Amicro Semiconductor Inc. All rights reserved</center></h2>
+N *
+N ************************************************************************************************************/
+N
+N/* Define to prevent recursive inclusion -------------------------------------------------------------------*/
+N#ifndef __AM38x_CMP_OP_H
+N#define __AM38x_CMP_OP_H
+N
+N#ifdef __cplusplus
+S extern "C" {
+N#endif
+N
+N/* Includes ------------------------------------------------------------------------------------------------*/
+C "..\driver\inc\cmp_op.h" 21 19 cannot open source input file "AM38x.h": No such file or directory
+N#include "AM38x.h"

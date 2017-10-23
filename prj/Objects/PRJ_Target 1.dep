@@ -1,0 +1,327 @@
+Dependencies for Project 'PRJ', Target 'Target 1': (DO NOT MODIFY !)
+F (.\src\system.c)(0x59DF3074)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\system.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\system.crf --depend .\objects\system.d)
+I (src\system.h)(0x59DF25A4)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+F (.\src\startup.s)(0x586C5262)(--cpu Cortex-M0 --li -g --apcs=interwork --pd "__MICROLIB SETA 1" -I.\inc-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"--pd "__UVISION_VERSION SETA 514" --pd "ARMCM0 SETA 1"--list .\listings\startup.lst --xref -o .\objects\startup.o --depend .\objects\startup.d)
+F (.\src\AM8813_misc.c)(0x57CA2E22)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\am8813_misc.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\am8813_misc.crf --depend .\objects\am8813_misc.d)
+I (src\AM8813_misc.h)(0x57CA2E20)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+F (..\driver\src\ckcu.c)(0x59E0A55C)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\ckcu.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\ckcu.crf --depend .\objects\ckcu.d)
+I (..\driver\inc\ckcu.h)(0x59DDE62D)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+F (..\driver\src\rstcu.c)(0x586B13A8)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\rstcu.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\rstcu.crf --depend .\objects\rstcu.d)
+I (..\driver\inc\rstcu.h)(0x586E1A3A)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+F (..\driver\src\adc.c)(0x58705992)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\adc.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\adc.crf --depend .\objects\adc.d)
+I (..\driver\inc\adc.h)(0x586CCC68)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (..\driver\inc\rstcu.h)(0x586E1A3A)
+F (..\driver\src\gpio.c)(0x58705992)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\gpio.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\gpio.crf --depend .\objects\gpio.d)
+I (..\driver\inc\gpio.h)(0x586B1444)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (..\driver\inc\rstcu.h)(0x586E1A3A)
+F (..\driver\src\gptm.c)(0x58705992)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\gptm.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\gptm.crf --depend .\objects\gptm.d)
+I (..\driver\inc\gptm.h)(0x586B168A)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (..\driver\inc\rstcu.h)(0x586E1A3A)
+F (..\driver\src\pdma.c)(0x58D32FE0)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\pdma.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\pdma.crf --depend .\objects\pdma.d)
+I (..\driver\inc\pdma.h)(0x5870879A)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (..\inc\user.h)(0x58D873A5)
+I (..\driver\inc\usart.h)(0x586F3F0C)
+I (..\driver\inc\gptm.h)(0x586B168A)
+I (.\User\led\bsp_led.h)(0x59DF0DA8)
+I (..\driver\inc\gpio.h)(0x586B1444)
+F (..\driver\src\spi.c)(0x586C63C6)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\spi.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\spi.crf --depend .\objects\spi.d)
+I (..\driver\inc\spi.h)(0x586C6EEE)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (..\driver\inc\rstcu.h)(0x586E1A3A)
+F (..\driver\src\usart.c)(0x58CFD483)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\usart.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\usart.crf --depend .\objects\usart.d)
+I (..\driver\inc\usart.h)(0x586F3F0C)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (..\driver\inc\ckcu.h)(0x59DDE62D)
+I (..\driver\inc\rstcu.h)(0x586E1A3A)
+F (..\driver\src\lcd.c)(0x58705992)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\lcd.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\lcd.crf --depend .\objects\lcd.d)
+I (..\driver\inc\lcd.h)(0x586B5D82)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+F (..\driver\src\flash.c)(0x586C601A)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\flash.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\flash.crf --depend .\objects\flash.d)
+I (..\driver\inc\flash.h)(0x586C605C)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+F (..\driver\src\i2c.c)(0x58705A1E)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\i2c.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\i2c.crf --depend .\objects\i2c.d)
+I (..\driver\inc\i2c.h)(0x586C66A4)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (..\driver\inc\ckcu.h)(0x59DDE62D)
+I (..\driver\inc\rstcu.h)(0x586E1A3A)
+F (..\driver\src\misc.c)(0x586C6D1C)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\misc.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\misc.crf --depend .\objects\misc.d)
+I (..\driver\inc\misc.h)(0x586DF388)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+F (..\driver\src\pwrcu.c)(0x586C97F2)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\pwrcu.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\pwrcu.crf --depend .\objects\pwrcu.d)
+I (..\driver\inc\pwrcu.h)(0x586C96C0)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+F (..\driver\src\rtc.c)(0x586CA6BA)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\rtc.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\rtc.crf --depend .\objects\rtc.d)
+I (..\driver\inc\rtc.h)(0x586CA0FE)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+F (..\driver\src\wdt.c)(0x586CAA46)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\wdt.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\wdt.crf --depend .\objects\wdt.d)
+I (..\driver\inc\wdt.h)(0x586DF322)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (..\driver\inc\rstcu.h)(0x586E1A3A)
+F (..\driver\src\crc.c)(0x586CAE2A)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\crc.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\crc.crf --depend .\objects\crc.d)
+I (..\driver\inc\crc.h)(0x586CAD16)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (..\driver\inc\rstcu.h)(0x586E1A3A)
+F (..\driver\src\comp.c)(0x587059E4)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\comp.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\comp.crf --depend .\objects\comp.d)
+I (..\driver\inc\comp.h)(0x586CC3D4)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (..\driver\inc\rstcu.h)(0x586E1A3A)
+F (..\driver\src\trng.c)(0x586CC8A8)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\trng.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\trng.crf --depend .\objects\trng.d)
+I (..\driver\inc\trng.h)(0x586CC818)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (..\driver\inc\rstcu.h)(0x586E1A3A)
+F (..\driver\src\can.c)(0x586F117A)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\can.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\can.crf --depend .\objects\can.d)
+I (..\driver\inc\can.h)(0x586F0F8E)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (..\driver\inc\rstcu.h)(0x586E1A3A)
+F (.\src\exception.c)(0x59E4533A)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\exception.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\exception.crf --depend .\objects\exception.d)
+I (..\inc\exception.h)(0x586C5262)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (..\inc\user.h)(0x58D873A5)
+I (..\driver\inc\usart.h)(0x586F3F0C)
+I (..\driver\inc\gptm.h)(0x586B168A)
+I (.\User\led\bsp_led.h)(0x59DF0DA8)
+I (..\driver\inc\gpio.h)(0x586B1444)
+I (src\AM8813_misc.h)(0x57CA2E20)
+I (.\User\ir\ui-ir.h)(0x59E99E71)
+I (.\User\ir\am_type.h)(0x59DDBBC3)
+I (..\driver\inc\ckcu.h)(0x59DDE62D)
+F (.\src\main.c)(0x59E81316)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\main.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\main.crf --depend .\objects\main.d)
+I (src\main.h)(0x58705926)
+I (src\system.h)(0x59DF25A4)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (src\AM8813_misc.h)(0x57CA2E20)
+I (..\driver\inc\ckcu.h)(0x59DDE62D)
+I (..\driver\inc\gpio.h)(0x586B1444)
+I (.\User\led\bsp_led.h)(0x59DF0DA8)
+I (.\User\usart\bsp_usart.h)(0x58E70439)
+I (..\driver\inc\usart.h)(0x586F3F0C)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
+I (.\User\timer\bsp_timer.h)(0x59DD83EF)
+I (..\driver\inc\gptm.h)(0x586B168A)
+I (.\User\spi0\bsp_spi.h)(0x59E0A1E0)
+I (..\driver\inc\spi.h)(0x586C6EEE)
+I (.\User\ir\ui-ir.h)(0x59E99E71)
+I (.\User\ir\am_type.h)(0x59DDBBC3)
+I (..\inc\user.h)(0x58D873A5)
+F (.\User\led\bsp_led.c)(0x59E0A03A)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\bsp_led.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\bsp_led.crf --depend .\objects\bsp_led.d)
+I (User\led\bsp_led.h)(0x59DF0DA8)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (..\driver\inc\gpio.h)(0x586B1444)
+F (.\User\usart\bsp_usart.c)(0x58D33F97)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\bsp_usart.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\bsp_usart.crf --depend .\objects\bsp_usart.d)
+I (User\usart\bsp_usart.h)(0x58E70439)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (..\driver\inc\usart.h)(0x586F3F0C)
+I (.\src\AM8813_misc.h)(0x57CA2E20)
+I (..\driver\inc\gpio.h)(0x586B1444)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
+F (.\User\timer\bsp_timer.c)(0x59DDC70F)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\bsp_timer.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\bsp_timer.crf --depend .\objects\bsp_timer.d)
+I (User\timer\bsp_timer.h)(0x59DD83EF)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (..\driver\inc\gptm.h)(0x586B168A)
+I (.\src\AM8813_misc.h)(0x57CA2E20)
+I (..\driver\inc\gpio.h)(0x586B1444)
+F (.\User\ir\remote_handle.c)(0x59E9D64D)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\remote_handle.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\remote_handle.crf --depend .\objects\remote_handle.d)
+I (User\ir\ui-ir.h)(0x59E99E71)
+I (User\ir\am_type.h)(0x59DDBBC3)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (..\inc\user.h)(0x58D873A5)
+I (..\driver\inc\usart.h)(0x586F3F0C)
+I (..\driver\inc\gptm.h)(0x586B168A)
+I (.\User\led\bsp_led.h)(0x59DF0DA8)
+I (..\driver\inc\gpio.h)(0x586B1444)
+I (.\src\AM8813_misc.h)(0x57CA2E20)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
+I (.\User\usart\bsp_usart.h)(0x58E70439)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
+F (.\User\ir\ir_decode.c)(0x59DDC12A)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\ir_decode.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\ir_decode.crf --depend .\objects\ir_decode.d)
+I (User\ir\ui-ir.h)(0x59E99E71)
+I (User\ir\am_type.h)(0x59DDBBC3)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (..\inc\user.h)(0x58D873A5)
+I (..\driver\inc\usart.h)(0x586F3F0C)
+I (..\driver\inc\gptm.h)(0x586B168A)
+I (.\User\led\bsp_led.h)(0x59DF0DA8)
+I (..\driver\inc\gpio.h)(0x586B1444)
+I (.\src\AM8813_misc.h)(0x57CA2E20)
+F (.\User\spi0\bsp_spi.c)(0x59E40BE2)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\bsp_spi.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\bsp_spi.crf --depend .\objects\bsp_spi.d)
+I (User\spi0\bsp_spi.h)(0x59E0A1E0)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (.\src\AM8813_misc.h)(0x57CA2E20)
+I (..\driver\inc\gpio.h)(0x586B1444)
+I (.\User\usart\bsp_usart.h)(0x58E70439)
+I (..\driver\inc\usart.h)(0x586F3F0C)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
+I (..\driver\inc\spi.h)(0x586C6EEE)
+F (.\User\READ_ME.txt)(0x58C34CF1)()
+F (.\User\2.4G\BK2425_Initialization_141015.c)(0x59E4278E)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\bk2425_initialization_141015.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\bk2425_initialization_141015.crf --depend .\objects\bk2425_initialization_141015.d)
+I (User\2.4G\bk2425.h)(0x59E05555)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x5475F2FA)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
+I (.\User\spi0\bsp_spi.h)(0x59E0A1E0)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (.\src\AM8813_misc.h)(0x57CA2E20)
+I (..\driver\inc\gpio.h)(0x586B1444)
+I (.\User\usart\bsp_usart.h)(0x58E70439)
+I (..\driver\inc\usart.h)(0x586F3F0C)
+I (..\driver\inc\spi.h)(0x586C6EEE)
+F (.\User\2.4G\BK2425_TxRx.c)(0x59E409AC)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\bk2425_txrx.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\bk2425_txrx.crf --depend .\objects\bk2425_txrx.d)
+I (User\2.4G\bk2425.h)(0x59E05555)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x5475F2FA)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
+I (.\User\spi0\bsp_spi.h)(0x59E0A1E0)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (.\src\AM8813_misc.h)(0x57CA2E20)
+I (..\driver\inc\gpio.h)(0x586B1444)
+I (.\User\usart\bsp_usart.h)(0x58E70439)
+I (..\driver\inc\usart.h)(0x586F3F0C)
+I (..\driver\inc\spi.h)(0x586C6EEE)
+F (.\User\2.4G\Test_Func.c)(0x59E0A6B7)(-c --cpu Cortex-M0 -D__MICROLIB --li -g -O0 --apcs=interwork --asm --interleave --asm_dir ".\\Listings\\" -I..\inc -I..\driver\inc -I.\src -I.\User -I.\User\led -I.\User\usart -I.\User\timer -I.\User\ir -I.\User\2.4G -I.\User\spi0-I F:\1708\dock\prj\RTE-I "D:\Program Files (x86)\Keil_v5\ARM\PACK\ARM\CMSIS\4.2.0\Device\ARM\ARMCM0\Include"-I "D:\Program Files (x86)\Keil_v5\ARM\CMSIS\Include"-D__UVISION_VERSION="514" -DARMCM0 -DUSE_STDPERIPH_DRIVER-o .\objects\test_func.o --list_dir ".\\Listings\\" --list --omf_browse .\objects\test_func.crf --depend .\objects\test_func.d)
+I (User\2.4G\bk2425.h)(0x59E05555)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x5475F2FA)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\string.h)(0x5475F300)
+I (.\User\spi0\bsp_spi.h)(0x59E0A1E0)
+I (..\inc\AM8813.h)(0x59DDE826)
+I (..\inc\core_cm0.h)(0x4F029BFC)
+I (D:\Program Files (x86)\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)
+I (..\inc\core_cmInstr.h)(0x4F029BFC)
+I (..\inc\core_cmFunc.h)(0x4F029BFC)
+I (.\src\AM8813_misc.h)(0x57CA2E20)
+I (..\driver\inc\gpio.h)(0x586B1444)
+I (.\User\usart\bsp_usart.h)(0x58E70439)
+I (..\driver\inc\usart.h)(0x586F3F0C)
+I (..\driver\inc\spi.h)(0x586C6EEE)

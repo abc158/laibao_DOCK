@@ -1,0 +1,12 @@
+.\objects\dma_spi0tx_spi1rx_dma.o: src\dma_spi0tx_spi1rx_dma.c
+.\objects\dma_spi0tx_spi1rx_dma.o: ..\inc\user.h
+.\objects\dma_spi0tx_spi1rx_dma.o: ..\inc\AM8813.h
+.\objects\dma_spi0tx_spi1rx_dma.o: ..\inc\core_cm0.h
+.\objects\dma_spi0tx_spi1rx_dma.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\dma_spi0tx_spi1rx_dma.o: ..\inc\core_cmInstr.h
+.\objects\dma_spi0tx_spi1rx_dma.o: ..\inc\core_cmFunc.h
+.\objects\dma_spi0tx_spi1rx_dma.o: src\main.h
+.\objects\dma_spi0tx_spi1rx_dma.o: ..\driver\inc\gpio.h
+.\objects\dma_spi0tx_spi1rx_dma.o: ..\driver\inc\pdma.h
+.\objects\dma_spi0tx_spi1rx_dma.o: ..\inc\user.h
+.\objects\dma_spi0tx_spi1rx_dma.o: ..\driver\inc\spi.h

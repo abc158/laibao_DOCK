@@ -1,0 +1,12 @@
+.\objects\systemtick.o: src\systemtick.c
+.\objects\systemtick.o: ..\inc\user.h
+.\objects\systemtick.o: ..\inc\AM8813.h
+.\objects\systemtick.o: ..\inc\core_cm0.h
+.\objects\systemtick.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\systemtick.o: ..\inc\core_cmInstr.h
+.\objects\systemtick.o: ..\inc\core_cmFunc.h
+.\objects\systemtick.o: src\main.h
+.\objects\systemtick.o: ..\driver\inc\ckcu.h
+.\objects\systemtick.o: ..\driver\inc\gpio.h
+.\objects\systemtick.o: ..\driver\inc\rstcu.h
+.\objects\systemtick.o: src\AM8813_misc.h
