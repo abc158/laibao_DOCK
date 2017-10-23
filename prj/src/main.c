@@ -61,19 +61,12 @@ void init_sys(void)
 		CKCU_APBPerip1ClockConfig(CKCU_APBEN1_USART3,ENABLE);		//Clock for USART3
 	#endif
 }
-extern void Carrier_Test(uint8_t b_enable);
 extern uint8_t Get_Chip_ID(void);
 extern void BK2425_Initialize(void);
-extern UINT8 SPI_Read_Reg(UINT8 reg)   ;
-extern void SPI_Write_Reg(UINT8 reg, UINT8 value)     ;
-uint8_t temp_read=1;
-extern void Send_Packet(UINT8 type,UINT8* pbuf,UINT8 len);
 extern void Receive_Packet();
-	uint8_t temp[10]={0,1,2,3,4,5,6,7,8,9};
-	extern REMOTE_DECODE remote_decode[REMOTE_DECODER_MAX];
+extern REMOTE_DECODE remote_decode[REMOTE_DECODER_MAX];
 int main(void)
 {
-	uint8_t id;
 	init_sys();
 	LED_GPIO_Config();
 	IR_GPIO_Config();
@@ -81,8 +74,7 @@ int main(void)
 	SPI0_Init();
 	TIM_Mode_Config();
 	BK2425_Initialize();
-	id=Get_Chip_ID();
-	printf("chip id = %d \r\n",id);
+	printf("chip id = %d \r\n",Get_Chip_ID());
 	LED1_GPIO_PORT->RR = LED1_PIN;   //Debug指示LED灯
 	while(1)
 	{
@@ -105,23 +97,15 @@ int main(void)
 //		  else n=0;
 //		LED1_GPIO_PORT->RR = LED1_PIN;   //Debug指示LED灯
 //		Delay_us(5000*n);
-//		//LED1_GPIO_PORT->RR = LED1_PIN;
 //		LED1_GPIO_PORT->SRR = LED1_PIN;
 //		Delay_us(5000*n);
 //	  printf("signal_code %x \r\n",remote_decode[n].rxByte);
 //		}
    	LED1_GPIO_PORT->RR = LED1_PIN;   //Debug指示LED灯
 		Delay_us(10000);
-		//LED1_GPIO_PORT->RR = LED1_PIN;
 		LED1_GPIO_PORT->SRR = LED1_PIN;
 		Delay_us(10000);
 		
-		//Receive_Packet();
-		//Send_Packet(W_TX_PAYLOAD_NOACK_CMD,temp,sizeof(temp));
-		//LED1_GPIO_PORT->SRR = LED1_PIN;  //Debug指示LED灯
-		//if(GPIO_ReadInBit(AM_GPIOB,GPIO_PIN_5)==RESET)
-
-
 
 	}
 }

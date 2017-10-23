@@ -280,13 +280,10 @@ void ir_rx_decode(void)
           if ((result == 0)&&((remote_decode[index].rxByte&0X0fff) != 0))
           {
             current_ir_code = remote_decode[index].rxByte;//存放遥控器的数据
-						
-						//IR_signal_tans_code(current_ir_code,(U8*)ir_signal_send,index);  //将数据放入发送数组
-						  sinal_temp =current_ir_code;
-							sinal_temp&=0X0fff;
-							sinal_temp|=(index<<12);
-							ir_signal_send[index*2]=(U8)sinal_temp;
-							ir_signal_send[index*2+1]=((U8)(sinal_temp>>8));
+              //将信号数据放入发送数组
+						sinal_temp =current_ir_code;
+						ir_signal_send[index*2]=(U8)sinal_temp;
+						ir_signal_send[index*2+1]=((U8)(sinal_temp>>8));
             remote_timer  = REMOTE_DATA_KEEP_COUNT;
             ir_val[index] = remote_decode[index].rxByte;  //存放充电座的信号
             ir_val_test[index] = ir_val[index]; 
@@ -306,36 +303,11 @@ void ir_rx_decode(void)
 		  }
     }
   }
-//	if((ir_signal_send[0]!=0)||(ir_signal_send[1]!=0)||(ir_signal_send[2]!=0)||\
-//		(ir_signal_send[3]!=0)||(ir_signal_send[4]!=0))
 	{
-//		for(i=0;i<10;i+=2)
-//		{
-//			//printf("%d data \r\n",ir_signal_send[index]);
-//			if(ir_signal_send[i+1]==2)
-//			printf("%d REC %x  %x  \r\n",((ir_signal_send[i+1]>>4)&0x0f),((ir_signal_send[i+1])&0x0f),((ir_signal_send[i])));
-//		}
 	 Send_Packet(W_TX_PAYLOAD_NOACK_CMD,(U8 *)ir_signal_send,sizeof(ir_signal_send));
 
 	}
 	memset((U8 *)ir_signal_send,0,sizeof(ir_signal_send));
-}
-
-/****************************************************************
-*Function   :  ir_rx_decode
-*Description:  把数据编码 
-*Input      :  data 解码数据   p数组指针   index 接收头序号  
-*Output     :  无
-*Return     :  无
-*Others     :  
-******************************************************************/
-void IR_signal_tans_code(U16 data,U8 *p,U8 index)
-{
-	data&=0X0fff;
-	data|=(index<<12);
-	*p=(U8)data;
-	*(p+1)=((U8)data>>8);
-
 }
 /****************************************************************
 *Function   :  remote_ir_get
